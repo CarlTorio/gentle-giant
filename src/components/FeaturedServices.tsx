@@ -8,17 +8,17 @@ import serviceSlimming from "@/assets/service-slimming.jpg";
 
 const services = [
   {
-    title: "4D QuattroWave Laser Hair Removal",
+    title: "Jacuzzi",
     description: "Advanced laser technology for permanent hair reduction with minimal discomfort.",
     image: serviceLaser,
   },
   {
-    title: "PicoLight Laser",
+    title: "Ice Bath",
     description: "Revolutionary laser treatment for skin rejuvenation and pigmentation correction.",
     image: serviceFacial,
   },
   {
-    title: "Exogen Treatments",
+    title: "Sauna",
     description: "Cutting-edge body contouring and skin tightening solutions.",
     image: serviceSlimming,
   },
