@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 const Hero = () => {
-  return <section className="relative min-h-[60vh] md:min-h-screen lg:min-h-[130vh] flex items-center overflow-hidden pt-8 md:pt-0">
+  return <section className="relative min-h-[60vh] md:min-h-[80vh] flex items-center overflow-hidden pt-8 md:pt-0">
       {/* Background Image with Parallax */}
       <motion.div className="absolute inset-0 z-0" initial={{
       scale: 1.1
@@ -29,7 +29,7 @@ const Hero = () => {
           delay: 0.3
         }}>
             <h1 className="font-script text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-foreground leading-tight mb-2">
-              <span className="italic font-sans">​The Welness Escape             </span>
+              <span className="italic font-sans">​The Wellness Escape             </span>
             </h1>
             <p className="font-display text-lg sm:text-2xl md:text-3xl font-semibold text-foreground tracking-wide uppercase mb-3 md:mb-5">
               FUTURE OF WELLNESS
