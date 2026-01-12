@@ -42,14 +42,14 @@ const ServicesGrid = () => {
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-3 max-w-3xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 lg:gap-4 max-w-4xl mx-auto">
           {allServices.map((service, index) => (
             <motion.div
               key={service.title}
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
               animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative overflow-hidden rounded-lg md:rounded-xl aspect-square cursor-pointer"
+              className="group relative overflow-hidden rounded-lg md:rounded-xl aspect-[4/5] cursor-pointer"
               whileHover={{ y: -8 }}
             >
               <img
