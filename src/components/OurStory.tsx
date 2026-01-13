@@ -104,19 +104,16 @@ const OurStory = () => {
                 Founded by Dr. Herbert Ryan Cruz of Cruzskin Medical and Aesthetic Center, Hilomè draws its name from the Filipino word "Hilom" (healing) and "È" (Elegance)—embodying wellness delivered with grace and sophistication, rooted in Filipino heritage.
               </p>
             </div>
-            <motion.div 
-              className="mt-6"
-              whileHover={{ scale: 1.02 }}
-            >
+            <div className="mt-6">
               <Link to="/our-story">
                 <Button
                   size="default"
-                  className="gradient-accent text-accent-foreground hover:opacity-90 rounded-full px-6 text-sm"
+                  className="gradient-accent text-accent-foreground hover:opacity-90 rounded-full px-6 text-sm transition-transform hover:scale-105"
                 >
                   Read More
                 </Button>
               </Link>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
