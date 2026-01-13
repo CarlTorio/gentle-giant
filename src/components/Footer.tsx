@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
 
   const footerLinks = {
     Company: ["History", "About Us", "Blogs"],
@@ -95,37 +91,6 @@ const Footer = () => {
           </motion.div>
         </div>
 
-        {/* Newsletter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="mt-8 pt-6 border-t border-accent-foreground/10"
-        >
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3 w-full md:w-auto">
-              <span className="text-xs text-accent-foreground/70">📧</span>
-              <Input
-                type="email"
-                placeholder="Subscribe your email for R today"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-accent-foreground/10 border-accent-foreground/20 text-accent-foreground placeholder:text-accent-foreground/50 w-full md:w-64 text-xs h-8"
-              />
-              <Button className="bg-brown-light hover:bg-brown-light/90 text-accent-foreground whitespace-nowrap text-xs h-8 px-4">
-                Book Now
-              </Button>
-            </div>
-
-            {/* Business Registration */}
-            <div className="flex items-center gap-2 text-[10px] text-accent-foreground/50">
-              <div className="w-12 h-8 bg-accent-foreground/10 rounded flex items-center justify-center">
-                <span className="text-[6px]">FDA Registered</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
 
         {/* Copyright */}
         <motion.div
