@@ -33,7 +33,7 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Facebook, href: "#" },
+    { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61580172268741" },
     { icon: Instagram, href: "#" },
     { icon: Youtube, href: "#" },
     { icon: Twitter, href: "#" },
