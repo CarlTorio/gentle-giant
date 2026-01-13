@@ -19,7 +19,7 @@ const FeaturedServices = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
-    margin: "-100px"
+    amount: 0.3
   });
   return <section className="py-12 md:py-16 bg-background" ref={ref}>
       <div className="container mx-auto px-4">
