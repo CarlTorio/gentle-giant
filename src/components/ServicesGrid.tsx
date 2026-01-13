@@ -14,7 +14,10 @@ const allServices = [
 
 const ServicesGrid = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useInView(ref, { once: false, amount: 0.2 });
+
+  // Calculate row index for staggered animation (4 columns on desktop, 2 on mobile)
+  const getRowIndex = (index: number) => Math.floor(index / 4);
 
   return (
     <section id="services" className="py-10 md:py-14 bg-cream" ref={ref}>
@@ -22,8 +25,8 @@ const ServicesGrid = () => {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center mb-6 md:mb-8 max-w-2xl mx-auto"
         >
           <h2 className="font-display text-xl md:text-2xl lg:text-3xl font-semibold text-foreground mb-2 md:mb-3">
@@ -37,6 +40,9 @@ const ServicesGrid = () => {
         {/* Services Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 lg:gap-4 max-w-4xl mx-auto">
           {allServices.map((service, index) => {
+            const rowIndex = getRowIndex(index);
+            const colIndex = index % 4;
+            
             return (
               <motion.div
                 key={service.title}
@@ -47,11 +53,14 @@ const ServicesGrid = () => {
                 animate={isInView ? { 
                   opacity: 1, 
                   y: 0
-                } : {}}
+                } : { 
+                  opacity: 0, 
+                  y: -60
+                }}
                 transition={{ 
-                  duration: 2.5, 
-                  delay: index * 0.25,
-                  ease: [0.25, 0.1, 0.25, 1]
+                  duration: 0.6, 
+                  delay: rowIndex * 0.3 + colIndex * 0.1,
+                  ease: "easeOut"
                 }}
                 className="group relative overflow-hidden rounded-lg md:rounded-xl aspect-[4/5] cursor-pointer"
                 whileHover={{ y: -8 }}
