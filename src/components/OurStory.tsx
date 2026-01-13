@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -18,23 +18,15 @@ const storyImages = [
 
 const OurStory = () => {
   const ref = useRef(null);
-  const containerRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-  
-  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
     <section 
-      ref={containerRef}
       className="min-h-[400px] md:min-h-[450px] lg:min-h-[500px] bg-secondary text-primary-foreground relative overflow-hidden"
+      ref={ref}
     >
       {/* Decorative Background Elements */}
-      <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+      <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none z-20">
         <svg viewBox="0 0 400 400" className="w-full h-full">
           <path
             d="M50,200 Q150,100 250,200 T450,200"
@@ -53,10 +45,12 @@ const OurStory = () => {
         </svg>
       </div>
 
-      {/* Full-width Image with Parallax Effect */}
-      <motion.div 
-        className="absolute inset-0 h-[120%] -top-[10%]"
-        style={{ y }}
+      {/* Fixed Background with Parallax Effect */}
+      <div 
+        className="absolute inset-0"
+        style={{ 
+          backgroundAttachment: 'fixed',
+        }}
       >
         <Carousel
           opts={{
@@ -70,15 +64,17 @@ const OurStory = () => {
               stopOnMouseEnter: true,
             }),
           ]}
-          className="w-full h-full"
+          className="w-full h-full [&_.embla__container]:h-full"
         >
           <CarouselContent className="h-full">
             {storyImages.map((src, index) => (
               <CarouselItem key={index} className="h-full">
-                <img
-                  src={src}
-                  alt={`SkinStation Clinic ${index + 1}`}
-                  className="w-full h-full object-cover object-[center_90%]"
+                <div 
+                  className="w-full h-full bg-cover bg-center bg-fixed"
+                  style={{ 
+                    backgroundImage: `url(${src})`,
+                    backgroundPosition: 'center 90%',
+                  }}
                 />
               </CarouselItem>
             ))}
@@ -86,9 +82,9 @@ const OurStory = () => {
         </Carousel>
         {/* Gradient Overlay - transparent left to dark right */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/70 to-secondary" />
-      </motion.div>
+      </div>
 
-      <div className="container mx-auto px-4 relative z-10" ref={ref}>
+      <div className="container mx-auto px-4 relative z-10">
         <div className="flex justify-end">
           <motion.div
             initial={{ opacity: 0, x: 60 }}
