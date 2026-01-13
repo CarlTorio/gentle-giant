@@ -2,21 +2,18 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
-import serviceLaser from "@/assets/service-laser.jpg";
-import serviceFacial from "@/assets/service-facial.jpg";
-import serviceSlimming from "@/assets/service-slimming.jpg";
 const services = [{
   title: "Jacuzzi",
   description: "Advanced laser technology for permanent hair reduction with minimal discomfort.",
-  image: serviceLaser
+  image: "https://i.imgur.com/uhJzfTT.png"
 }, {
   title: "Ice Bath",
   description: "Revolutionary laser treatment for skin rejuvenation and pigmentation correction.",
-  image: serviceFacial
+  image: "https://i.imgur.com/1R7u1t3.png"
 }, {
   title: "Sauna",
   description: "Cutting-edge body contouring and skin tightening solutions.",
-  image: serviceSlimming
+  image: "https://i.imgur.com/7Od95Ti.png"
 }];
 const FeaturedServices = () => {
   const ref = useRef(null);
