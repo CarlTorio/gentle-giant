@@ -4,19 +4,29 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "I've been a loyal SkinStation cliente since I first tried their Hair Removal services! After years of laser, I am now hairless and hair-free!",
-    author: "Caitlin Anne Capas",
-    avatar: "CC",
+    quote: "I love your personalized & professional consultations that recommend treatments that are best suited for us... your customer service is awesome too!",
+    author: "Odessa Pusta-Rodriguez",
+    avatar: "OP",
   },
   {
-    quote: "Amazing results! Dr. Olazo and her team are professional! For Tatoo removal and hair removal, this is the best clinic that I found!",
-    author: "Daya Delgado",
-    avatar: "DD",
+    quote: "Thank you so much Doc. Herbert Ryan Cruz, you're such a wonderful person for helping me to be confident to talk and to meet with other people. Looking forward for the best result soon!",
+    author: "Dranuj Aiponi",
+    avatar: "DA",
   },
   {
-    quote: "I have my moms be 2-decades! Two after great results, my skin looks so much better! Definitely coming back!",
-    author: "Bianca Tan",
-    avatar: "BT",
+    quote: "Best services. Super worth it!!!",
+    author: "Laarnie Montaño",
+    avatar: "LM",
+  },
+  {
+    quote: "So far I'm seeing great results with my friends who have gone to this clinic.",
+    author: "Alex Agusti",
+    avatar: "AA",
+  },
+  {
+    quote: "Dr. Herbert Ryan Cruz is a living testimony of a man who gives service with passion.. kudos Doc..",
+    author: "Yvette Sanchez",
+    avatar: "YS",
   },
 ];
 
