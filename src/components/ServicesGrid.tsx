@@ -36,48 +36,72 @@ const ServicesGrid = () => {
 
         {/* Services Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 lg:gap-4 max-w-4xl mx-auto">
-          {allServices.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative overflow-hidden rounded-lg md:rounded-xl aspect-[4/5] cursor-pointer"
-              whileHover={{ y: -8 }}
-            >
-              <img
-                src={service.image}
-                alt={service.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              
-              {/* Default gradient - bottom half */}
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/50 via-25% to-transparent to-50% group-hover:opacity-0 transition-opacity duration-300" />
-              
-              {/* Hover gradient - full cover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/60 to-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* Default text position - bottom */}
-              <div className="absolute bottom-0 left-0 right-0 p-2 md:p-3 text-center group-hover:opacity-0 transition-opacity duration-300">
-                <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-accent-foreground mb-0.5">
-                  {service.title}
-                </h3>
-                <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/80 leading-tight line-clamp-2">
-                  {service.description}
-                </p>
-              </div>
-              
-              {/* Hover text position - centered */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-2 md:p-3 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-accent-foreground mb-1">
-                  {service.title}
-                </h3>
-                <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/90 leading-tight px-1">
-                  {service.longDescription}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+          {allServices.map((service, index) => {
+            // Determine animation direction based on column position
+            const columnPosition = index % 4; // 0, 1, 2, 3 for 4-column grid
+            const isLeftColumn = columnPosition === 0;
+            const isRightColumn = columnPosition === 3;
+            
+            // Get initial x position based on column
+            const getInitialX = () => {
+              if (isLeftColumn) return -100;
+              if (isRightColumn) return 100;
+              return 0;
+            };
+
+            return (
+              <motion.div
+                key={service.title}
+                initial={{ 
+                  opacity: 0, 
+                  x: getInitialX()
+                }}
+                animate={isInView ? { 
+                  opacity: 1, 
+                  x: 0
+                } : {}}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: index * 0.1,
+                  ease: [0.4, 0, 0.2, 1]
+                }}
+                className="group relative overflow-hidden rounded-lg md:rounded-xl aspect-[4/5] cursor-pointer"
+                whileHover={{ y: -8 }}
+              >
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                
+                {/* Default gradient - bottom half */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/50 via-25% to-transparent to-50% group-hover:opacity-0 transition-opacity duration-300" />
+                
+                {/* Hover gradient - full cover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/60 to-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* Default text position - bottom */}
+                <div className="absolute bottom-0 left-0 right-0 p-2 md:p-3 text-center group-hover:opacity-0 transition-opacity duration-300">
+                  <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-accent-foreground mb-0.5">
+                    {service.title}
+                  </h3>
+                  <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/80 leading-tight line-clamp-2">
+                    {service.description}
+                  </p>
+                </div>
+                
+                {/* Hover text position - centered */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-2 md:p-3 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-accent-foreground mb-1">
+                    {service.title}
+                  </h3>
+                  <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/90 leading-tight px-1">
+                    {service.longDescription}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
