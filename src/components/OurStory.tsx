@@ -22,7 +22,7 @@ const OurStory = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-10 md:py-14 bg-secondary text-primary-foreground relative overflow-hidden" ref={ref}>
+    <section className="min-h-[400px] md:min-h-[450px] lg:min-h-[500px] bg-secondary text-primary-foreground relative overflow-hidden" ref={ref}>
       {/* Decorative Background Elements */}
       <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
         <svg viewBox="0 0 400 400" className="w-full h-full">
@@ -43,55 +43,45 @@ const OurStory = () => {
         </svg>
       </div>
 
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-6 md:gap-10 lg:gap-16 items-center">
-          {/* Image Carousel */}
-          <motion.div
-            initial={{ opacity: 0, x: -60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative"
-          >
-            <div className="relative overflow-hidden rounded-xl md:rounded-2xl shadow-elevated">
-              <Carousel
-                opts={{
-                  loop: true,
-                  dragFree: true,
-                }}
-                plugins={[
-                  Autoplay({
-                    delay: 3000,
-                    stopOnInteraction: false,
-                    stopOnMouseEnter: true,
-                  }),
-                ]}
-                className="w-full"
-              >
-                <CarouselContent>
-                  {storyImages.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <img
-                        src={src}
-                        alt={`SkinStation Clinic ${index + 1}`}
-                        className="w-full h-[220px] md:h-[300px] lg:h-[380px] object-cover"
-                      />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
-            </div>
-            <motion.div
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-4 -right-4 w-24 h-24 gradient-accent rounded-xl -z-10 pointer-events-none"
-            />
-          </motion.div>
+      {/* Full-width Image with Gradient Overlay */}
+      <div className="absolute inset-0">
+        <Carousel
+          opts={{
+            loop: true,
+            dragFree: true,
+          }}
+          plugins={[
+            Autoplay({
+              delay: 3000,
+              stopOnInteraction: false,
+              stopOnMouseEnter: true,
+            }),
+          ]}
+          className="w-full h-full"
+        >
+          <CarouselContent className="h-full">
+            {storyImages.map((src, index) => (
+              <CarouselItem key={index} className="h-full">
+                <img
+                  src={src}
+                  alt={`SkinStation Clinic ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+        {/* Gradient Overlay - transparent left to dark right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/70 to-secondary" />
+      </div>
 
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="flex justify-end">
           <motion.div
             initial={{ opacity: 0, x: 60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="relative z-10"
+            className="relative z-10 lg:w-1/2 py-8 md:py-12"
           >
             <h2 className="font-display text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-primary-foreground mb-3 md:mb-4">
               Our Story
