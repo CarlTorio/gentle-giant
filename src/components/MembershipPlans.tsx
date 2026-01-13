@@ -261,17 +261,25 @@ const MembershipPlans = () => {
                   {tier.benefits.map((benefit, benefitIndex) => (
                     <motion.li 
                       key={benefitIndex} 
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      initial={{ opacity: 0, x: -30, y: 10 }}
+                      animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
                       transition={{ 
-                        delay: 0.6 + index * 0.15 + benefitIndex * 0.05,
-                        duration: 0.3
+                        delay: 0.8 + index * 0.2 + benefitIndex * 0.12,
+                        duration: 0.5,
+                        ease: [0.25, 0.46, 0.45, 0.94]
                       }}
                       className="flex items-start gap-1.5 group/item"
                     >
                       <motion.div
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={isInView ? { scale: 1, rotate: 0 } : {}}
+                        transition={{ 
+                          delay: 0.9 + index * 0.2 + benefitIndex * 0.12,
+                          duration: 0.4,
+                          type: "spring",
+                          stiffness: 200
+                        }}
                         whileHover={{ scale: 1.2, rotate: 360 }}
-                        transition={{ duration: 0.3 }}
                       >
                         <Check className="w-3 h-3 text-accent flex-shrink-0 mt-0.5" />
                       </motion.div>
