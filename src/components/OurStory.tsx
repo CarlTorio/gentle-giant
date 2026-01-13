@@ -8,13 +8,12 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import clinicInterior from "@/assets/clinic-interior.jpg";
 
 const storyImages = [
-  clinicInterior,
-  clinicInterior,
-  clinicInterior,
-  clinicInterior,
+  "https://i.imgur.com/mUVIGeu.jpeg",
+  "https://i.imgur.com/XWTQjvN.jpeg",
+  "https://i.imgur.com/eaexp29.jpeg",
+  "https://i.imgur.com/bYBt8fD.jpeg",
 ];
 
 const OurStory = () => {
@@ -46,13 +45,8 @@ const OurStory = () => {
         </svg>
       </div>
 
-      {/* Fixed Background with Parallax Effect */}
-      <div 
-        className="absolute inset-0"
-        style={{ 
-          backgroundAttachment: 'fixed',
-        }}
-      >
+      {/* Background Carousel with Images */}
+      <div className="absolute inset-0">
         <Carousel
           opts={{
             loop: true,
@@ -65,17 +59,16 @@ const OurStory = () => {
               stopOnMouseEnter: true,
             }),
           ]}
-          className="w-full h-full [&_.embla__container]:h-full"
+          className="w-full h-full"
         >
-          <CarouselContent className="h-full">
+          <CarouselContent className="h-full -ml-0">
             {storyImages.map((src, index) => (
-              <CarouselItem key={index} className="h-full">
-                <div 
-                  className="w-full h-full bg-cover bg-center bg-fixed"
-                  style={{ 
-                    backgroundImage: `url(${src})`,
-                    backgroundPosition: 'center 90%',
-                  }}
+              <CarouselItem key={index} className="h-full pl-0 basis-full">
+                <img 
+                  src={src}
+                  alt={`Wellness resort ${index + 1}`}
+                  className="w-full h-full object-cover object-center"
+                  style={{ objectPosition: 'center 90%' }}
                 />
               </CarouselItem>
             ))}
