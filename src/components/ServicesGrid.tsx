@@ -2,14 +2,14 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const allServices = [
-  { title: "Cafe by The Beach", description: "Enjoy healthy refreshments and snacks with ocean views.", image: "https://i.imgur.com/vjcLpp8.jpeg" },
-  { title: "Detox & Slimming", description: "Body contouring and detoxifying treatments for a healthier you.", image: "https://i.imgur.com/UKZXsAI.png" },
-  { title: "Head Spa", description: "Scalp therapy and hair treatments for ultimate relaxation.", image: "https://i.imgur.com/laPHsD7.png" },
-  { title: "Body Scrub", description: "Exfoliating treatments to reveal smooth, glowing skin.", image: "https://i.imgur.com/naDyJ5P.png" },
-  { title: "Yoga", description: "Mindful movement sessions to restore balance and flexibility.", image: "https://i.imgur.com/Up1lvBw.png" },
-  { title: "Massage", description: "Therapeutic massages to relieve tension and promote wellness.", image: "https://i.imgur.com/LXAK7wa.png" },
-  { title: "Wellness Drips", description: "IV vitamin therapy for energy, immunity and rejuvenation.", image: "https://i.imgur.com/FzFbPt9.png" },
-  { title: "Facials", description: "Advanced skincare treatments for a radiant complexion.", image: "https://i.imgur.com/bXaHFzI.png" },
+  { title: "Cafe by The Beach", description: "Enjoy healthy refreshments and snacks with ocean views.", longDescription: "Enjoy healthy refreshments and snacks with stunning ocean views. Our café offers organic juices, wellness teas, and nutritious bites to complement your spa experience.", image: "https://i.imgur.com/vjcLpp8.jpeg" },
+  { title: "Detox & Slimming", description: "Body contouring and detoxifying treatments for a healthier you.", longDescription: "Transform your body with our comprehensive detox and slimming programs. Featuring advanced body contouring, lymphatic drainage, and detoxifying wraps for lasting results.", image: "https://i.imgur.com/UKZXsAI.png" },
+  { title: "Head Spa", description: "Scalp therapy and hair treatments for ultimate relaxation.", longDescription: "Experience deep scalp therapy and revitalizing hair treatments. Our head spa combines aromatherapy, massage, and nourishing treatments for ultimate relaxation and hair health.", image: "https://i.imgur.com/laPHsD7.png" },
+  { title: "Body Scrub", description: "Exfoliating treatments to reveal smooth, glowing skin.", longDescription: "Reveal your skin's natural radiance with our luxurious body scrubs. Using natural exfoliants and nourishing oils to leave your skin silky smooth and deeply moisturized.", image: "https://i.imgur.com/naDyJ5P.png" },
+  { title: "Yoga", description: "Mindful movement sessions to restore balance and flexibility.", longDescription: "Join our expert-led yoga sessions designed to restore balance, improve flexibility, and calm the mind. Classes suitable for all levels in our serene beachfront studio.", image: "https://i.imgur.com/Up1lvBw.png" },
+  { title: "Massage", description: "Therapeutic massages to relieve tension and promote wellness.", longDescription: "Indulge in therapeutic massages tailored to your needs. From deep tissue to aromatherapy, our skilled therapists relieve tension and restore your body's natural harmony.", image: "https://i.imgur.com/LXAK7wa.png" },
+  { title: "Wellness Drips", description: "IV vitamin therapy for energy, immunity and rejuvenation.", longDescription: "Boost your wellness with our IV vitamin therapy. Customized drips for energy, immunity, hydration, and rejuvenation—delivered directly to your system for maximum absorption.", image: "https://i.imgur.com/FzFbPt9.png" },
+  { title: "Facials", description: "Advanced skincare treatments for a radiant complexion.", longDescription: "Achieve a radiant complexion with our advanced facial treatments. Using premium products and cutting-edge techniques to address your unique skin concerns.", image: "https://i.imgur.com/bXaHFzI.png" },
 ];
 
 const ServicesGrid = () => {
@@ -72,8 +72,8 @@ const ServicesGrid = () => {
                 <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-accent-foreground mb-1">
                   {service.title}
                 </h3>
-                <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/90 leading-tight">
-                  {service.description}
+                <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/90 leading-tight px-1">
+                  {service.longDescription}
                 </p>
               </div>
             </motion.div>
