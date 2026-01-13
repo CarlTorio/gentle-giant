@@ -8,12 +8,13 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import clinicInterior from "@/assets/clinic-interior.jpg";
 
 const storyImages = [
-  "https://i.imgur.com/mUVIGeu.jpeg",
-  "https://i.imgur.com/XWTQjvN.jpeg",
-  "https://i.imgur.com/eaexp29.jpeg",
-  "https://i.imgur.com/bYBt8fD.jpeg",
+  clinicInterior,
+  clinicInterior,
+  clinicInterior,
+  clinicInterior,
 ];
 
 const OurStory = () => {
