@@ -50,13 +50,29 @@ const ServicesGrid = () => {
                 alt={service.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 gradient-card-overlay opacity-70 group-hover:opacity-85 transition-opacity duration-300" />
               
-              <div className="absolute bottom-0 left-0 right-0 p-2 md:p-3 text-center">
+              {/* Default gradient - bottom half */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[hsla(55,44%,15%,1)] via-[hsla(55,44%,15%,0.8)] via-25% to-transparent to-50% group-hover:opacity-0 transition-opacity duration-300" />
+              
+              {/* Hover gradient - full cover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[hsla(55,44%,15%,1)] via-[hsla(55,44%,15%,0.9)] to-[hsla(55,44%,15%,0.7)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              {/* Default text position - bottom */}
+              <div className="absolute bottom-0 left-0 right-0 p-2 md:p-3 text-center group-hover:opacity-0 transition-opacity duration-300">
                 <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-accent-foreground mb-0.5">
                   {service.title}
                 </h3>
                 <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/80 leading-tight line-clamp-2">
+                  {service.description}
+                </p>
+              </div>
+              
+              {/* Hover text position - centered */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-2 md:p-3 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-accent-foreground mb-1">
+                  {service.title}
+                </h3>
+                <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/90 leading-tight">
                   {service.description}
                 </p>
               </div>
