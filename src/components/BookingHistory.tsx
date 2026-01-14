@@ -265,11 +265,9 @@ const BookingHistory = ({ open, onOpenChange }: BookingHistoryProps) => {
                 <thead>
                   <tr className="border-b border-border bg-muted/30">
                     <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Client</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Service</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Appointment</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Membership</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Status</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Details</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -294,10 +292,6 @@ const BookingHistory = ({ open, onOpenChange }: BookingHistoryProps) => {
                         </div>
                       </td>
                       <td className="py-4 px-4">
-                        <p className="font-medium text-foreground">{booking.service}</p>
-                        <p className="text-xs text-muted-foreground">Booked: {booking.bookedOn}</p>
-                      </td>
-                      <td className="py-4 px-4">
                         <div className="flex items-center gap-2">
                           <Calendar className="h-4 w-4 text-muted-foreground" />
                           <div>
@@ -315,28 +309,6 @@ const BookingHistory = ({ open, onOpenChange }: BookingHistoryProps) => {
                         <Badge className={getStatusColor(booking.status)}>
                           {booking.status}
                         </Badge>
-                      </td>
-                      <td className="py-4 px-4">
-                        <div className="text-xs space-y-1">
-                          {booking.status === 'completed' && (
-                            <p className="text-green-600">✓ Completed: {booking.completedAt}</p>
-                          )}
-                          {booking.status === 'cancelled' && (
-                            <>
-                              <p className="text-destructive">✗ Cancelled: {(booking as any).cancelledAt}</p>
-                              <p className="text-muted-foreground">By: {(booking as any).cancelledBy}</p>
-                              {(booking as any).cancellationReason && (
-                                <p className="text-muted-foreground italic">"{(booking as any).cancellationReason}"</p>
-                              )}
-                            </>
-                          )}
-                          {booking.status === 'no-show' && (
-                            <p className="text-amber-600">⚠ No Show: {(booking as any).noShowAt}</p>
-                          )}
-                          {booking.notes && (
-                            <p className="text-muted-foreground">Note: {booking.notes}</p>
-                          )}
-                        </div>
                       </td>
                     </tr>
                   ))}
