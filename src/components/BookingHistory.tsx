@@ -216,67 +216,6 @@ const BookingHistory = ({ open, onOpenChange }: BookingHistoryProps) => {
           <p className="text-muted-foreground text-sm">View and manage past bookings</p>
         </DialogHeader>
 
-        {/* Statistics Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-          <Card className="border-border/50">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">Total Bookings</p>
-                  <p className="text-2xl font-bold text-foreground">{totalBookings}</p>
-                </div>
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Calendar className="h-5 w-5 text-primary" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border/50">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">Completed</p>
-                  <p className="text-2xl font-bold text-green-600">{completedBookings}</p>
-                  <p className="text-xs text-muted-foreground">{((completedBookings/totalBookings)*100).toFixed(0)}% completion rate</p>
-                </div>
-                <div className="p-2 rounded-lg bg-green-500/10">
-                  <User className="h-5 w-5 text-green-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border/50">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">Cancelled</p>
-                  <p className="text-2xl font-bold text-destructive">{cancelledBookings}</p>
-                  <p className="text-xs text-muted-foreground">{((cancelledBookings/totalBookings)*100).toFixed(0)}% cancellation rate</p>
-                </div>
-                <div className="p-2 rounded-lg bg-destructive/10">
-                  <X className="h-5 w-5 text-destructive" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border/50">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">No Shows</p>
-                  <p className="text-2xl font-bold text-amber-600">{noShowBookings}</p>
-                  <p className="text-xs text-muted-foreground">{((noShowBookings/totalBookings)*100).toFixed(0)}% no-show rate</p>
-                </div>
-                <div className="p-2 rounded-lg bg-amber-500/10">
-                  <Clock className="h-5 w-5 text-amber-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Filters */}
         <Card className="border-border/50 mt-4">
@@ -412,29 +351,6 @@ const BookingHistory = ({ open, onOpenChange }: BookingHistoryProps) => {
                 <p className="text-sm text-muted-foreground">Try adjusting your filters</p>
               </div>
             )}
-          </CardContent>
-        </Card>
-
-        {/* Summary */}
-        <Card className="border-border/50 mt-4">
-          <CardContent className="p-4">
-            <p className="font-medium text-foreground mb-3">Summary</p>
-            <div className="flex flex-wrap gap-6 text-sm">
-              <div>
-                <span className="text-muted-foreground">Showing Results: </span>
-                <span className="font-medium">{filteredBookings.length} bookings</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Success Rate: </span>
-                <span className="font-medium text-green-600">
-                  {totalBookings > 0 ? ((completedBookings/totalBookings)*100).toFixed(1) : 0}%
-                </span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Total Revenue (Est.): </span>
-                <span className="font-medium text-accent">₱{(completedBookings * 1500).toLocaleString()}</span>
-              </div>
-            </div>
           </CardContent>
         </Card>
 
