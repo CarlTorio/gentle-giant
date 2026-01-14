@@ -177,7 +177,7 @@ const ThankYou = () => {
               ref={stubRef}
               className="relative w-[400px] h-[600px]"
               style={{
-                backgroundImage: `url(${bookingStubBg})`,
+                backgroundImage: `url(https://i.imgur.com/7En3vdq.png)`,
                 backgroundSize: "cover",
                 backgroundPosition: "center"
               }}
