@@ -17,6 +17,7 @@ const membershipOptions = [
     id: "green",
     name: "GREEN",
     tier: "Basic Tier",
+    price: "₱8,888/year",
     image: "https://i.imgur.com/rB3DdLk.png",
     glowColor: "rgba(34, 197, 94, 0.4)",
     benefits: [
@@ -34,6 +35,7 @@ const membershipOptions = [
     id: "gold",
     name: "GOLD",
     tier: "Premium Tier",
+    price: "₱18,888/year",
     image: "https://i.imgur.com/nkrUlEC.png",
     glowColor: "rgba(234, 179, 8, 0.5)",
     benefits: [
@@ -51,6 +53,7 @@ const membershipOptions = [
     id: "platinum",
     name: "PLATINUM",
     tier: "Elite Tier",
+    price: "₱38,888/year",
     image: "https://i.imgur.com/MFJWBLn.png",
     glowColor: "rgba(148, 163, 184, 0.5)",
     benefits: [
@@ -324,6 +327,7 @@ const Membership = () => {
                           <div>
                             <p className="font-semibold text-sm text-foreground">{membership.name}</p>
                             <p className="text-[10px] text-muted-foreground">{membership.tier}</p>
+                            <p className="text-xs font-medium text-accent">{membership.price}</p>
                           </div>
                         </div>
                         <img
