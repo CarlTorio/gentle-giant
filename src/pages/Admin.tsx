@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft } from 'lucide-react';
+import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import BookingHistory from '@/components/BookingHistory';
 
 const HilomeAdminDashboard = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const HilomeAdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedMember, setSelectedMember] = useState<any>(null);
+  const [showBookingHistory, setShowBookingHistory] = useState(false);
 
   const [dashboardData, setDashboardData] = useState({
     totalSales: 1250000,
@@ -215,11 +217,19 @@ const HilomeAdminDashboard = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h2 className="font-display text-2xl font-semibold text-foreground">Bookings Management</h2>
-        <Button variant="outline" className="gap-2">
-          <Download className="h-4 w-4" />
-          Export Data
-        </Button>
+        <div className="flex gap-3">
+          <Button variant="outline" className="gap-2" onClick={() => setShowBookingHistory(true)}>
+            <History className="h-4 w-4" />
+            Booking History
+          </Button>
+          <Button variant="outline" className="gap-2">
+            <Download className="h-4 w-4" />
+            Export Data
+          </Button>
+        </div>
       </div>
+      
+      <BookingHistory open={showBookingHistory} onOpenChange={setShowBookingHistory} />
 
       <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
         <CardContent className="p-6">
