@@ -312,22 +312,32 @@ const MembershipPlans = () => {
           <p className="text-muted-foreground text-xs md:text-sm mb-3">
             Ready to elevate your wellness journey?
           </p>
-          <motion.a
-            href="https://www.facebook.com/messages/t/791508777375110"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative inline-flex items-center justify-center gradient-accent text-accent-foreground rounded-full px-6 py-2 text-xs font-medium overflow-hidden group"
-          >
-            {/* Button Shimmer */}
-            <motion.span
-              className="absolute inset-0 w-1/4 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12"
-              animate={{ x: ["-100%", "400%"] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-            />
-            <span className="relative z-10">Inquire About Membership</span>
-          </motion.a>
+          <div className="flex items-center justify-center gap-3">
+            <motion.a
+              href="https://www.facebook.com/messages/t/791508777375110"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative inline-flex items-center justify-center gradient-accent text-accent-foreground rounded-full px-6 py-2 text-xs font-medium overflow-hidden group"
+            >
+              {/* Button Shimmer */}
+              <motion.span
+                className="absolute inset-0 w-1/4 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12"
+                animate={{ x: ["-100%", "400%"] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+              />
+              <span className="relative z-10">Inquire About Membership</span>
+            </motion.a>
+            <motion.a
+              href="/book-consultation"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center justify-center bg-primary text-primary-foreground rounded-full px-6 py-2 text-xs font-medium"
+            >
+              Join Now
+            </motion.a>
+          </div>
         </motion.div>
       </div>
     </section>
