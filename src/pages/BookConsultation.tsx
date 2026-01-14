@@ -101,9 +101,9 @@ const BookConsultation = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="max-w-3xl mx-auto"
+            className="max-w-xl mx-auto"
           >
-            <div className="bg-primary rounded-3xl p-8 md:p-12 shadow-elevated">
+            <div className="bg-primary rounded-2xl p-6 md:p-8 shadow-elevated">
               <div className="space-y-6">
                 {/* Name Field */}
                 <div>
