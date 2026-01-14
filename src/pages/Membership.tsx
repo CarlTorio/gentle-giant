@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Check, Sparkles } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Check, Sparkles, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -75,6 +75,7 @@ const formSchema = z.object({
 });
 
 const Membership = () => {
+  const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedMembership, setSelectedMembership] = useState("");
   const [formData, setFormData] = useState({
@@ -168,6 +169,23 @@ const Membership = () => {
       <Header />
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">
+          {/* Back Button */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4 }}
+            className="mb-6"
+          >
+            <Button
+              variant="ghost"
+              onClick={() => navigate(-1)}
+              className="text-muted-foreground hover:text-foreground gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back
+            </Button>
+          </motion.div>
+
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
