@@ -136,7 +136,7 @@ const BookConsultation = () => {
                 <h3 className="text-foreground font-semibold mb-4">Follow Us</h3>
                 <div className="flex items-center gap-3 mb-3">
                   <a 
-                    href="https://facebook.com/Hilome" 
+                    href="https://www.facebook.com/profile.php?id=61580172268741" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
