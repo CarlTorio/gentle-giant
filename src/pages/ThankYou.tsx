@@ -179,55 +179,55 @@ const ThankYou = () => {
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
                 
                 {/* Content */}
-                <div className="relative h-full flex flex-col items-center justify-end p-8 text-center pb-12">
-                  {/* Booking Details - positioned lower */}
+                <div className="relative h-full flex flex-col items-center justify-end p-6 text-center" style={{ paddingBottom: "80px" }}>
+                  {/* Booking Details - positioned at bottom half */}
                   <div className="flex flex-col items-center w-full">
                     {/* Booking Number */}
-                    <div className="mb-4 bg-white/80 backdrop-blur-sm rounded-lg px-6 py-3">
-                      <p className="text-primary/70 text-[10px] tracking-widest uppercase mb-1 font-medium">
+                    <div className="mb-3 bg-white/80 backdrop-blur-sm rounded-lg px-5 py-2">
+                      <p className="text-primary/70 text-[9px] tracking-widest uppercase mb-0.5 font-medium">
                         Booking Number
                       </p>
-                      <p className="font-display text-2xl text-primary font-bold tracking-wide">
+                      <p className="font-display text-xl text-primary font-bold tracking-wide">
                         {bookingNumber}
                       </p>
                     </div>
 
                     {/* Guest Name */}
-                    <div className="mb-3">
-                      <p className="text-primary/60 text-[10px] tracking-widest uppercase mb-1">
+                    <div className="mb-2">
+                      <p className="text-primary/60 text-[9px] tracking-widest uppercase mb-0.5">
                         Guest Name
                       </p>
-                      <p className="font-display text-xl text-primary font-semibold">
+                      <p className="font-display text-lg text-primary font-semibold">
                         {bookingDetails.name}
                       </p>
                     </div>
 
                     {/* Date & Time */}
-                    <div className="mb-3 bg-white/60 backdrop-blur-sm rounded-lg px-5 py-3">
-                      <p className="text-primary/60 text-[10px] tracking-widest uppercase mb-1">
+                    <div className="mb-2 bg-white/60 backdrop-blur-sm rounded-lg px-4 py-2">
+                      <p className="text-primary/60 text-[9px] tracking-widest uppercase mb-0.5">
                         Appointment Schedule
                       </p>
-                      <p className="text-primary font-semibold text-sm">
+                      <p className="text-primary font-semibold text-xs">
                         {dayOfWeek}
                       </p>
-                      <p className="text-primary text-lg font-bold">
+                      <p className="text-primary text-base font-bold">
                         {formattedDate}
                       </p>
-                      <p className="text-primary/80 font-medium">
+                      <p className="text-primary/80 font-medium text-sm">
                         {bookingDetails.time}
                       </p>
                     </div>
 
                     {/* Membership Badge */}
-                    <div className="mb-3">
-                      <span className="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-xs font-medium tracking-wide">
+                    <div className="mb-2">
+                      <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-medium tracking-wide">
                         {bookingDetails.membership}
                       </span>
                     </div>
 
                     {/* Footer */}
-                    <div className="mt-2">
-                      <p className="text-primary/50 text-[9px] tracking-wide">
+                    <div className="mt-1">
+                      <p className="text-primary/50 text-[8px] tracking-wide">
                         Please arrive 10 minutes before your appointment
                       </p>
                     </div>
