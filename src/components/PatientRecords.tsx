@@ -151,6 +151,7 @@ const PatientRecords = () => {
       toast({
         title: "Saved successfully",
         description: "Patient record has been updated.",
+        duration: 1500,
       });
     }
   };
