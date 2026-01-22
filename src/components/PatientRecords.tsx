@@ -429,7 +429,7 @@ const PatientRecords = () => {
             </div>
             <Button onClick={addNewPatient} className="gap-2 gradient-accent text-accent-foreground">
               <Plus className="h-4 w-4" />
-              Add
+              ADD
             </Button>
           </div>
 
