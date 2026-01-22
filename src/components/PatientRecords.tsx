@@ -371,9 +371,6 @@ const PatientRecords = () => {
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm font-medium">{formatDate(record.date)}</span>
                       </div>
-                      <p className="text-xs text-destructive mb-2 uppercase">
-                        THIS IS WHERE WILL INPUT THE NOTES ABOUT THE PATIENT VISIT OR RECENT TREATMENT.
-                      </p>
                       <Textarea
                         value={record.notes}
                         onChange={(e) => updateMedicalRecord(record.id, e.target.value)}

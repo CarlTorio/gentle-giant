@@ -110,7 +110,7 @@ const Membership = () => {
         phone: formData.contact,
         membership: selectedPlan?.name || selectedMembership,
         amount: amount,
-        message: formData.message || null,
+        applied_date: new Date().toISOString().split('T')[0],
         status: 'pending'
       });
 
