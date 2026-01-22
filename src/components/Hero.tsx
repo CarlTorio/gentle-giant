@@ -14,7 +14,11 @@ const Hero = () => {
       ease: "easeOut"
     }}>
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-transparent z-10" />
-        <img src="https://i.imgur.com/EeiPqJv.jpeg" alt="Beautiful women with radiant skin" className="w-full h-full object-cover object-top" />
+        <img
+          src="https://i.imgur.com/EeiPqJv.jpeg"
+          alt="Beautiful women with radiant skin"
+          className="w-full h-full object-cover object-top md:object-[50%_35%]"
+        />
       </motion.div>
 
       {/* Content */}
