@@ -213,7 +213,7 @@ const HilomeAdminDashboard = () => {
     switch (status?.toLowerCase()) {
       case 'completed': return 'text-green-700';
       case 'confirmed':
-      case 'active': return 'text-blue-700';
+      case 'active': return 'bg-transparent text-blue-700';
       case 'pending': return 'text-muted-foreground';
       case 'cancelled': return 'text-destructive';
       case 'no-show': return 'text-orange-700';
