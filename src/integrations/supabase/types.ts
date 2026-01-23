@@ -14,7 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          contact_number: string
+          created_at: string
+          email: string
+          id: string
+          membership: string
+          message: string | null
+          name: string
+          preferred_date: string
+          preferred_time: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          contact_number: string
+          created_at?: string
+          email: string
+          id?: string
+          membership?: string
+          message?: string | null
+          name: string
+          preferred_date: string
+          preferred_time: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          contact_number?: string
+          created_at?: string
+          email?: string
+          id?: string
+          membership?: string
+          message?: string | null
+          name?: string
+          preferred_date?: string
+          preferred_time?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      patient_records: {
+        Row: {
+          booking_id: string | null
+          contact_number: string
+          created_at: string
+          email: string
+          id: string
+          membership: string
+          message: string | null
+          name: string
+          preferred_date: string
+          preferred_time: string
+          updated_at: string
+        }
+        Insert: {
+          booking_id?: string | null
+          contact_number: string
+          created_at?: string
+          email: string
+          id?: string
+          membership?: string
+          message?: string | null
+          name: string
+          preferred_date: string
+          preferred_time: string
+          updated_at?: string
+        }
+        Update: {
+          booking_id?: string | null
+          contact_number?: string
+          created_at?: string
+          email?: string
+          id?: string
+          membership?: string
+          message?: string | null
+          name?: string
+          preferred_date?: string
+          preferred_time?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_records_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
