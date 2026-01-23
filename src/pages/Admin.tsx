@@ -188,6 +188,30 @@ const HilomeAdminDashboard = () => {
       const expiryDate = new Date();
       expiryDate.setFullYear(expiryDate.getFullYear() + 1);
 
+      // If referral code is provided, validate it and get the referrer
+      let referrerId: string | null = null;
+      if (registerFormData.referral_code) {
+        const { data: referrer, error: referrerError } = await supabase
+          .from('members')
+          .select('id, referral_code, referral_count')
+          .eq('referral_code', registerFormData.referral_code.toUpperCase())
+          .eq('status', 'active')
+          .maybeSingle();
+
+        if (referrerError) {
+          console.error('Error checking referral code:', referrerError);
+        }
+
+        if (!referrer) {
+          toast.error('Invalid referral code. Please check and try again.');
+          setIsRegistering(false);
+          return;
+        }
+
+        referrerId = referrer.id;
+      }
+
+      // Insert the new member
       const { error } = await supabase
         .from('members')
         .insert({
@@ -198,7 +222,7 @@ const HilomeAdminDashboard = () => {
           payment_method: registerFormData.payment_method,
           payment_status: 'paid',
           amount_paid: membershipPrice,
-          referred_by: registerFormData.referral_code || null,
+          referred_by: registerFormData.referral_code?.toUpperCase() || null,
           status: 'active',
           is_walk_in: true,
           membership_expiry_date: expiryDate.toISOString()
@@ -206,7 +230,27 @@ const HilomeAdminDashboard = () => {
 
       if (error) throw error;
 
-      toast.success(`${registerFormData.name} registered as ${registerFormData.membership_type} member!`);
+      // If referral code was used, increment the referrer's referral_count
+      if (referrerId) {
+        // Fetch current count and increment
+        const { data: currentMember } = await supabase
+          .from('members')
+          .select('referral_count')
+          .eq('id', referrerId)
+          .single();
+        
+        if (currentMember) {
+          await supabase
+            .from('members')
+            .update({ referral_count: (currentMember.referral_count || 0) + 1 })
+            .eq('id', referrerId);
+        }
+        
+        toast.success(`${registerFormData.name} registered! Referral point added to ${registerFormData.referral_code}.`);
+      } else {
+        toast.success(`${registerFormData.name} registered as ${registerFormData.membership_type} member!`);
+      }
+
       setShowRegisterMember(false);
       setRegisterFormData({
         name: '',
@@ -627,7 +671,7 @@ const HilomeAdminDashboard = () => {
             <UserPlus className="h-4 w-4" />
             Register Member
           </Button>
-          <Button variant="outline" className="gap-2" onClick={fetchData}>
+          <Button variant="outline" className="gap-2" onClick={() => { fetchMembers(); toast.success('Members database reloaded'); }}>
             <RefreshCw className="h-4 w-4" />
             Reload
           </Button>
