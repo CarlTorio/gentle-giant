@@ -606,8 +606,34 @@ const HilomeAdminDashboard = () => {
                           <p className="text-xs text-muted-foreground mt-1">
                             Date: {new Date(member.created_at).toLocaleDateString()}
                           </p>
+                          {/* Stripe info - shows when connected */}
+                          {member.stripe_payment_intent_id && (
+                            <div className="mt-2 p-2 bg-muted/30 rounded-md">
+                              <p className="text-xs text-muted-foreground flex items-center gap-1">
+                                <CreditCard className="h-3 w-3" /> Stripe Payment
+                              </p>
+                              <p className="text-xs font-mono text-muted-foreground truncate">
+                                {member.stripe_payment_intent_id}
+                              </p>
+                            </div>
+                          )}
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
+                          {/* Receipt button - shows when Stripe receipt available */}
+                          {member.stripe_receipt_url && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="gap-1"
+                              asChild
+                            >
+                              <a href={member.stripe_receipt_url} target="_blank" rel="noopener noreferrer">
+                                <Receipt className="h-4 w-4" />
+                                Receipt
+                                <ExternalLink className="h-3 w-3" />
+                              </a>
+                            </Button>
+                          )}
                           <Button
                             variant="outline"
                             size="sm"
@@ -932,10 +958,26 @@ const HilomeAdminDashboard = () => {
                         </Badge>
                       </div>
                     </div>
-                    {tx.stripe_payment_intent_id && (
-                      <p className="text-xs font-mono text-muted-foreground mt-2 truncate">
-                        Stripe: {tx.stripe_payment_intent_id}
-                      </p>
+                    {(tx.stripe_payment_intent_id || tx.stripe_receipt_url) && (
+                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/50">
+                        <p className="text-xs font-mono text-muted-foreground truncate flex-1">
+                          {tx.stripe_payment_intent_id && `Stripe: ${tx.stripe_payment_intent_id}`}
+                        </p>
+                        {tx.stripe_receipt_url && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="gap-1 h-6 text-xs"
+                            asChild
+                          >
+                            <a href={tx.stripe_receipt_url} target="_blank" rel="noopener noreferrer">
+                              <Receipt className="h-3 w-3" />
+                              View Receipt
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          </Button>
+                        )}
+                      </div>
                     )}
                   </CardContent>
                 </Card>
