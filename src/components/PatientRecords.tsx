@@ -28,7 +28,50 @@ const PatientRecords = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch patients from bookings table
+  // Sample patient records data
+  const samplePatients: Patient[] = [
+    {
+      id: 'p1',
+      name: 'Diana Gomez',
+      email: 'diana.g@email.com',
+      contact_number: '09171234001',
+      membership: 'Platinum Member',
+      status: 'active',
+      preferred_date: '2026-01-15',
+      preferred_time: '10:00 AM',
+      message: 'Regular facial maintenance',
+      created_at: '2025-06-15',
+      updated_at: '2026-01-15',
+    },
+    {
+      id: 'p2',
+      name: 'Fernando Villa',
+      email: 'fernando.v@email.com',
+      contact_number: '09182345002',
+      membership: 'Gold Member',
+      status: 'active',
+      preferred_date: '2026-01-18',
+      preferred_time: '2:00 PM',
+      message: 'Follow-up treatment for acne scars',
+      created_at: '2025-09-01',
+      updated_at: '2026-01-18',
+    },
+    {
+      id: 'p3',
+      name: 'Grace Tan',
+      email: 'grace.tan@email.com',
+      contact_number: '09193456003',
+      membership: 'Green Member',
+      status: 'active',
+      preferred_date: '2026-01-20',
+      preferred_time: '11:00 AM',
+      message: 'Initial consultation for whitening treatment',
+      created_at: '2025-12-10',
+      updated_at: '2026-01-20',
+    },
+  ];
+
+  // Fetch patients from bookings table and combine with sample data
   const fetchPatients = async () => {
     setIsLoading(true);
     try {
@@ -38,13 +81,20 @@ const PatientRecords = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setPatients(data || []);
+      
+      // Combine sample patients with bookings data
+      const bookingsAsPatients: Patient[] = (data || []).map(booking => ({
+        ...booking,
+      }));
+      
+      setPatients([...samplePatients, ...bookingsAsPatients]);
     } catch (error) {
       console.error('Error fetching patients:', error);
+      // Fallback to sample data only
+      setPatients(samplePatients);
       toast({
-        title: "Error",
-        description: "Failed to load patient records",
-        variant: "destructive",
+        title: "Note",
+        description: "Showing sample patient records",
         duration: 3000,
       });
     } finally {
