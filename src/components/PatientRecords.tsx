@@ -71,23 +71,33 @@ const PatientRecords = () => {
     },
   ];
 
-  // Fetch patients from bookings table and combine with sample data
+  // Fetch patients from patient_records table only (not bookings)
   const fetchPatients = async () => {
     setIsLoading(true);
     try {
       const { data, error } = await supabase
-        .from('bookings')
+        .from('patient_records')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
       
-      // Combine sample patients with bookings data
-      const bookingsAsPatients: Patient[] = (data || []).map(booking => ({
-        ...booking,
+      // Combine sample patients with patient records data
+      const patientRecords: Patient[] = (data || []).map(record => ({
+        id: record.id,
+        name: record.name,
+        email: record.email,
+        contact_number: record.contact_number,
+        membership: record.membership,
+        status: 'active',
+        preferred_date: record.preferred_date,
+        preferred_time: record.preferred_time,
+        message: record.message,
+        created_at: record.created_at,
+        updated_at: record.updated_at,
       }));
       
-      setPatients([...samplePatients, ...bookingsAsPatients]);
+      setPatients([...samplePatients, ...patientRecords]);
     } catch (error) {
       console.error('Error fetching patients:', error);
       // Fallback to sample data only

@@ -157,10 +157,46 @@ const HilomeAdminDashboard = () => {
     }
   };
 
-  // Navigate to Patient Records with the booking
-  const handleAddToRecord = (booking: Booking) => {
-    setActiveTab('patients');
-    toast.success(`Viewing records for ${booking.name}`);
+  // Add booking to patient_records table
+  const handleAddToRecord = async (booking: Booking) => {
+    try {
+      // Check if this booking is already in patient_records
+      const { data: existing, error: checkError } = await supabase
+        .from('patient_records')
+        .select('id')
+        .eq('booking_id', booking.id)
+        .maybeSingle();
+
+      if (checkError) throw checkError;
+
+      if (existing) {
+        toast.info(`${booking.name} is already in patient records`);
+        setActiveTab('patients');
+        return;
+      }
+
+      // Insert into patient_records
+      const { error: insertError } = await supabase
+        .from('patient_records')
+        .insert({
+          booking_id: booking.id,
+          name: booking.name,
+          email: booking.email,
+          contact_number: booking.contact_number,
+          membership: booking.membership,
+          preferred_date: booking.preferred_date,
+          preferred_time: booking.preferred_time,
+          message: booking.message,
+        });
+
+      if (insertError) throw insertError;
+
+      toast.success(`${booking.name} added to patient records`);
+      setActiveTab('patients');
+    } catch (error) {
+      console.error('Error adding to patient records:', error);
+      toast.error('Failed to add to patient records');
+    }
   };
 
 
