@@ -63,8 +63,12 @@ export type Database = {
           id: string
           membership_type: string
           name: string
+          payment_method_details: string | null
+          payment_method_type: string | null
           phone: string | null
           status: string
+          stripe_customer_id: string | null
+          stripe_payment_intent_id: string | null
           updated_at: string
         }
         Insert: {
@@ -73,8 +77,12 @@ export type Database = {
           id?: string
           membership_type: string
           name: string
+          payment_method_details?: string | null
+          payment_method_type?: string | null
           phone?: string | null
           status?: string
+          stripe_customer_id?: string | null
+          stripe_payment_intent_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -83,8 +91,12 @@ export type Database = {
           id?: string
           membership_type?: string
           name?: string
+          payment_method_details?: string | null
+          payment_method_type?: string | null
           phone?: string | null
           status?: string
+          stripe_customer_id?: string | null
+          stripe_payment_intent_id?: string | null
           updated_at?: string
         }
         Relationships: []

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft, History, Phone } from 'lucide-react';
+import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft, History, Phone, CreditCard, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -46,24 +46,26 @@ const HilomeAdminDashboard = () => {
     id: string;
     name: string;
     email: string;
-    phone: string;
-    membership: string;
-    amount: number;
+    phone: string | null;
+    membership_type: string;
     status: string;
-    applied_date: string;
+    created_at: string;
+    updated_at: string;
   }
 
   interface Member {
     id: string;
     name: string;
     email: string;
-    phone: string;
-    membership: string;
-    join_date: string;
-    last_payment: string;
-    expiration_date: string;
-    total_paid: number;
+    phone: string | null;
+    membership_type: string;
     status: string;
+    created_at: string;
+    updated_at: string;
+    stripe_customer_id: string | null;
+    stripe_payment_intent_id: string | null;
+    payment_method_type: string | null;
+    payment_method_details: string | null;
   }
 
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -101,16 +103,16 @@ const HilomeAdminDashboard = () => {
   }, []);
 
   // Compute dashboard data dynamically
-  const totalSales = members.reduce((sum, member) => sum + (member.total_paid || membershipPrices[member.membership] || 0), 0);
+  const totalSales = members.reduce((sum, member) => sum + (membershipPrices[member.membership_type] || 0), 0);
   const totalMembers = members.length;
   const pendingApplications = applications.filter(app => app.status === 'pending').length;
   const activeBookings = bookings.length;
 
   // Compute membership distribution dynamically
   const membershipDistribution = [
-    { name: 'Green', value: members.filter(m => m.membership.toUpperCase().includes('GREEN')).length, color: 'hsl(var(--green-600))' },
-    { name: 'Gold', value: members.filter(m => m.membership.toUpperCase().includes('GOLD')).length, color: 'hsl(var(--accent))' },
-    { name: 'Platinum', value: members.filter(m => m.membership.toUpperCase().includes('PLATINUM')).length, color: 'hsl(var(--muted-foreground))' },
+    { name: 'Green', value: members.filter(m => m.membership_type.toUpperCase().includes('GREEN')).length, color: 'hsl(var(--green-600))' },
+    { name: 'Gold', value: members.filter(m => m.membership_type.toUpperCase().includes('GOLD')).length, color: 'hsl(var(--accent))' },
+    { name: 'Platinum', value: members.filter(m => m.membership_type.toUpperCase().includes('PLATINUM')).length, color: 'hsl(var(--muted-foreground))' },
   ];
 
   // Revenue trend showing membership revenue per month
@@ -130,18 +132,11 @@ const HilomeAdminDashboard = () => {
 
     try {
       // Create new member
-      const expirationDate = new Date();
-      expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-
       const { error: memberError } = await supabase.from('members').insert({
         name: app.name,
         email: app.email,
         phone: app.phone,
-        membership: app.membership,
-        join_date: new Date().toISOString().split('T')[0],
-        last_payment: new Date().toISOString().split('T')[0],
-        expiration_date: expirationDate.toISOString().split('T')[0],
-        total_paid: app.amount,
+        membership_type: app.membership_type,
         status: 'active'
       });
 
@@ -413,10 +408,10 @@ const HilomeAdminDashboard = () => {
                     <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                       <span>Email: {app.email}</span>
                       <span>Phone: {app.phone}</span>
-                      <span>Applied: {app.applied_date}</span>
+                      <span>Applied: {new Date(app.created_at).toLocaleDateString()}</span>
                     </div>
-                    <Badge variant="outline" className={getMembershipColor(app.membership)}>
-                      {app.membership} - ₱{app.amount.toLocaleString()}
+                    <Badge variant="outline" className={getMembershipColor(app.membership_type)}>
+                      {app.membership_type} - ₱{(membershipPrices[app.membership_type] || 0).toLocaleString()}
                     </Badge>
                   </div>
                   <div className="flex gap-3">
@@ -426,7 +421,7 @@ const HilomeAdminDashboard = () => {
                       className="gap-2"
                       asChild
                     >
-                      <a href={`tel:${app.phone.replace(/-/g, '')}`}>
+                      <a href={`tel:${(app.phone || '').replace(/-/g, '')}`}>
                         <Phone className="h-4 w-4" />
                         Call
                       </a>
@@ -495,8 +490,8 @@ const HilomeAdminDashboard = () => {
                 <tr className="border-b border-border">
                   <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Member</th>
                   <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Membership</th>
+                  <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Payment Method</th>
                   <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Join Date</th>
-                  <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Expiration</th>
                   <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Days Left</th>
                   <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Status</th>
                   <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Action</th>
@@ -510,23 +505,32 @@ const HilomeAdminDashboard = () => {
                       <p className="text-xs text-muted-foreground">{member.email}</p>
                     </td>
                     <td className="py-4 px-2">
-                      <Badge variant="outline" className={getMembershipColor(member.membership)}>
-                        {member.membership}
+                      <Badge variant="outline" className={getMembershipColor(member.membership_type)}>
+                        {member.membership_type}
                       </Badge>
                     </td>
-                    <td className="py-4 px-2 text-sm">{member.join_date}</td>
-                    <td className="py-4 px-2 text-sm">{member.expiration_date}</td>
                     <td className="py-4 px-2">
-                      {(() => {
-                        const expDate = new Date(member.expiration_date);
-                        const today = new Date();
-                        const daysRemaining = Math.ceil((expDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-                        return (
-                          <span className={`text-sm font-medium ${daysRemaining <= 30 ? 'text-destructive' : 'text-green-600'}`}>
-                            {daysRemaining} days
-                          </span>
-                        );
-                      })()}
+                      {member.payment_method_type ? (
+                        <div className="flex items-center gap-2">
+                          {member.payment_method_type === 'card' ? (
+                            <CreditCard className="h-4 w-4 text-muted-foreground" />
+                          ) : (
+                            <Wallet className="h-4 w-4 text-muted-foreground" />
+                          )}
+                          <div>
+                            <p className="text-sm font-medium capitalize">{member.payment_method_type}</p>
+                            {member.payment_method_details && (
+                              <p className="text-xs text-muted-foreground">{member.payment_method_details}</p>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
+                    </td>
+                    <td className="py-4 px-2 text-sm">{new Date(member.created_at).toLocaleDateString()}</td>
+                    <td className="py-4 px-2">
+                      <span className="text-sm font-medium text-muted-foreground">—</span>
                     </td>
                     <td className="py-4 px-2">
                       <Badge className={getStatusColor(member.status)}>
@@ -563,8 +567,8 @@ const HilomeAdminDashboard = () => {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Membership Type</p>
-                <Badge variant="outline" className={getMembershipColor(selectedMember.membership)}>
-                  {selectedMember.membership}
+                <Badge variant="outline" className={getMembershipColor(selectedMember.membership_type)}>
+                  {selectedMember.membership_type}
                 </Badge>
               </div>
               <div>
@@ -573,25 +577,44 @@ const HilomeAdminDashboard = () => {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Phone</p>
-                <p className="text-sm">{selectedMember.phone}</p>
+                <p className="text-sm">{selectedMember.phone || '—'}</p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Join Date</p>
-                <p className="text-sm">{selectedMember.joinDate}</p>
+                <p className="text-sm">{new Date(selectedMember.created_at).toLocaleDateString()}</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Expiration Date</p>
-                <p className="text-sm">{selectedMember.expirationDate}</p>
+                <p className="text-xs text-muted-foreground">Status</p>
+                <Badge className={getStatusColor(selectedMember.status)}>
+                  {selectedMember.status}
+                </Badge>
               </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Days Remaining</p>
-                <p className={`font-medium ${selectedMember.daysRemaining <= 30 ? 'text-destructive' : 'text-green-600'}`}>
-                  {selectedMember.daysRemaining} days
+              <div className="col-span-2 border-t border-border pt-4 mt-2">
+                <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                  <CreditCard className="h-3 w-3" /> Payment Information
                 </p>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Payment Method</p>
+                    <p className="font-medium capitalize">
+                      {selectedMember.payment_method_type || '—'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Details</p>
+                    <p className="text-sm">{selectedMember.payment_method_details || '—'}</p>
+                  </div>
+                  {selectedMember.stripe_payment_intent_id && (
+                    <div className="col-span-2">
+                      <p className="text-xs text-muted-foreground">Transaction ID</p>
+                      <p className="text-xs font-mono text-muted-foreground">{selectedMember.stripe_payment_intent_id}</p>
+                    </div>
+                  )}
+                </div>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Total Paid</p>
-                <p className="font-medium">₱{selectedMember.totalPaid.toLocaleString()}</p>
+                <p className="text-xs text-muted-foreground">Membership Fee</p>
+                <p className="font-medium">₱{(membershipPrices[selectedMember.membership_type] || 0).toLocaleString()}</p>
               </div>
             </div>
           )}
