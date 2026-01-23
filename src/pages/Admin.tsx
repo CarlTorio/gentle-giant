@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft, History, Phone, CreditCard, Wallet, Gift, Copy, UserCheck, FileText, MessageSquare, RefreshCw } from 'lucide-react';
+import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft, History, Phone, CreditCard, Wallet, Gift, Copy, UserCheck, FileText, MessageSquare, RefreshCw, Receipt, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -135,13 +135,13 @@ const HilomeAdminDashboard = () => {
     }
   };
 
-  // Sample data for Members "For Confirmation"
+  // Sample data for Members "For Confirmation" - Stripe-ready fields included
   const pendingMembers = [
-    { id: '1', name: 'Elena Rodriguez', email: 'elena.rod@email.com', phone: '09171112233', membership_type: 'Gold', created_at: '2026-01-20', status: 'pending', payment_method: 'gcash', payment_status: 'paid', amount_paid: 19888 },
-    { id: '2', name: 'Mark Anthony Reyes', email: 'mark.reyes@email.com', phone: '09182223344', membership_type: 'Platinum', created_at: '2026-01-21', status: 'pending', payment_method: 'card', payment_status: 'paid', amount_paid: 38888 },
-    { id: '3', name: 'Patricia Lim', email: 'patricia.lim@email.com', phone: '09193334455', membership_type: 'Green', created_at: '2026-01-22', status: 'pending', payment_method: 'cash', payment_status: 'pending', amount_paid: null },
-    { id: '4', name: 'Roberto Santos', email: 'roberto.s@email.com', phone: '09204445566', membership_type: 'Gold', created_at: '2026-01-22', status: 'pending', payment_method: 'bank_transfer', payment_status: 'paid', amount_paid: 19888 },
-    { id: '5', name: 'Angela Cruz', email: 'angela.cruz@email.com', phone: '09215556677', membership_type: 'Green', created_at: '2026-01-23', status: 'pending', payment_method: 'gcash', payment_status: 'paid', amount_paid: 8888 },
+    { id: '1', name: 'Elena Rodriguez', email: 'elena.rod@email.com', phone: '09171112233', membership_type: 'Gold', created_at: '2026-01-20', status: 'pending', payment_method: 'gcash', payment_status: 'paid', amount_paid: 19888, stripe_payment_intent_id: null, stripe_receipt_url: null, stripe_charge_id: null },
+    { id: '2', name: 'Mark Anthony Reyes', email: 'mark.reyes@email.com', phone: '09182223344', membership_type: 'Platinum', created_at: '2026-01-21', status: 'pending', payment_method: 'card', payment_status: 'paid', amount_paid: 38888, stripe_payment_intent_id: 'pi_demo_123', stripe_receipt_url: 'https://pay.stripe.com/receipts/demo', stripe_charge_id: 'ch_demo_123' },
+    { id: '3', name: 'Patricia Lim', email: 'patricia.lim@email.com', phone: '09193334455', membership_type: 'Green', created_at: '2026-01-22', status: 'pending', payment_method: 'cash', payment_status: 'pending', amount_paid: null, stripe_payment_intent_id: null, stripe_receipt_url: null, stripe_charge_id: null },
+    { id: '4', name: 'Roberto Santos', email: 'roberto.s@email.com', phone: '09204445566', membership_type: 'Gold', created_at: '2026-01-22', status: 'pending', payment_method: 'bank_transfer', payment_status: 'paid', amount_paid: 19888, stripe_payment_intent_id: null, stripe_receipt_url: null, stripe_charge_id: null },
+    { id: '5', name: 'Angela Cruz', email: 'angela.cruz@email.com', phone: '09215556677', membership_type: 'Green', created_at: '2026-01-23', status: 'pending', payment_method: 'stripe', payment_status: 'paid', amount_paid: 8888, stripe_payment_intent_id: 'pi_demo_456', stripe_receipt_url: 'https://pay.stripe.com/receipts/demo2', stripe_charge_id: 'ch_demo_456' },
   ];
 
   // Sample data for Active Members
