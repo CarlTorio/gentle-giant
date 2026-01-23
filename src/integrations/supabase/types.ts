@@ -71,6 +71,9 @@ export type Database = {
           payment_status: string | null
           preferred_date: string
           preferred_time: string
+          stripe_customer_id: string | null
+          stripe_payment_intent_id: string | null
+          stripe_receipt_url: string | null
           updated_at: string
         }
         Insert: {
@@ -87,6 +90,9 @@ export type Database = {
           payment_status?: string | null
           preferred_date: string
           preferred_time: string
+          stripe_customer_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_receipt_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -103,6 +109,9 @@ export type Database = {
           payment_status?: string | null
           preferred_date?: string
           preferred_time?: string
+          stripe_customer_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_receipt_url?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -128,6 +137,7 @@ export type Database = {
           stripe_charge_id: string | null
           stripe_customer_id: string | null
           stripe_payment_intent_id: string | null
+          stripe_receipt_url: string | null
           transaction_type: string
           updated_at: string
         }
@@ -143,6 +153,7 @@ export type Database = {
           stripe_charge_id?: string | null
           stripe_customer_id?: string | null
           stripe_payment_intent_id?: string | null
+          stripe_receipt_url?: string | null
           transaction_type?: string
           updated_at?: string
         }
@@ -158,6 +169,7 @@ export type Database = {
           stripe_charge_id?: string | null
           stripe_customer_id?: string | null
           stripe_payment_intent_id?: string | null
+          stripe_receipt_url?: string | null
           transaction_type?: string
           updated_at?: string
         }
