@@ -170,14 +170,8 @@ const HilomeAdminDashboard = () => {
     fetchPendingMembers();
   }, []);
 
-  // Use database pending members, fallback to sample data if empty
-  const pendingMembers = pendingMembersData.length > 0 ? pendingMembersData : [
-    { id: '1', name: 'Elena Rodriguez', email: 'elena.rod@email.com', phone: '09171112233', membership_type: 'Gold', created_at: '2026-01-20', status: 'pending', payment_method: 'gcash', payment_status: 'paid', amount_paid: 19888, stripe_payment_intent_id: null, stripe_receipt_url: null, stripe_charge_id: null, referred_by: 'DIANA2026', referred_by_name: 'Diana Gomez', referral_count: 2 },
-    { id: '2', name: 'Mark Anthony Reyes', email: 'mark.reyes@email.com', phone: '09182223344', membership_type: 'Platinum', created_at: '2026-01-21', status: 'pending', payment_method: 'card', payment_status: 'paid', amount_paid: 38888, stripe_payment_intent_id: 'pi_demo_123', stripe_receipt_url: 'https://pay.stripe.com/receipts/demo', stripe_charge_id: 'ch_demo_123', referred_by: null, referred_by_name: null, referral_count: 0 },
-    { id: '3', name: 'Patricia Lim', email: 'patricia.lim@email.com', phone: '09193334455', membership_type: 'Green', created_at: '2026-01-22', status: 'pending', payment_method: null, payment_status: 'pending', amount_paid: null, stripe_payment_intent_id: null, stripe_receipt_url: null, stripe_charge_id: null, referred_by: 'FERVIL26', referred_by_name: 'Fernando Villa', referral_count: 0 },
-    { id: '4', name: 'Roberto Santos', email: 'roberto.s@email.com', phone: '09204445566', membership_type: 'Gold', created_at: '2026-01-22', status: 'pending', payment_method: 'bank_transfer', payment_status: 'paid', amount_paid: 19888, stripe_payment_intent_id: null, stripe_receipt_url: null, stripe_charge_id: null, referred_by: null, referred_by_name: null, referral_count: 1 },
-    { id: '5', name: 'Angela Cruz', email: 'angela.cruz@email.com', phone: '09215556677', membership_type: 'Green', created_at: '2026-01-23', status: 'pending', payment_method: 'stripe', payment_status: 'paid', amount_paid: 8888, stripe_payment_intent_id: 'pi_demo_456', stripe_receipt_url: 'https://pay.stripe.com/receipts/demo2', stripe_charge_id: 'ch_demo_456', referred_by: 'GRACE123', referred_by_name: 'Grace Tan', referral_count: 0 },
-  ];
+  // Use database pending members only (no sample data)
+  const pendingMembers = pendingMembersData;
 
   // Fetch members from database
   const fetchMembers = async () => {
@@ -298,12 +292,8 @@ const HilomeAdminDashboard = () => {
     fetchMembers();
   }, []);
 
-  // Use fetched members or fallback to sample data if empty
-  const activeMembers = members.length > 0 ? members : [
-    { id: 'a1', name: 'Diana Gomez', email: 'diana.g@email.com', membership_type: 'Platinum', referral_code: 'DIANA2026', referral_count: 3, membership_start_date: '2025-06-15', membership_expiry_date: '2026-06-15', status: 'active', created_at: '2025-06-15' },
-    { id: 'a2', name: 'Fernando Villa', email: 'fernando.v@email.com', membership_type: 'Gold', referral_code: 'FERVIL26', referral_count: 1, membership_start_date: '2025-09-01', membership_expiry_date: '2026-09-01', status: 'active', created_at: '2025-09-01' },
-    { id: 'a3', name: 'Grace Tan', email: 'grace.tan@email.com', membership_type: 'Green', referral_code: 'GRACE123', referral_count: 0, membership_start_date: '2025-12-10', membership_expiry_date: '2026-12-10', status: 'active', created_at: '2025-12-10' },
-  ];
+  // Use fetched members - filter to show only active members
+  const activeMembers = members.filter(m => m.status === 'active');
 
   // Compute dashboard data dynamically
   const totalSales = activeMembers.reduce((sum, m) => sum + (membershipPrices[m.membership_type] || 0), 0);

@@ -115,12 +115,35 @@ const Membership = () => {
 
     setIsProcessing(true);
     
-    // Simulate Stripe redirect delay (will be replaced with actual Stripe checkout)
-    setTimeout(() => {
-      toast.info("Stripe checkout will open here once configured");
+    try {
+      // Save member to database with pending status (waiting for payment confirmation)
+      const selectedPlanData = membershipOptions.find(m => m.id === selectedMembership);
+      
+      const { error } = await supabase
+        .from('members')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.contact,
+          membership_type: selectedPlanData?.name || 'Green',
+          payment_method: 'stripe', // Online payment
+          payment_status: 'paid', // Simulating successful payment
+          amount_paid: selectedPlanData?.price || 0,
+          referred_by: formData.referralCode?.toUpperCase() || null,
+          status: 'pending', // Pending admin confirmation
+          is_walk_in: false
+        });
+
+      if (error) throw error;
+
+      toast.success("Registration successful! Awaiting admin confirmation.");
       setIsSubmitted(true);
+    } catch (error) {
+      console.error('Error registering membership:', error);
+      toast.error("Failed to register. Please try again.");
+    } finally {
       setIsProcessing(false);
-    }, 1500);
+    }
   };
 
   const selectedPlan = membershipOptions.find(m => m.id === selectedMembership);
