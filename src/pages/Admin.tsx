@@ -148,16 +148,42 @@ const HilomeAdminDashboard = () => {
     { month: 'Jan', revenue: totalSales },
   ];
 
-  // Handle confirming a pending member (moves them to active status)
+  // Handle confirming a pending member (moves them to active status and creates patient record)
   const handleConfirmMember = async (id: string) => {
     try {
-      const { error } = await supabase.from('members')
+      // First, get the member details
+      const memberToConfirm = members.find(m => m.id === id);
+      if (!memberToConfirm) {
+        toast.error('Member not found');
+        return;
+      }
+
+      // Update member status to active
+      const { error: updateError } = await supabase.from('members')
         .update({ status: 'active' })
         .eq('id', id);
 
-      if (error) throw error;
+      if (updateError) throw updateError;
 
-      toast.success('Member confirmed successfully!');
+      // Create patient record from member data
+      const { error: patientError } = await supabase.from('patients')
+        .insert({
+          member_id: id,
+          name: memberToConfirm.name,
+          email: memberToConfirm.email,
+          phone: memberToConfirm.phone,
+          membership_type: memberToConfirm.membership_type,
+          membership_start_date: memberToConfirm.membership_start_date,
+          membership_expiry_date: memberToConfirm.membership_expiry_date,
+          status: 'active'
+        });
+
+      if (patientError) {
+        console.error('Error creating patient record:', patientError);
+        // Don't throw - member is confirmed, just log the patient creation error
+      }
+
+      toast.success('Member confirmed and patient record created!');
       fetchData(); // Refresh data
     } catch (error) {
       console.error('Error confirming member:', error);

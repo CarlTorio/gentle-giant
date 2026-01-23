@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { Check, Sparkles, ArrowLeft, CreditCard, Shield, Lock } from "lucide-react";
+import { Check, Sparkles, ArrowLeft, CreditCard, Shield, Lock, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { z } from "zod";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const membershipOptions = [{
   id: "green",
@@ -44,7 +45,8 @@ const formSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   contact: z.string().trim().min(1, "Contact number is required").max(20, "Contact number is too long"),
   email: z.string().trim().email("Please enter a valid email address").max(255, "Email is too long"),
-  membership: z.string().min(1, "Please select a membership plan")
+  membership: z.string().min(1, "Please select a membership plan"),
+  referralCode: z.string().max(6, "Referral code must be 6 characters").optional()
 });
 
 const Membership = () => {
@@ -55,7 +57,8 @@ const Membership = () => {
   const [formData, setFormData] = useState({
     name: "",
     contact: "",
-    email: ""
+    email: "",
+    referralCode: ""
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [membershipId] = useState(() => `HLM-${Date.now().toString(36).toUpperCase()}`);
@@ -78,7 +81,8 @@ const Membership = () => {
     e.preventDefault();
     const dataToValidate = {
       ...formData,
-      membership: selectedMembership
+      membership: selectedMembership,
+      referralCode: formData.referralCode || undefined
     };
     const result = formSchema.safeParse(dataToValidate);
     if (!result.success) {
@@ -91,6 +95,22 @@ const Membership = () => {
       setErrors(newErrors);
       toast.error("Please fill in all required fields correctly");
       return;
+    }
+
+    // Validate referral code if provided
+    if (formData.referralCode && formData.referralCode.length > 0) {
+      const { data: existingMember, error } = await supabase
+        .from('members')
+        .select('id, referral_code')
+        .eq('referral_code', formData.referralCode.toUpperCase())
+        .eq('status', 'active')
+        .maybeSingle();
+      
+      if (error || !existingMember) {
+        setErrors(prev => ({ ...prev, referralCode: "Invalid referral code" }));
+        toast.error("The referral code you entered is invalid");
+        return;
+      }
     }
 
     setIsProcessing(true);
@@ -121,9 +141,9 @@ const Membership = () => {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"
+                className="w-20 h-20 bg-green-100/50 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6"
               >
-                <Check className="w-10 h-10 text-green-600" />
+                <Check className="w-10 h-10 text-green-600 dark:text-green-400" />
               </motion.div>
               
               <h1 className="font-display text-2xl md:text-3xl font-semibold text-foreground mb-2">
@@ -167,11 +187,11 @@ const Membership = () => {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Amount Paid</span>
-                    <span className="font-semibold text-green-600">{selectedPlan?.priceDisplay}</span>
+                    <span className="font-semibold text-green-600 dark:text-green-400">{selectedPlan?.priceDisplay}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Status</span>
-                    <span className="inline-flex items-center gap-1 text-green-600 font-medium">
+                    <span className="inline-flex items-center gap-1 text-green-600 dark:text-green-400 font-medium">
                       <Check className="w-3 h-3" /> Active
                     </span>
                   </div>
@@ -258,7 +278,7 @@ const Membership = () => {
                   <div className="grid md:grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <Label htmlFor="name" className="text-xs font-medium">
-                        Full Name <span className="text-red-500">*</span>
+                        Full Name <span className="text-destructive">*</span>
                       </Label>
                       <Input
                         id="name"
@@ -266,14 +286,14 @@ const Membership = () => {
                         placeholder="Enter your full name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className={`h-9 text-sm ${errors.name ? "border-red-500" : ""}`}
+                        className={`h-9 text-sm ${errors.name ? "border-destructive" : ""}`}
                       />
-                      {errors.name && <p className="text-[10px] text-red-500">{errors.name}</p>}
+                      {errors.name && <p className="text-[10px] text-destructive">{errors.name}</p>}
                     </div>
                     
                     <div className="space-y-1">
                       <Label htmlFor="contact" className="text-xs font-medium">
-                        Contact Number <span className="text-red-500">*</span>
+                        Contact Number <span className="text-destructive">*</span>
                       </Label>
                       <Input
                         id="contact"
@@ -281,14 +301,14 @@ const Membership = () => {
                         placeholder="Enter your contact number"
                         value={formData.contact}
                         onChange={handleInputChange}
-                        className={`h-9 text-sm ${errors.contact ? "border-red-500" : ""}`}
+                        className={`h-9 text-sm ${errors.contact ? "border-destructive" : ""}`}
                       />
-                      {errors.contact && <p className="text-[10px] text-red-500">{errors.contact}</p>}
+                      {errors.contact && <p className="text-[10px] text-destructive">{errors.contact}</p>}
                     </div>
                     
                     <div className="space-y-1 md:col-span-2">
                       <Label htmlFor="email" className="text-xs font-medium">
-                        Email Address <span className="text-red-500">*</span>
+                        Email Address <span className="text-destructive">*</span>
                       </Label>
                       <Input
                         id="email"
@@ -297,10 +317,29 @@ const Membership = () => {
                         placeholder="Enter your email address"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`h-9 text-sm ${errors.email ? "border-red-500" : ""}`}
+                        className={`h-9 text-sm ${errors.email ? "border-destructive" : ""}`}
                       />
-                      {errors.email && <p className="text-[10px] text-red-500">{errors.email}</p>}
+                      {errors.email && <p className="text-[10px] text-destructive">{errors.email}</p>}
                       <p className="text-[10px] text-muted-foreground">Confirmation will be sent to this email</p>
+                    </div>
+                    
+                    {/* Referral Code */}
+                    <div className="space-y-1 md:col-span-2">
+                      <Label htmlFor="referralCode" className="text-xs font-medium flex items-center gap-1.5">
+                        <Gift className="w-3 h-3 text-accent" />
+                        Referral Code <span className="text-muted-foreground">(optional)</span>
+                      </Label>
+                      <Input
+                        id="referralCode"
+                        name="referralCode"
+                        placeholder="Enter a 6-character referral code"
+                        value={formData.referralCode}
+                        onChange={handleInputChange}
+                        maxLength={6}
+                        className={`h-9 text-sm uppercase ${errors.referralCode ? "border-destructive" : ""}`}
+                      />
+                      {errors.referralCode && <p className="text-[10px] text-destructive">{errors.referralCode}</p>}
+                      <p className="text-[10px] text-muted-foreground">Get this code from an existing Hilomè member</p>
                     </div>
                   </div>
                 </motion.div>
@@ -313,13 +352,13 @@ const Membership = () => {
                   className="bg-card rounded-xl p-4 md:p-5 shadow-md border border-border/50"
                 >
                   <h2 className="font-display text-base font-semibold text-foreground mb-1">
-                    Choose Your Membership <span className="text-red-500">*</span>
+                    Choose Your Membership <span className="text-destructive">*</span>
                   </h2>
                   <p className="text-muted-foreground text-xs mb-4">
                     Select the tier that best suits your wellness journey
                   </p>
                   
-                  {errors.membership && <p className="text-xs text-red-500 mb-4">{errors.membership}</p>}
+                  {errors.membership && <p className="text-xs text-destructive mb-4">{errors.membership}</p>}
 
                   <RadioGroup
                     value={selectedMembership}
@@ -485,7 +524,7 @@ const OrderSummary = ({ selectedPlan, isProcessing, onPayNow, isMobile }: OrderS
               <span className="text-muted-foreground">Subtotal</span>
               <span>₱{selectedPlan.price.toLocaleString()}</span>
             </div>
-            <div className="flex justify-between text-green-600">
+            <div className="flex justify-between text-green-600 dark:text-green-400">
               <span>Discount</span>
               <span>₱0</span>
             </div>

@@ -74,6 +74,7 @@ export type Database = {
           stripe_customer_id: string | null
           stripe_payment_intent_id: string | null
           updated_at: string
+          used_referral_code: string | null
         }
         Insert: {
           created_at?: string
@@ -92,6 +93,7 @@ export type Database = {
           stripe_customer_id?: string | null
           stripe_payment_intent_id?: string | null
           updated_at?: string
+          used_referral_code?: string | null
         }
         Update: {
           created_at?: string
@@ -110,6 +112,7 @@ export type Database = {
           stripe_customer_id?: string | null
           stripe_payment_intent_id?: string | null
           updated_at?: string
+          used_referral_code?: string | null
         }
         Relationships: []
       }
@@ -145,6 +148,71 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      patients: {
+        Row: {
+          address: string | null
+          created_at: string
+          date_of_birth: string | null
+          email: string
+          emergency_contact: string | null
+          gender: string | null
+          id: string
+          last_visit: string | null
+          member_id: string | null
+          membership_expiry_date: string | null
+          membership_start_date: string | null
+          membership_type: string | null
+          name: string
+          phone: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email: string
+          emergency_contact?: string | null
+          gender?: string | null
+          id?: string
+          last_visit?: string | null
+          member_id?: string | null
+          membership_expiry_date?: string | null
+          membership_start_date?: string | null
+          membership_type?: string | null
+          name: string
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string
+          emergency_contact?: string | null
+          gender?: string | null
+          id?: string
+          last_visit?: string | null
+          member_id?: string | null
+          membership_expiry_date?: string | null
+          membership_start_date?: string | null
+          membership_type?: string | null
+          name?: string
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patients_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
