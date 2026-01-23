@@ -240,6 +240,9 @@ const BookConsultation = () => {
                   <select name="preferredBranch" value={formData.preferredBranch} onChange={handleChange} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground py-2 px-0 focus:outline-none focus:border-accent transition-colors cursor-pointer text-sm" style={{
                   color: formData.preferredBranch ? "hsl(var(--primary-foreground))" : "hsl(var(--primary-foreground) / 0.5)"
                 }}>
+                    <option value="" disabled className="bg-primary text-primary-foreground/50">
+                      Select membership status
+                    </option>
                     {memberships.map((membership, index) => <option key={index} value={membership} className="bg-primary text-primary-foreground">
                         {membership}
                       </option>)}
