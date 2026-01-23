@@ -88,14 +88,26 @@ const HilomeAdminDashboard = () => {
     fetchData();
   }, []);
 
-  // Placeholder member arrays (requires members table)
-  const pendingMembers: any[] = [];
-  const activeMembers: any[] = [];
+  // Sample data for Members "For Confirmation"
+  const pendingMembers = [
+    { id: '1', name: 'Elena Rodriguez', email: 'elena.rod@email.com', phone: '09171112233', membership_type: 'Gold', created_at: '2026-01-20', status: 'pending' },
+    { id: '2', name: 'Mark Anthony Reyes', email: 'mark.reyes@email.com', phone: '09182223344', membership_type: 'Platinum', created_at: '2026-01-21', status: 'pending' },
+    { id: '3', name: 'Patricia Lim', email: 'patricia.lim@email.com', phone: '09193334455', membership_type: 'Green', created_at: '2026-01-22', status: 'pending' },
+    { id: '4', name: 'Roberto Santos', email: 'roberto.s@email.com', phone: '09204445566', membership_type: 'Gold', created_at: '2026-01-22', status: 'pending' },
+    { id: '5', name: 'Angela Cruz', email: 'angela.cruz@email.com', phone: '09215556677', membership_type: 'Green', created_at: '2026-01-23', status: 'pending' },
+  ];
 
-  // Compute dashboard data dynamically (simplified - no members table yet)
-  const totalSales = 0;
-  const totalMembers = 0;
-  const pendingConfirmations = 0;
+  // Sample data for Active Members
+  const activeMembers = [
+    { id: 'a1', name: 'Diana Gomez', email: 'diana.g@email.com', membership_type: 'Platinum', referral_code: 'DIANA2026', referral_count: 3, membership_start_date: '2025-06-15', membership_expiry_date: '2026-06-15', status: 'active', created_at: '2025-06-15' },
+    { id: 'a2', name: 'Fernando Villa', email: 'fernando.v@email.com', membership_type: 'Gold', referral_code: 'FERVIL26', referral_count: 1, membership_start_date: '2025-09-01', membership_expiry_date: '2026-09-01', status: 'active', created_at: '2025-09-01' },
+    { id: 'a3', name: 'Grace Tan', email: 'grace.tan@email.com', membership_type: 'Green', referral_code: 'GRACE123', referral_count: 0, membership_start_date: '2025-12-10', membership_expiry_date: '2026-12-10', status: 'active', created_at: '2025-12-10' },
+  ];
+
+  // Compute dashboard data dynamically
+  const totalSales = activeMembers.reduce((sum, m) => sum + (membershipPrices[m.membership_type] || 0), 0);
+  const totalMembers = activeMembers.length;
+  const pendingConfirmations = pendingMembers.length;
   const activeBookings = bookings.length;
 
   // Compute membership distribution (placeholder data)
