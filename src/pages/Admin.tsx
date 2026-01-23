@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft, History, Phone, CreditCard, Wallet, Gift, Copy, UserCheck, FileText } from 'lucide-react';
+import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft, History, Phone, CreditCard, Wallet, Gift, Copy, UserCheck, FileText, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,6 +22,7 @@ const HilomeAdminDashboard = () => {
   const [selectedMember, setSelectedMember] = useState<any>(null);
   const [showBookingHistory, setShowBookingHistory] = useState(false);
   const [showForConfirmation, setShowForConfirmation] = useState(false);
+  const [selectedBookingMessage, setSelectedBookingMessage] = useState<{name: string; message: string} | null>(null);
 
   const membershipPrices: Record<string, number> = {
     Green: 8888,
@@ -438,6 +439,17 @@ const HilomeAdminDashboard = () => {
                           <FileText className="h-4 w-4" />
                           {addedToRecord.has(booking.id) ? "Added to Record" : "Add to Record"}
                         </Button>
+                        {booking.message && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="gap-2"
+                            onClick={() => setSelectedBookingMessage({ name: booking.name, message: booking.message! })}
+                          >
+                            <MessageSquare className="h-4 w-4" />
+                            Message
+                          </Button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -448,6 +460,23 @@ const HilomeAdminDashboard = () => {
         </CardContent>
       </Card>
     </div>
+  );
+
+  // Message dialog for bookings
+  const renderMessageDialog = () => (
+    <Dialog open={!!selectedBookingMessage} onOpenChange={() => setSelectedBookingMessage(null)}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle className="font-display text-lg">Message from {selectedBookingMessage?.name}</DialogTitle>
+        </DialogHeader>
+        <div className="p-4 bg-muted/50 rounded-lg">
+          <p className="text-foreground">{selectedBookingMessage?.message}</p>
+        </div>
+        <div className="flex justify-end">
+          <Button onClick={() => setSelectedBookingMessage(null)}>Close</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 
 
@@ -838,6 +867,9 @@ const HilomeAdminDashboard = () => {
         {activeTab === 'bookings' && renderBookings()}
         {activeTab === 'members' && renderMembers()}
       </main>
+
+      {/* Message Dialog */}
+      {renderMessageDialog()}
     </div>
   );
 };
