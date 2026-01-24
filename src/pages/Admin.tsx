@@ -476,52 +476,16 @@ const HilomeAdminDashboard = () => {
         }
       }
 
-      // Automatically create patient record for the confirmed member with member_id link
-      if (member) {
-        // First check if patient with this email already exists
-        const { data: existingPatient } = await supabase
-          .from('patient_records')
-          .select('id')
-          .eq('email', member.email.toLowerCase().trim())
-          .maybeSingle();
-
-        if (existingPatient) {
-          // Update existing patient with member link
-          await supabase
-            .from('patient_records')
-            .update({
-              member_id: id,
-              membership: member.membership_type,
-              membership_join_date: new Date().toISOString().split('T')[0],
-              membership_expiry_date: expiryDate.toISOString().split('T')[0],
-              membership_status: 'active',
-            })
-            .eq('id', existingPatient.id);
-        } else {
-          // Create new patient record
-          const { error: patientError } = await supabase
-            .from('patient_records')
-            .insert({
-              name: member.name,
-              email: member.email.toLowerCase().trim(),
-              contact_number: member.phone || null,
-              membership: member.membership_type,
-              member_id: id,
-              source: 'membership',
-              membership_join_date: new Date().toISOString().split('T')[0],
-              membership_expiry_date: expiryDate.toISOString().split('T')[0],
-              membership_status: 'active',
-            });
-
-          if (patientError) {
-            console.error('Error creating patient record:', patientError);
-          }
-        }
-      }
+      // Note: Patient record is now created/updated automatically by the database trigger
+      // when member status changes to 'active'
 
       toast.success(`${member?.name || 'Member'} confirmed successfully!`);
       fetchPendingMembers();
       fetchMembers();
+      
+      // Navigate to Members tab to show the confirmed member
+      setActiveTab('members');
+      setShowForConfirmation(false);
     } catch (error) {
       console.error('Error confirming member:', error);
       toast.error('Failed to confirm member');
