@@ -1,9 +1,11 @@
-import React from 'react';
-import { ArrowLeft, Copy, CreditCard, Gift, History } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, Copy, CreditCard, Gift, History, Trash2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import MemberBenefitsSection from '@/components/MemberBenefitsSection';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 interface MemberDetailsViewProps {
@@ -29,9 +31,32 @@ const MemberDetailsView: React.FC<MemberDetailsViewProps> = ({
   getPaymentMethodLabel,
   onUpdate
 }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast.success('Referral code copied!');
+  };
+
+  const handleDeleteMember = async () => {
+    setIsDeleting(true);
+    try {
+      const { error } = await supabase
+        .from('members')
+        .delete()
+        .eq('id', member.id);
+
+      if (error) throw error;
+
+      toast.success(`${member.name} has been deleted`);
+      onBack();
+      onUpdate();
+    } catch (error) {
+      console.error('Error deleting member:', error);
+      toast.error('Failed to delete member');
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -48,6 +73,28 @@ const MemberDetailsView: React.FC<MemberDetailsViewProps> = ({
         <Badge variant="outline" className={`ml-auto ${getMembershipColor(member.membership_type)}`}>
           {member.membership_type} Member
         </Badge>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive" size="sm" className="gap-2" disabled={isDeleting}>
+              {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              Delete
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete Member</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to delete <strong>{member.name}</strong>? This will remove their membership record and cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDeleteMember} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

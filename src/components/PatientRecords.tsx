@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Download, Eye, User, ArrowLeft, Loader2, Plus, Edit2, Save, X } from 'lucide-react';
+import { Search, Download, Eye, User, ArrowLeft, Loader2, Plus, Edit2, Save, X, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import type { Json } from '@/integrations/supabase/types';
@@ -50,6 +51,7 @@ const PatientRecords = () => {
   const [editedPatient, setEditedPatient] = useState<Patient | null>(null);
   const [newMedicalNote, setNewMedicalNote] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const fetchPatients = async () => {
     setIsLoading(true);
@@ -276,6 +278,37 @@ const PatientRecords = () => {
     }
   };
 
+  const handleDeletePatient = async () => {
+    if (!selectedPatient) return;
+    
+    setIsDeleting(true);
+    try {
+      const { error } = await supabase
+        .from('patient_records')
+        .delete()
+        .eq('id', selectedPatient.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Patient record deleted successfully",
+      });
+      
+      closeDetail();
+      fetchPatients();
+    } catch (error) {
+      console.error('Error deleting patient:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete patient record",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const filteredPatients = patients.filter(p =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (p.contact_number || '').includes(searchTerm) ||
@@ -316,14 +349,42 @@ const PatientRecords = () => {
                 </Button>
               </>
             ) : (
-              <Button
-                variant="outline"
-                onClick={handleEditToggle}
-                className="gap-2"
-              >
-                <Edit2 className="h-4 w-4" />
-                Edit
-              </Button>
+              <>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      className="gap-2"
+                      disabled={isDeleting}
+                    >
+                      {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+                      Delete
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete Patient Record</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete the record for <strong>{selectedPatient.name}</strong>? This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleDeletePatient} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                <Button
+                  variant="outline"
+                  onClick={handleEditToggle}
+                  className="gap-2"
+                >
+                  <Edit2 className="h-4 w-4" />
+                  Edit
+                </Button>
+              </>
             )}
           </div>
         </div>
