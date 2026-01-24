@@ -77,7 +77,7 @@ const Header = () => {
             <motion.button
               onClick={handleLogoClick}
               onDoubleClick={() => navigate('/admin')}
-              className="flex items-center ml-12 md:ml-24"
+              className="flex items-center ml-2 md:ml-24"
               whileHover={{ scale: 1.02 }}
             >
               <img
@@ -116,7 +116,7 @@ const Header = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="md:hidden mr-2 text-foreground"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
