@@ -38,11 +38,11 @@ const FeaturedServices = () => {
   const lastTimeRef = useRef(Date.now());
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Card width calculation (each card is ~33% of container + gap)
-  const cardWidth = 140; // approximate width per card including gap
+  // Card width calculation - bigger cards now
+  const cardWidth = 200; // width per card including gap
   const totalWidth = services.length * cardWidth;
 
-  // Auto-scroll animation for mobile
+  // Auto-scroll animation for mobile - continuous infinite scroll
   useEffect(() => {
     if (!isMobile) return;
 
@@ -53,10 +53,10 @@ const FeaturedServices = () => {
         lastTimeRef.current = now;
         
         setTranslateX(prev => {
-          const newValue = prev - 40 * delta;
-          // Reset when we've scrolled past the first set
+          const newValue = prev - 50 * delta; // Slightly faster
+          // Seamlessly reset without visual jump
           if (Math.abs(newValue) >= totalWidth) {
-            return newValue + totalWidth;
+            return newValue % totalWidth;
           }
           return newValue;
         });
@@ -115,7 +115,7 @@ const FeaturedServices = () => {
         {duplicatedServices.map((service, index) => (
           <div 
             key={`${service.title}-${index}`}
-            className="flex-shrink-0 w-[130px] group relative overflow-hidden rounded-lg aspect-[4/5]"
+            className="flex-shrink-0 w-[180px] group relative overflow-hidden rounded-lg aspect-[4/5]"
           >
             <img 
               src={service.image} 
@@ -128,11 +128,11 @@ const FeaturedServices = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/50 via-25% to-transparent to-50%" />
             
             {/* Text content */}
-            <div className="absolute bottom-0 left-0 right-0 p-3 text-accent-foreground">
-              <h3 className="font-display text-sm font-semibold mb-0.5 leading-tight">
+            <div className="absolute bottom-0 left-0 right-0 p-4 text-accent-foreground">
+              <h3 className="font-display text-base font-semibold mb-1 leading-tight">
                 {service.title}
               </h3>
-              <p className="text-accent-foreground/80 text-[10px] leading-relaxed line-clamp-2">
+              <p className="text-accent-foreground/80 text-xs leading-relaxed line-clamp-2">
                 {service.description}
               </p>
             </div>
