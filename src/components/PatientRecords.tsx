@@ -390,20 +390,20 @@ const PatientRecords = () => {
         </div>
 
         <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
-          <CardContent className="p-4 sm:p-5">
-            <h2 className="font-display text-lg font-semibold text-center mb-4 border-b pb-3">
+          <CardContent className="p-6">
+            <h2 className="font-display text-xl font-semibold text-center mb-6 border-b pb-4">
               Full Record
             </h2>
 
             {/* Personal Info & Contacts Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               {/* Personal Info */}
-              <div className="border-r-0 md:border-r border-border/50 pr-0 md:pr-4">
-                <h3 className="font-medium text-foreground mb-2 flex items-center gap-2 text-sm">
+              <div className="border-r-0 md:border-r border-border/50 pr-0 md:pr-6">
+                <h3 className="font-medium text-foreground mb-4 flex items-center gap-2">
                   <User className="h-4 w-4" />
                   Personal Info
                 </h3>
-                <div className="space-y-1.5">
+                <div className="space-y-3">
                   <div className="grid grid-cols-3 gap-2">
                     <span className="text-sm text-muted-foreground">Name:</span>
                     <span className="text-sm col-span-2">
@@ -468,8 +468,8 @@ const PatientRecords = () => {
 
               {/* Contacts */}
               <div>
-                <h3 className="font-medium text-foreground mb-2 text-sm">Contacts</h3>
-                <div className="space-y-1.5">
+                <h3 className="font-medium text-foreground mb-4">Contacts</h3>
+                <div className="space-y-3">
                   <div className="grid grid-cols-3 gap-2">
                     <span className="text-sm text-muted-foreground">Mobile No.:</span>
                     <span className="text-sm col-span-2">
@@ -477,7 +477,7 @@ const PatientRecords = () => {
                         <Input
                           value={editedPatient.contact_number}
                           onChange={(e) => handleInputChange('contact_number', e.target.value)}
-                          className="h-7"
+                          className="h-8"
                         />
                       ) : (
                         editedPatient.contact_number || ''
@@ -492,7 +492,7 @@ const PatientRecords = () => {
                           type="email"
                           value={editedPatient.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="h-7"
+                          className="h-8"
                         />
                       ) : (
                         editedPatient.email
@@ -500,13 +500,13 @@ const PatientRecords = () => {
                     </span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
-                    <span className="text-sm text-muted-foreground">Emergency:</span>
+                    <span className="text-sm text-muted-foreground">Emergency Contact:</span>
                     <span className="text-sm col-span-2">
                       {isEditing ? (
                         <Input
                           value={editedPatient.emergency_contact || ''}
                           onChange={(e) => handleInputChange('emergency_contact', e.target.value)}
-                          className="h-7"
+                          className="h-8"
                         />
                       ) : (
                         editedPatient.emergency_contact || ''
@@ -517,31 +517,31 @@ const PatientRecords = () => {
               </div>
             </div>
 
-            <Separator className="my-4" />
+            <Separator className="my-6" />
 
             {/* Membership Section */}
-            <div className="mb-4">
-              <h3 className="font-medium text-foreground mb-2 text-center text-sm">Membership</h3>
+            <div className="mb-6">
+              <h3 className="font-medium text-foreground mb-4 text-center">Membership</h3>
               {editedPatient.is_member && editedPatient.membership ? (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-border">
-                        <th className="text-center py-1.5 px-2 font-medium text-muted-foreground text-xs">Membership</th>
-                        <th className="text-center py-1.5 px-2 font-medium text-muted-foreground text-xs">Join Date</th>
-                        <th className="text-center py-1.5 px-2 font-medium text-muted-foreground text-xs">Expiration</th>
-                        <th className="text-center py-1.5 px-2 font-medium text-muted-foreground text-xs">Days Left</th>
-                        <th className="text-center py-1.5 px-2 font-medium text-muted-foreground text-xs">Status</th>
+                        <th className="text-center py-2 px-3 font-medium text-muted-foreground">Membership</th>
+                        <th className="text-center py-2 px-3 font-medium text-muted-foreground">Join Date</th>
+                        <th className="text-center py-2 px-3 font-medium text-muted-foreground">Expiration</th>
+                        <th className="text-center py-2 px-3 font-medium text-muted-foreground">Days Left</th>
+                        <th className="text-center py-2 px-3 font-medium text-muted-foreground">Status</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td className="text-center py-2 px-2">
+                        <td className="text-center py-3 px-3">
                           {isEditing ? (
                             <Input
                               value={editedPatient.membership || ''}
                               onChange={(e) => handleInputChange('membership', e.target.value)}
-                              className="h-7 text-center"
+                              className="h-8 text-center"
                             />
                           ) : (
                             <Badge className={getMembershipColor(editedPatient.membership)}>
@@ -549,43 +549,43 @@ const PatientRecords = () => {
                             </Badge>
                           )}
                         </td>
-                        <td className="text-center py-2 px-2 text-xs">
+                        <td className="text-center py-3 px-3">
                           {isEditing ? (
                             <Input
                               type="date"
                               value={editedPatient.membership_join_date?.split('T')[0] || ''}
                               onChange={(e) => handleInputChange('membership_join_date', e.target.value)}
-                              className="h-7"
+                              className="h-8"
                             />
                           ) : (
                             formatShortDate(editedPatient.membership_join_date)
                           )}
                         </td>
-                        <td className="text-center py-2 px-2 text-xs">
+                        <td className="text-center py-3 px-3">
                           {isEditing ? (
                             <Input
                               type="date"
                               value={editedPatient.membership_expiry_date?.split('T')[0] || ''}
                               onChange={(e) => handleInputChange('membership_expiry_date', e.target.value)}
-                              className="h-7"
+                              className="h-8"
                             />
                           ) : (
                             formatShortDate(editedPatient.membership_expiry_date)
                           )}
                         </td>
-                        <td className="text-center py-2 px-2 text-xs">
+                        <td className="text-center py-3 px-3">
                           {calculateDaysLeft(editedPatient.membership_expiry_date)}
                         </td>
-                        <td className="text-center py-2 px-2">
+                        <td className="text-center py-3 px-3">
                           {isEditing ? (
                             <Input
                               value={editedPatient.membership_status || ''}
                               onChange={(e) => handleInputChange('membership_status', e.target.value)}
                               placeholder="Active"
-                              className="h-7 text-center"
+                              className="h-8 text-center"
                             />
                           ) : (
-                            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
+                            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                               {editedPatient.membership_status || 'Active'}
                             </Badge>
                           )}
@@ -595,66 +595,66 @@ const PatientRecords = () => {
                   </table>
                 </div>
               ) : (
-                <div className="text-center py-2">
-                  <Badge variant="outline" className="bg-muted text-muted-foreground border-muted-foreground/30 text-xs">
+                <div className="text-center py-4">
+                  <Badge variant="outline" className="bg-muted text-muted-foreground border-muted-foreground/30">
                     Non-member
                   </Badge>
                 </div>
               )}
             </div>
 
-            <Separator className="my-4" />
+            <Separator className="my-6" />
 
             {/* Medical Records Section */}
             <div>
-              <h3 className="font-medium text-foreground mb-3 text-center text-sm">Medical Records</h3>
+              <h3 className="font-medium text-foreground mb-4 text-center">Medical Records</h3>
               
               {/* Timeline of medical records */}
-              <div className="space-y-3 mb-4">
+              <div className="space-y-4 mb-6">
                 {editedPatient.medical_records.length > 0 ? (
                   editedPatient.medical_records.map((record) => (
-                    <div key={record.id} className="flex gap-3 items-start">
+                    <div key={record.id} className="flex gap-4 items-start">
                       <div className="flex flex-col items-center">
-                        <div className="w-2.5 h-2.5 rounded-full bg-primary border-2 border-primary" />
-                        <div className="w-0.5 h-full bg-border flex-1 min-h-[16px]" />
+                        <div className="w-3 h-3 rounded-full bg-primary border-2 border-primary" />
+                        <div className="w-0.5 h-full bg-border flex-1 min-h-[20px]" />
                       </div>
-                      <div className="flex-1 pb-2">
+                      <div className="flex-1 pb-4">
                         <p className="text-xs text-muted-foreground mb-1">
                           {formatDate(record.date)}
                         </p>
-                        <div className="bg-muted/50 rounded-lg p-2 border border-border/50">
-                          <p className="text-xs">{record.notes}</p>
+                        <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                          <p className="text-sm">{record.notes}</p>
                         </div>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p className="text-xs text-muted-foreground text-center py-2">
+                  <p className="text-sm text-muted-foreground text-center py-4">
                     No medical records yet
                   </p>
                 )}
               </div>
 
               {/* Add new medical record */}
-              <div className="border-t border-border/50 pt-3">
-                <div className="flex items-start gap-3">
+              <div className="border-t border-border/50 pt-4">
+                <div className="flex items-start gap-4">
                   <div className="flex flex-col items-center">
                     <Plus className="h-4 w-4 text-muted-foreground" />
                   </div>
-                  <div className="flex-1 space-y-2">
+                  <div className="flex-1 space-y-3">
                     <Textarea
                       placeholder="Add notes about patient visit or recent treatment..."
                       value={newMedicalNote}
                       onChange={(e) => setNewMedicalNote(e.target.value)}
-                      className="min-h-[60px] text-sm"
+                      className="min-h-[80px]"
                     />
                     <Button
                       onClick={handleAddMedicalRecord}
                       disabled={!newMedicalNote.trim() || isSaving}
                       size="sm"
-                      className="gap-2 h-8"
+                      className="gap-2"
                     >
-                      {isSaving ? <Loader2 className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
+                      {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
                       Add
                     </Button>
                   </div>
