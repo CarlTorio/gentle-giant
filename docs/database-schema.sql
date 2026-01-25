@@ -1,9 +1,9 @@
 -- ===========================================================================
 -- HILOMÈ CLINIC DATABASE SCHEMA
 -- Consolidated from supabase/migrations/
--- Generated: 2026-01-25
+-- Last Updated: 2026-01-25
 -- ===========================================================================
--- Migration History (28 files):
+-- Migration History (29 files):
 -- 1. 20260114155747 - Initial bookings, membership_applications, members tables
 -- 2. 20260114173526 - Recreate with TEXT date columns
 -- 3. 20260122063913 - Simplified schema with public access
@@ -32,6 +32,7 @@
 -- 26. 20260124183447 - Update policy for anon on members
 -- 27. 20260124183905 - Delete policies for anon
 -- 28. 20260124190158 - Final consolidated schema with seed data
+-- 29. 20260125060308 - Schema verification and sync
 -- ===========================================================================
 
 
