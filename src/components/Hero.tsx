@@ -42,7 +42,7 @@ const Hero = () => {
             </p>
           </motion.div>
 
-          <motion.p initial={{
+        <motion.p initial={{
           opacity: 0,
           y: 30
         }} animate={{
@@ -51,7 +51,7 @@ const Hero = () => {
         }} transition={{
           duration: 0.8,
           delay: 0.5
-        }} className="text-muted-foreground text-base sm:text-lg md:text-xl max-w-md mb-5 md:mb-6 leading-relaxed lg:text-xl">
+        }} className="text-muted-foreground text-base sm:text-lg md:text-xl max-w-md mb-5 md:mb-6 leading-relaxed lg:text-xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
             Your destination for advanced skincare and aesthetic treatments. Elevate your beauty and well-being with us.
           </motion.p>
 
