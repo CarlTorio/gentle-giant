@@ -668,12 +668,12 @@ const PatientRecords = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h2 className="font-display text-2xl font-semibold text-foreground">Patient Records</h2>
-        <div className="flex gap-3">
+    <div className="space-y-4 sm:space-y-6 relative z-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+        <h2 className="font-display text-xl sm:text-2xl font-semibold text-foreground">Patient Records</h2>
+        <div className="flex gap-2 sm:gap-3">
           <AddPatientDialog onPatientAdded={fetchPatients} />
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2 h-10 sm:h-9 text-sm">
             <Download className="h-4 w-4" />
             Export
           </Button>
@@ -681,15 +681,15 @@ const PatientRecords = () => {
       </div>
 
       <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <CardContent className="p-3 sm:p-6">
+          <div className="flex flex-col md:flex-row gap-4 mb-4 sm:mb-6">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search patients..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 h-11 sm:h-10"
               />
             </div>
           </div>
@@ -704,46 +704,72 @@ const PatientRecords = () => {
               <p className="text-sm">No patient records found.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Name</th>
-                    <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Contact</th>
-                    <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Last Visit</th>
-                    <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredPatients.map(patient => (
-                    <tr key={patient.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
-                      <td className="py-4 px-2">
-                        <p className="font-medium">{patient.name}</p>
-                        <p className="text-xs text-muted-foreground">{patient.email}</p>
-                      </td>
-                      <td className="py-4 px-2 text-sm">{patient.contact_number}</td>
-                      <td className="py-4 px-2 text-sm">
-                        {patient.medical_records.length > 0
-                          ? formatDate(patient.medical_records[patient.medical_records.length - 1]?.date)
-                          : formatDate(patient.updated_at)
-                        }
-                      </td>
-                      <td className="py-4 px-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => openDetail(patient)}
-                          className="gap-2"
-                        >
-                          <Eye className="h-4 w-4" />
-                          View
-                        </Button>
-                      </td>
+            <>
+              {/* Mobile Card Layout - Only show Name and View button */}
+              <div className="block sm:hidden space-y-3">
+                {filteredPatients.map(patient => (
+                  <div 
+                    key={patient.id} 
+                    className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-border/50"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-sm truncate">{patient.name}</p>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => openDetail(patient)}
+                      className="gap-2 h-10 ml-3 flex-shrink-0"
+                    >
+                      <Eye className="h-4 w-4" />
+                      View
+                    </Button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table Layout */}
+              <div className="hidden sm:block overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-border">
+                      <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Name</th>
+                      <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Contact</th>
+                      <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Last Visit</th>
+                      <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {filteredPatients.map(patient => (
+                      <tr key={patient.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
+                        <td className="py-4 px-2">
+                          <p className="font-medium">{patient.name}</p>
+                          <p className="text-xs text-muted-foreground truncate max-w-[200px]">{patient.email}</p>
+                        </td>
+                        <td className="py-4 px-2 text-sm">{patient.contact_number}</td>
+                        <td className="py-4 px-2 text-sm">
+                          {patient.medical_records.length > 0
+                            ? formatDate(patient.medical_records[patient.medical_records.length - 1]?.date)
+                            : formatDate(patient.updated_at)
+                          }
+                        </td>
+                        <td className="py-4 px-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => openDetail(patient)}
+                            className="gap-2"
+                          >
+                            <Eye className="h-4 w-4" />
+                            View
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>
