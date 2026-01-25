@@ -145,41 +145,42 @@ const BookConsultation = () => {
           delay: 0.1
         }} className="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-elevated">
             {/* Left Column - Get in Touch */}
-            <div className="bg-muted p-8 md:p-12 flex flex-col justify-center">
-              <h2 className="font-display text-3xl md:text-4xl text-foreground mb-4">
+            <div className="bg-muted p-4 md:p-12 flex flex-col justify-center">
+              <h2 className="font-display text-xl md:text-4xl text-foreground mb-2 md:mb-4">
                 Get in Touch
               </h2>
-              <p className="text-foreground/70 text-base mb-8">
+              <p className="text-foreground/70 text-xs md:text-base mb-4 md:mb-8">
                 Send us your questions or messages by filling out the form. We'll get back to you as soon as possible.
               </p>
 
               {/* Contact Information */}
-              <div className="mb-8">
-                <h3 className="text-foreground font-semibold mb-4">Contact Information</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-foreground/80">
-                    <div className="w-8 h-8 rounded-full border border-primary flex items-center justify-center">
-                      <Phone className="w-4 h-4 text-primary" />
+              <div className="mb-4 md:mb-8">
+                <h3 className="text-foreground font-semibold text-sm md:text-base mb-2 md:mb-4">Contact Information</h3>
+                <div className="grid grid-cols-2 gap-2 md:grid-cols-1 md:space-y-3 md:gap-0">
+                  <div className="flex items-center gap-2 md:gap-3 text-foreground/80">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-primary flex items-center justify-center">
+                      <Phone className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                     </div>
-                    <span>0977 334 4200</span>
+                    <span className="text-xs md:text-base">0977 334 4200</span>
                   </div>
-                  <div className="flex items-center gap-3 text-foreground/80">
-                    <div className="w-8 h-8 rounded-full border border-primary flex items-center justify-center">
-                      <Mail className="w-4 h-4 text-primary" />
+                  <div className="flex items-center gap-2 md:gap-3 text-foreground/80">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-primary flex items-center justify-center">
+                      <Mail className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                     </div>
-                    <span>cruzskin@gmail.com</span>
+                    <span className="text-xs md:text-base truncate">cruzskin@gmail.com</span>
                   </div>
-                  <div className="flex items-center gap-3 text-foreground/80">
-                    <div className="w-8 h-8 rounded-full border border-primary flex items-center justify-center">
-                      <MapPin className="w-4 h-4 text-primary" />
+                  <div className="flex items-center gap-2 md:gap-3 text-foreground/80">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-primary flex items-center justify-center">
+                      <MapPin className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                     </div>
-                    <span>6014 Mandaue City, Philippines</span>
+                    <span className="text-xs md:text-base">Mandaue City</span>
                   </div>
-                  <div className="flex items-start gap-3 text-foreground/80">
-                    <div className="w-8 h-8 rounded-full border border-primary flex items-center justify-center flex-shrink-0">
-                      <Clock className="w-4 h-4 text-primary" />
+                  <div className="flex items-center gap-2 md:gap-3 text-foreground/80">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-primary flex items-center justify-center flex-shrink-0">
+                      <Clock className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                     </div>
-                    <div className="flex flex-col">
+                    <span className="text-xs md:hidden">9AM - 7PM</span>
+                    <div className="hidden md:flex flex-col">
                       <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
                       <span>Sunday: 10:00 AM - 5:00 PM</span>
                     </div>
@@ -188,81 +189,81 @@ const BookConsultation = () => {
               </div>
 
               {/* Follow Us */}
-              <div>
-                <h3 className="text-foreground font-semibold mb-4">Follow Us</h3>
-                <div className="flex items-center gap-3 mb-3">
-                  <a href="https://www.facebook.com/profile.php?id=61580172268741" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
-                    <Facebook className="w-5 h-5 text-primary hover:text-primary-foreground" />
+              <div className="flex md:block items-center gap-3">
+                <h3 className="text-foreground font-semibold text-sm md:text-base md:mb-4">Follow Us</h3>
+                <div className="flex items-center gap-2 md:gap-3 md:mb-3">
+                  <a href="https://www.facebook.com/profile.php?id=61580172268741" target="_blank" rel="noopener noreferrer" className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
+                    <Facebook className="w-4 h-4 md:w-5 md:h-5 text-primary hover:text-primary-foreground" />
                   </a>
-                  <a href="https://instagram.com/Hilome" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
-                    <Instagram className="w-5 h-5 text-primary hover:text-primary-foreground" />
+                  <a href="https://instagram.com/Hilome" target="_blank" rel="noopener noreferrer" className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
+                    <Instagram className="w-4 h-4 md:w-5 md:h-5 text-primary hover:text-primary-foreground" />
                   </a>
                 </div>
-                <p className="text-foreground/60 text-sm">
+                <p className="hidden md:block text-foreground/60 text-sm">
                   @Hilomè on Facebook  •  @Hilomè on Instagram
                 </p>
               </div>
             </div>
 
             {/* Right Column - Booking Form */}
-            <div className="bg-primary p-8 md:p-12">
+            <div className="bg-primary p-4 md:p-12">
               {/* Form Header */}
-              <div className="mb-6">
-                <h2 className="font-display text-2xl md:text-3xl text-primary-foreground mb-2">
+              <div className="mb-3 md:mb-6">
+                <h2 className="font-display text-lg md:text-3xl text-primary-foreground mb-1 md:mb-2">
                   Book Your Consultation
                 </h2>
-                <p className="text-primary-foreground/70 text-sm">
+                <p className="text-primary-foreground/70 text-xs md:text-sm">
                   Schedule a consultation with our skincare specialists.
                 </p>
               </div>
               
-              <div className="space-y-5">
+              <div className="space-y-3 md:space-y-5">
                 {/* Name Field */}
                 <div>
-                  <label className="block text-primary-foreground font-semibold text-sm mb-1">
+                  <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
                     Name <span className="text-red-300">*</span>
                   </label>
-                  <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground placeholder-primary-foreground/50 py-2 px-0 focus:outline-none focus:border-accent transition-colors text-sm" />
+                  <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground placeholder-primary-foreground/50 py-1.5 md:py-2 px-0 focus:outline-none focus:border-accent transition-colors text-xs md:text-sm" />
                 </div>
 
                 {/* Email and Contact Number Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-2 gap-3 md:gap-5">
                   <div>
-                    <label className="block text-primary-foreground font-semibold text-sm mb-1">
+                    <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
                       Email <span className="text-red-300">*</span>
                     </label>
-                    <input type="email" name="email" placeholder="E-mail" value={formData.email} onChange={handleChange} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground placeholder-primary-foreground/50 py-2 px-0 focus:outline-none focus:border-accent transition-colors text-sm" />
+                    <input type="email" name="email" placeholder="E-mail" value={formData.email} onChange={handleChange} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground placeholder-primary-foreground/50 py-1.5 md:py-2 px-0 focus:outline-none focus:border-accent transition-colors text-xs md:text-sm" />
                   </div>
                   <div>
-                    <label className="block text-primary-foreground font-semibold text-sm mb-1">
-                      Contact Number <span className="text-red-300">*</span>
+                    <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
+                      Contact <span className="text-red-300">*</span>
                     </label>
                     <div className="flex items-center border-b-2 border-primary-foreground/50 focus-within:border-accent transition-colors">
-                      <span className="mr-2 text-xl">🇵🇭</span>
-                      <input type="tel" name="contactNumber" placeholder="Contact Number" value={formData.contactNumber} onChange={handleChange} className="flex-1 bg-transparent text-primary-foreground placeholder-primary-foreground/50 py-2 px-0 focus:outline-none text-sm" />
+                      <span className="mr-1 text-sm md:text-xl">🇵🇭</span>
+                      <input type="tel" name="contactNumber" placeholder="Number" value={formData.contactNumber} onChange={handleChange} className="flex-1 bg-transparent text-primary-foreground placeholder-primary-foreground/50 py-1.5 md:py-2 px-0 focus:outline-none text-xs md:text-sm" />
                     </div>
                   </div>
                 </div>
 
                 {/* Preferred Schedule */}
                 <div>
-                  <label className="block text-primary-foreground font-semibold text-sm mb-1">
+                  <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
                     Preferred Schedule <span className="text-red-300">*</span>
                   </label>
-                  <button type="button" onClick={() => setIsDateTimePickerOpen(true)} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground py-2 px-0 focus:outline-none focus:border-accent transition-colors text-sm cursor-pointer text-left flex items-center justify-between">
+                  <button type="button" onClick={() => setIsDateTimePickerOpen(true)} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground py-1.5 md:py-2 px-0 focus:outline-none focus:border-accent transition-colors text-xs md:text-sm cursor-pointer text-left flex items-center justify-between">
                     <span className={formData.date && formData.time ? "text-primary-foreground" : "text-primary-foreground/50"}>
-                      {formData.date && formData.time ? `${format(new Date(formData.date), "MMMM d, yyyy")} at ${formData.time}` : "Select date and time"}
+                      {formData.date && formData.time ? `${format(new Date(formData.date), "MMM d, yyyy")} at ${formData.time}` : "Select date and time"}
                     </span>
-                    <Calendar className="w-4 h-4 text-primary-foreground/70" />
+                    <Calendar className="w-3 h-3 md:w-4 md:h-4 text-primary-foreground/70" />
                   </button>
                 </div>
 
                 {/* Message */}
                 <div>
-                  <label className="block text-primary-foreground font-semibold text-sm mb-1">
+                  <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
                     Message
                   </label>
-                  <textarea name="message" placeholder="Type your message here..." value={formData.message} onChange={handleChange} rows={2} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground placeholder-primary-foreground/50 py-2 px-0 focus:outline-none focus:border-accent transition-colors resize-none text-sm" />
+                  <textarea name="message" placeholder="Type your message here..." value={formData.message} onChange={handleChange} rows={1} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground placeholder-primary-foreground/50 py-1.5 md:py-2 px-0 focus:outline-none focus:border-accent transition-colors resize-none text-xs md:text-sm md:rows-2" />
                 </div>
 
                 {/* Submit Button */}
@@ -270,11 +271,11 @@ const BookConsultation = () => {
                 scale: 1.02
               }} whileTap={{
                 scale: 0.98
-              }} className="pt-2">
-                  <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full bg-accent text-accent-foreground font-bold py-4 rounded-full hover:bg-accent/90 transition-colors disabled:opacity-50" size="lg">
+              }} className="pt-1 md:pt-2">
+                  <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full bg-accent text-accent-foreground font-bold py-3 md:py-4 rounded-full hover:bg-accent/90 transition-colors disabled:opacity-50 text-xs md:text-sm" size="lg">
                     {submitted ? <span className="flex items-center gap-2">
-                        <CheckCircle className="w-5 h-5" />
-                        Consultation Booked!
+                        <CheckCircle className="w-4 h-4 md:w-5 md:h-5" />
+                        Booked!
                       </span> : isSubmitting ? "Booking..." : "Book your consultation now!"}
                   </Button>
                 </motion.div>
