@@ -601,15 +601,15 @@ const HilomeAdminDashboard = () => {
     >
       <Card className="relative overflow-hidden border-border/50 bg-card/80 backdrop-blur-sm hover:shadow-elevated transition-all duration-300">
         <div className={`absolute inset-0 opacity-10 ${gradient}`} />
-        <CardContent className="p-6 relative">
-          <div className="flex items-start justify-between">
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground font-medium">{title}</p>
-              <p className="text-3xl font-display font-bold text-foreground">{value}</p>
+        <CardContent className="p-4 sm:p-6 relative">
+          <div className="flex items-start justify-between gap-3">
+            <div className="space-y-1 sm:space-y-2 min-w-0 flex-1">
+              <p className="text-xs sm:text-sm text-muted-foreground font-medium">{title}</p>
+              <p className="text-xl sm:text-3xl font-display font-bold text-foreground truncate">{value}</p>
               {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
             </div>
-            <div className={`p-3 rounded-xl ${gradient}`}>
-              <Icon className="h-6 w-6 text-white" />
+            <div className={`p-2 sm:p-3 rounded-xl ${gradient} flex-shrink-0`}>
+              <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
           </div>
         </CardContent>
@@ -618,50 +618,55 @@ const HilomeAdminDashboard = () => {
   );
 
   const renderDashboard = () => (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <h2 className="font-display text-2xl font-semibold text-foreground">Dashboard Overview</h2>
-        <p className="text-sm text-muted-foreground">Last updated: Just now</p>
+    <div className="space-y-6 sm:space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <h2 className="font-display text-xl sm:text-2xl font-semibold text-foreground">Dashboard Overview</h2>
+        <p className="text-xs sm:text-sm text-muted-foreground">Last updated: Just now</p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         <StatCard icon={DollarSign} title="Total Sales" value={`₱${totalSales.toLocaleString()}`} subtitle="Based on membership payments" gradient="gradient-accent" />
         <StatCard icon={Users} title="Total Members" value={totalMembers} subtitle="Active memberships" gradient="bg-green-600" />
         <StatCard icon={Clock} title="For Confirmation" value={pendingConfirmations} subtitle="Awaiting confirmation" gradient="bg-amber-500" />
         <StatCard icon={Calendar} title="Active Bookings" value={activeBookings} subtitle="This week" gradient="bg-sage-600" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="font-display text-lg">Revenue Trend (Membership)</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="font-display text-base sm:text-lg">Revenue Trend (Membership)</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={monthlySales}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickFormatter={(value) => `₱${(value/1000)}k`} />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--card))', 
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
-                  }}
-                  formatter={(value: number) => [`₱${value.toLocaleString()}`, 'Revenue']}
-                />
-                <Line type="monotone" dataKey="revenue" stroke="hsl(var(--accent))" strokeWidth={3} dot={{ fill: 'hsl(var(--accent))' }} />
-              </LineChart>
-            </ResponsiveContainer>
+          <CardContent className="p-2 sm:p-6 pt-0">
+            <div className="overflow-x-auto -mx-2 sm:mx-0">
+              <div className="min-w-[300px]">
+                <ResponsiveContainer width="100%" height={250}>
+                  <LineChart data={monthlySales}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={10} tick={{ fontSize: 10 }} />
+                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={10} tick={{ fontSize: 10 }} tickFormatter={(value) => `₱${(value/1000)}k`} width={45} />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'hsl(var(--card))', 
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px',
+                        fontSize: '12px'
+                      }}
+                      formatter={(value: number) => [`₱${value.toLocaleString()}`, 'Revenue']}
+                    />
+                    <Line type="monotone" dataKey="revenue" stroke="hsl(var(--accent))" strokeWidth={2} dot={{ fill: 'hsl(var(--accent))', r: 3 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
         <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="font-display text-lg">Membership Distribution</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="font-display text-base sm:text-lg">Membership Distribution</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+          <CardContent className="p-2 sm:p-6 pt-0">
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   data={membershipDistribution}
@@ -669,7 +674,7 @@ const HilomeAdminDashboard = () => {
                   cy="50%"
                   labelLine={false}
                   label={({ name, value }) => `${name}: ${value}`}
-                  outerRadius={100}
+                  outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
                 >
@@ -678,7 +683,7 @@ const HilomeAdminDashboard = () => {
                   ))}
                 </Pie>
                 <Tooltip />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: '12px' }} />
               </PieChart>
             </ResponsiveContainer>
           </CardContent>
@@ -688,22 +693,22 @@ const HilomeAdminDashboard = () => {
   );
 
   const renderBookings = () => (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h2 className="font-display text-2xl font-semibold text-foreground">Bookings Management</h2>
-        <div className="flex gap-3 flex-wrap">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col gap-4">
+        <h2 className="font-display text-xl sm:text-2xl font-semibold text-foreground">Bookings Management</h2>
+        <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-3 sm:flex-wrap">
           <AddBookingDialog onBookingAdded={fetchData} />
-          <Button variant="outline" className="gap-2" onClick={fetchData}>
+          <Button variant="outline" className="gap-2 h-11 sm:h-10 text-xs sm:text-sm" onClick={fetchData}>
             <RefreshCw className="h-4 w-4" />
-            Reload
+            <span className="hidden sm:inline">Reload</span>
           </Button>
-          <Button variant="outline" className="gap-2" onClick={() => setShowBookingHistory(true)}>
+          <Button variant="outline" className="gap-2 h-11 sm:h-10 text-xs sm:text-sm" onClick={() => setShowBookingHistory(true)}>
             <History className="h-4 w-4" />
-            Booking History
+            <span className="hidden sm:inline">Booking </span>History
           </Button>
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2 h-11 sm:h-10 text-xs sm:text-sm">
             <Download className="h-4 w-4" />
-            Export Data
+            Export
           </Button>
         </div>
       </div>
@@ -717,19 +722,19 @@ const HilomeAdminDashboard = () => {
       />
 
       <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
+        <CardContent className="p-3 sm:p-6">
+          <div className="flex flex-col gap-3 mb-4 sm:mb-6">
+            <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search bookings..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 h-11 sm:h-10 text-base sm:text-sm"
               />
             </div>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px] h-11 sm:h-10">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
@@ -742,7 +747,126 @@ const HilomeAdminDashboard = () => {
             </Select>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Mobile Card Layout */}
+          <div className="block sm:hidden space-y-3">
+            {bookings
+              .filter(booking => filterStatus === 'all' || booking.status === filterStatus)
+              .filter(booking => 
+                booking.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                booking.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                booking.contact_number.includes(searchTerm)
+              )
+              .map(booking => (
+              <Card key={booking.id} className="border-border/50">
+                <CardContent className="p-4 space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="font-medium text-sm">{booking.name}</p>
+                      <p className="text-xs text-muted-foreground truncate max-w-[180px]">{booking.email}</p>
+                      <p className="text-xs text-muted-foreground">{booking.contact_number}</p>
+                    </div>
+                    <Select 
+                      value={booking.status} 
+                      onValueChange={(value) => handleStatusChange(booking.id, value)}
+                    >
+                      <SelectTrigger className="w-[100px] h-8 text-xs">
+                        <span className={`font-medium capitalize ${getStatusColor(booking.status)}`}>
+                          {booking.status}
+                        </span>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
+                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                        <SelectItem value="no-show">No-show</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Calendar className="h-3 w-3" />
+                    <span>{booking.preferred_date}</span>
+                    <Clock className="h-3 w-3 ml-2" />
+                    <span>{booking.preferred_time}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-1 h-9 text-xs flex-1"
+                      asChild
+                    >
+                      <a href={`tel:${booking.contact_number.replace(/-/g, '')}`}>
+                        <Phone className="h-3 w-3" />
+                        Call
+                      </a>
+                    </Button>
+                    {booking.patient_id || addedToRecord.has(booking.id) ? (
+                      <Badge variant="secondary" className="gap-1 text-green-700 bg-green-100 h-9 px-3">
+                        <CheckCircle2 className="h-3 w-3" />
+                        Added
+                      </Badge>
+                    ) : hasPatientRecord(booking.email) ? (
+                      <Badge variant="secondary" className="gap-1 text-muted-foreground bg-muted h-9 px-3">
+                        <CheckCircle2 className="h-3 w-3" />
+                        Has Record
+                      </Badge>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-1 h-9 text-xs flex-1"
+                        onClick={() => handleAddToPatientRecord(booking)}
+                      >
+                        <FileText className="h-3 w-3" />
+                        Add Record
+                      </Button>
+                    )}
+                    {booking.message && (
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9"
+                        onClick={() => setSelectedBookingMessage({ name: booking.name, message: booking.message! })}
+                      >
+                        <MessageSquare className="h-4 w-4" />
+                      </Button>
+                    )}
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-9 w-9 text-destructive hover:text-destructive hover:bg-destructive/10"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="mx-4 max-w-[calc(100vw-2rem)]">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete Booking</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to delete the booking for <strong>{booking.name}</strong>?
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter className="flex-col gap-2 sm:flex-row">
+                          <AlertDialogCancel className="w-full sm:w-auto">Cancel</AlertDialogCancel>
+                          <AlertDialogAction 
+                            onClick={() => handleDeleteBooking(booking.id, booking.name)} 
+                            className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Desktop Table Layout */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
@@ -911,28 +1035,28 @@ const HilomeAdminDashboard = () => {
     }
 
     return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h2 className="font-display text-2xl font-semibold text-foreground">Members Database</h2>
-        <div className="flex gap-3 flex-wrap">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col gap-4">
+        <h2 className="font-display text-xl sm:text-2xl font-semibold text-foreground">Members Database</h2>
+        <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-3 sm:flex-wrap">
           <Button 
-            className="gap-2 bg-accent hover:bg-accent/90"
+            className="gap-2 bg-accent hover:bg-accent/90 h-11 sm:h-10 text-xs sm:text-sm col-span-2 sm:col-span-1"
             onClick={() => setShowRegisterMember(true)}
           >
             <UserPlus className="h-4 w-4" />
             Register Member
           </Button>
-          <Button variant="outline" className="gap-2" onClick={() => { fetchMembers(); toast.success('Members database reloaded'); }}>
+          <Button variant="outline" className="gap-2 h-11 sm:h-10 text-xs sm:text-sm" onClick={() => { fetchMembers(); toast.success('Members database reloaded'); }}>
             <RefreshCw className="h-4 w-4" />
-            Reload
+            <span className="hidden sm:inline">Reload</span>
           </Button>
           <Button 
             variant="outline" 
-            className="gap-2 relative"
+            className="gap-2 relative h-11 sm:h-10 text-xs sm:text-sm"
             onClick={() => setShowForConfirmation(true)}
           >
             <UserCheck className="h-4 w-4" />
-            For Confirmation
+            <span className="hidden sm:inline">For </span>Confirm
             {pendingConfirmations > 0 && (
               <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-destructive text-white text-xs flex items-center justify-center">
                 {pendingConfirmations}
@@ -941,20 +1065,20 @@ const HilomeAdminDashboard = () => {
           </Button>
           <Button 
             variant="outline" 
-            className="gap-2 relative"
+            className="gap-2 relative h-11 sm:h-10 text-xs sm:text-sm"
             onClick={() => { fetchRejectedMembers(); setShowRejectionHistory(true); }}
           >
             <History className="h-4 w-4" />
-            Rejection History
+            <span className="hidden sm:inline">Rejection </span>History
             {rejectedMembers.length > 0 && (
               <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-muted-foreground text-white text-xs flex items-center justify-center">
                 {rejectedMembers.length}
               </span>
             )}
           </Button>
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2 h-11 sm:h-10 text-xs sm:text-sm">
             <Download className="h-4 w-4" />
-            Export Members
+            Export
           </Button>
         </div>
       </div>
@@ -1444,20 +1568,97 @@ const HilomeAdminDashboard = () => {
       </Dialog>
 
       <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
-        <CardContent className="p-6">
-          <div className="mb-6">
-            <div className="relative max-w-md">
+        <CardContent className="p-3 sm:p-6">
+          <div className="mb-4 sm:mb-6">
+            <div className="relative w-full sm:max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search members..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 h-11 sm:h-10 text-base sm:text-sm"
               />
             </div>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Mobile Card Layout */}
+          <div className="block sm:hidden space-y-3">
+            {activeMembers
+              .filter(member => 
+                member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                member.email.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .map(member => {
+                const daysLeft = calculateDaysLeft(member.membership_expiry_date);
+                return (
+                  <Card key={member.id} className="border-border/50">
+                    <CardContent className="p-4 space-y-3">
+                      <div className="flex items-start justify-between">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium text-sm">{member.name}</p>
+                          <p className="text-xs text-muted-foreground truncate max-w-[200px]">{member.email}</p>
+                        </div>
+                        <Badge variant="outline" className={`${getMembershipColor(member.membership_type)} text-xs`}>
+                          {member.membership_type}
+                        </Badge>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2 text-xs">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-muted-foreground">
+                            {member.membership_start_date 
+                              ? new Date(member.membership_start_date).toLocaleDateString()
+                              : new Date(member.created_at).toLocaleDateString()
+                            }
+                          </span>
+                        </div>
+                        {daysLeft !== null && (
+                          <span className={`font-medium ${daysLeft <= 30 ? 'text-destructive' : daysLeft <= 90 ? 'text-amber-500' : 'text-green-600'}`}>
+                            {daysLeft > 0 ? `${daysLeft}d left` : 'Expired'}
+                          </span>
+                        )}
+                        <Badge className={`${getStatusColor(member.status)} text-xs`}>
+                          {member.status}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          {member.referral_code && (
+                            <div className="flex items-center gap-1">
+                              <code className="text-xs font-mono bg-muted px-1.5 py-0.5 rounded">{member.referral_code}</code>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6"
+                                onClick={() => copyToClipboard(member.referral_code!)}
+                              >
+                                <Copy className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          )}
+                          <div className="flex items-center gap-1">
+                            <Gift className="h-3 w-3 text-accent" />
+                            <span className="text-xs font-medium">{member.referral_count || 0}</span>
+                          </div>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-9 gap-1"
+                          onClick={() => setSelectedMember(member)}
+                        >
+                          <Eye className="h-4 w-4" />
+                          View
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+          </div>
+
+          {/* Desktop Table Layout */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
@@ -1472,74 +1673,79 @@ const HilomeAdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {activeMembers.map(member => {
-                  const daysLeft = calculateDaysLeft(member.membership_expiry_date);
-                  return (
-                    <tr key={member.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
-                      <td className="py-4 px-2">
-                        <p className="font-medium">{member.name}</p>
-                        <p className="text-xs text-muted-foreground">{member.email}</p>
-                      </td>
-                      <td className="py-4 px-2">
-                        <Badge variant="outline" className={getMembershipColor(member.membership_type)}>
-                          {member.membership_type}
-                        </Badge>
-                      </td>
-                      <td className="py-4 px-2">
-                        {member.referral_code ? (
+                {activeMembers
+                  .filter(member => 
+                    member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    member.email.toLowerCase().includes(searchTerm.toLowerCase())
+                  )
+                  .map(member => {
+                    const daysLeft = calculateDaysLeft(member.membership_expiry_date);
+                    return (
+                      <tr key={member.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
+                        <td className="py-4 px-2">
+                          <p className="font-medium">{member.name}</p>
+                          <p className="text-xs text-muted-foreground">{member.email}</p>
+                        </td>
+                        <td className="py-4 px-2">
+                          <Badge variant="outline" className={getMembershipColor(member.membership_type)}>
+                            {member.membership_type}
+                          </Badge>
+                        </td>
+                        <td className="py-4 px-2">
+                          {member.referral_code ? (
+                            <div className="flex items-center gap-1">
+                              <code className="text-xs font-mono bg-muted px-2 py-1 rounded">{member.referral_code}</code>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6"
+                                onClick={() => copyToClipboard(member.referral_code!)}
+                              >
+                                <Copy className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          ) : (
+                            <span className="text-xs text-muted-foreground">—</span>
+                          )}
+                        </td>
+                        <td className="py-4 px-2">
                           <div className="flex items-center gap-1">
-                            <code className="text-xs font-mono bg-muted px-2 py-1 rounded">{member.referral_code}</code>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-6 w-6"
-                              onClick={() => copyToClipboard(member.referral_code!)}
-                            >
-                              <Copy className="h-3 w-3" />
-                            </Button>
+                            <Gift className="h-4 w-4 text-accent" />
+                            <span className="text-sm font-medium">{member.referral_count || 0}</span>
                           </div>
-                        ) : (
-                          <span className="text-xs text-muted-foreground">—</span>
-                        )}
-                      </td>
-                      <td className="py-4 px-2">
-                        <div className="flex items-center gap-1">
-                          <Gift className="h-4 w-4 text-accent" />
-                          <span className="text-sm font-medium">{member.referral_count || 0}</span>
-                        </div>
-                      </td>
-                      <td className="py-4 px-2 text-sm">
-                        {member.membership_start_date 
-                          ? new Date(member.membership_start_date).toLocaleDateString()
-                          : new Date(member.created_at).toLocaleDateString()
-                        }
-                      </td>
-                      <td className="py-4 px-2">
-                        {daysLeft !== null ? (
-                          <span className={`text-sm font-medium ${daysLeft <= 30 ? 'text-destructive' : daysLeft <= 90 ? 'text-amber-500' : 'text-green-600'}`}>
-                            {daysLeft > 0 ? `${daysLeft} days` : 'Expired'}
-                          </span>
-                        ) : (
-                          <span className="text-sm text-muted-foreground">—</span>
-                        )}
-                      </td>
-                      <td className="py-4 px-2">
-                        <Badge className={getStatusColor(member.status)}>
-                          {member.status}
-                        </Badge>
-                      </td>
-                      <td className="py-4 px-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setSelectedMember(member)}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        </td>
+                        <td className="py-4 px-2 text-sm">
+                          {member.membership_start_date 
+                            ? new Date(member.membership_start_date).toLocaleDateString()
+                            : new Date(member.created_at).toLocaleDateString()
+                          }
+                        </td>
+                        <td className="py-4 px-2">
+                          {daysLeft !== null ? (
+                            <span className={`text-sm font-medium ${daysLeft <= 30 ? 'text-destructive' : daysLeft <= 90 ? 'text-amber-500' : 'text-green-600'}`}>
+                              {daysLeft > 0 ? `${daysLeft} days` : 'Expired'}
+                            </span>
+                          ) : (
+                            <span className="text-sm text-muted-foreground">—</span>
+                          )}
+                        </td>
+                        <td className="py-4 px-2">
+                          <Badge className={getStatusColor(member.status)}>
+                            {member.status}
+                          </Badge>
+                        </td>
+                        <td className="py-4 px-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setSelectedMember(member)}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
@@ -1654,13 +1860,13 @@ const HilomeAdminDashboard = () => {
 
       {/* Navigation Tabs */}
       <nav className="bg-card border-b border-border">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-4">
+        <div className="container mx-auto px-2 sm:px-4">
+          <div className="flex overflow-x-auto scrollbar-hide -mx-2 sm:mx-0">
             {tabs.map((tab, index) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`py-4 border-b-2 transition-all whitespace-nowrap relative text-center ${
+                className={`py-3 sm:py-4 px-3 sm:px-6 border-b-2 transition-all whitespace-nowrap relative text-center flex-1 min-w-[80px] text-xs sm:text-sm ${
                   index < tabs.length - 1 ? 'border-r border-border' : ''
                 } ${
                   activeTab === tab.id
@@ -1676,7 +1882,7 @@ const HilomeAdminDashboard = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {activeTab === 'dashboard' && renderDashboard()}
         {activeTab === 'patient-records' && <PatientRecords />}
         {activeTab === 'bookings' && renderBookings()}
