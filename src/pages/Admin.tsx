@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft, History, Phone, CreditCard, Wallet, Gift, Copy, UserCheck, FileText, MessageSquare, RefreshCw, Receipt, ExternalLink, UserPlus, Banknote, Link2, CheckCircle2, Trash2, Loader2 } from 'lucide-react';
+import { Calendar, Users, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Search, Download, Eye, ArrowLeft, History, Phone, CreditCard, Wallet, Gift, Copy, UserCheck, FileText, MessageSquare, RefreshCw, Receipt, ExternalLink, UserPlus, Banknote, Link2, CheckCircle2, Trash2, Loader2, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,6 +16,7 @@ import AddBookingDialog from '@/components/AddBookingDialog';
 import LinkToPatientDialog from '@/components/LinkToPatientDialog';
 import MemberBenefitsSection from '@/components/MemberBenefitsSection';
 import MemberDetailsView from '@/components/MemberDetailsView';
+import AdminAuth, { clearAdminAuth } from '@/components/AdminAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -1857,6 +1858,18 @@ const HilomeAdminDashboard = () => {
               <div className="h-7 w-7 sm:h-9 sm:w-9 rounded-full gradient-accent flex items-center justify-center text-white font-medium text-xs sm:text-base">
                 A
               </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  clearAdminAuth();
+                  window.location.reload();
+                }}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline ml-2">Logout</span>
+              </Button>
             </div>
           </div>
         </div>
@@ -1899,4 +1912,11 @@ const HilomeAdminDashboard = () => {
   );
 };
 
-export default HilomeAdminDashboard;
+// Wrap the dashboard with authentication
+const AdminPage = () => (
+  <AdminAuth>
+    <HilomeAdminDashboard />
+  </AdminAuth>
+);
+
+export default AdminPage;
