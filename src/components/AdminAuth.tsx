@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Lock, Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -41,6 +42,7 @@ export const clearAdminAuth = () => {
 };
 
 const AdminAuth = ({ children }: AdminAuthProps) => {
+  const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -120,17 +122,26 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-2">
-            <Lock className="h-8 w-8 text-primary" />
-          </div>
-          <CardTitle className="font-display text-2xl">Admin Access</CardTitle>
-          <CardDescription>
-            Enter the admin password to access the dashboard
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+      <div className="w-full max-w-md">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/')} 
+          className="mb-4 gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </Button>
+        <Card className="shadow-lg">
+          <CardHeader className="text-center space-y-2">
+            <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+              <Lock className="h-8 w-8 text-primary" />
+            </div>
+            <CardTitle className="font-display text-2xl">Admin Access</CardTitle>
+            <CardDescription>
+              Enter the admin password to access the dashboard
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
               <Input
@@ -170,6 +181,7 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
           </form>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };
