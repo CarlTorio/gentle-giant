@@ -74,18 +74,17 @@ const Header = () => {
         <div className="container mx-auto px-4 py-4">
           <nav className="flex items-center justify-between">
             {/* Logo */}
-            <motion.button
+            <button
               onClick={handleLogoClick}
               onDoubleClick={() => navigate('/admin')}
-              className="flex items-center ml-2 md:ml-24"
-              whileHover={{ scale: 1.02 }}
+              className="flex items-center ml-2 md:ml-24 touch-manipulation cursor-pointer active:scale-95 transition-transform"
             >
               <img
                 src="https://i.imgur.com/9beP2dq.png"
                 alt="Hilomè Logo"
-                className="h-8 w-auto"
+                className="h-8 w-auto pointer-events-none"
               />
-            </motion.button>
+            </button>
 
             {/* Desktop Navigation */}
             <ul className="hidden md:flex items-center gap-8">
