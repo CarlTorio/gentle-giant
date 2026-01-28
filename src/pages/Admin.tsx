@@ -843,11 +843,11 @@ const HilomeAdminDashboard = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="gap-1 h-8 text-[10px] px-2 text-green-700 border-green-300 hover:bg-green-50"
+                      className="gap-1 h-8 text-[10px] px-2 text-blue-700 border-blue-300 hover:bg-blue-50"
                       onClick={() => handleStatusChange(booking.id, 'completed')}
                     >
-                      <CheckCircle className="h-3 w-3" />
-                      Done
+                      <History className="h-3 w-3" />
+                      Add to History
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
@@ -979,11 +979,11 @@ const HilomeAdminDashboard = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="gap-2 text-green-700 border-green-300 hover:bg-green-50"
+                          className="gap-2 text-blue-700 border-blue-300 hover:bg-blue-50"
                           onClick={() => handleStatusChange(booking.id, 'completed')}
                         >
-                          <CheckCircle className="h-4 w-4" />
-                          Mark Complete
+                          <History className="h-4 w-4" />
+                          Add to History
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
