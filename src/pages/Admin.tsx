@@ -885,14 +885,14 @@ const HilomeAdminDashboard = () => {
 
           {/* Desktop Table Layout */}
           <div className="hidden sm:block overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full table-fixed">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Name</th>
-                  <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Contact</th>
-                  <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Date & Time</th>
-                  <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Status</th>
-                  <th className="text-left py-4 px-2 text-sm font-medium text-muted-foreground">Action</th>
+                  <th className="text-left py-4 px-3 text-sm font-medium text-muted-foreground w-[15%]">Name</th>
+                  <th className="text-left py-4 px-3 text-sm font-medium text-muted-foreground w-[25%]">Contact</th>
+                  <th className="text-left py-4 px-3 text-sm font-medium text-muted-foreground w-[15%]">Date & Time</th>
+                  <th className="text-left py-4 px-3 text-sm font-medium text-muted-foreground w-[10%]">Status</th>
+                  <th className="text-left py-4 px-3 text-sm font-medium text-muted-foreground w-[35%]">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -905,21 +905,21 @@ const HilomeAdminDashboard = () => {
                   )
                   .map(booking => (
                   <tr key={booking.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
-                    <td className="py-4 px-2 font-medium">{booking.name}</td>
-                    <td className="py-4 px-2">
-                      <p className="text-sm">{booking.email}</p>
-                      <p className="text-xs text-muted-foreground">{booking.contact_number}</p>
+                    <td className="py-4 px-3 font-medium truncate">{booking.name}</td>
+                    <td className="py-4 px-3">
+                      <p className="text-sm truncate">{booking.email}</p>
+                      <p className="text-xs text-muted-foreground truncate">{booking.contact_number}</p>
                     </td>
-                    <td className="py-4 px-2">
+                    <td className="py-4 px-3">
                       <p className="text-sm">{booking.preferred_date}</p>
                       <p className="text-xs text-muted-foreground">{booking.preferred_time}</p>
                     </td>
-                    <td className="py-4 px-2">
+                    <td className="py-4 px-3">
                       <Select 
                         value={booking.status} 
                         onValueChange={(value) => handleStatusChange(booking.id, value)}
                       >
-                        <SelectTrigger className="w-[130px] h-8 border-none bg-transparent">
+                        <SelectTrigger className="w-full h-8 border-none bg-transparent p-0">
                           <span className={`font-medium capitalize ${getStatusColor(booking.status)}`}>
                             {booking.status}
                           </span>
@@ -932,7 +932,7 @@ const HilomeAdminDashboard = () => {
                         </SelectContent>
                       </Select>
                     </td>
-                    <td className="py-4 px-2">
+                    <td className="py-4 px-3">
                       <div className="flex gap-2">
                         <Button
                           variant="outline"

@@ -1,9 +1,9 @@
 -- ===========================================================================
--- HILOMÈ CLINIC DATABASE SCHEMA
+-- HILOMÈ WELLNESS RESORT DATABASE SCHEMA
 -- Consolidated from supabase/migrations/
--- Last Updated: 2026-01-28
+-- Last Updated: 2026-01-29
 -- ===========================================================================
--- Migration History (41 files):
+-- Migration History (42 files):
 -- 1. 20260114155747 - Initial bookings, membership_applications, members tables
 -- 2. 20260114173526 - Recreate with TEXT date columns
 -- 3. 20260122063913 - Simplified schema with public access
@@ -38,13 +38,14 @@
 -- 32. 20260125113803 - Final schema consolidation with RLS
 -- 33. 20260127070053 - Add UPDATE policy for anon on patient_records
 -- 34. 20260127074150 - Schema improvements
--- 35. 20260127075814 - Additional fixes
--- 36. 20260127083311 - Policy updates
--- 37. 20260128063303 - Schema updates
--- 38. 20260128065518 - Additional changes
--- 39. 20260128065654 - Final adjustments
--- 40. 20260128171543 - Complete schema with all functions and seed data
+-- 35. 20260127075814 - Admin settings table
+-- 36. 20260127083311 - Referral code generator update (6 letters)
+-- 37. 20260128063303 - Complete schema rebuild
+-- 38. 20260128065518 - Sync member to patient function update
+-- 39. 20260128065654 - Remove email unique constraint, add member_id unique
+-- 40. 20260128171543 - Final schema with all tables and functions
 -- 41. 20260128173041 - Add UPDATE and DELETE policies for anon on members
+-- 42. 20260129020055 - Add UPDATE and DELETE policies for anon on bookings
 -- ===========================================================================
 
 
