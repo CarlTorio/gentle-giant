@@ -34,12 +34,12 @@ const AdminSettingsDialog = ({ open, onOpenChange }: AdminSettingsDialogProps) =
     try {
       const { data, error } = await supabase
         .from('admin_settings')
-        .select('setting_value')
-        .eq('setting_key', 'admin_password')
+        .select('value')
+        .eq('key', 'admin_password')
         .maybeSingle();
 
       if (error) throw error;
-      setStoredPassword(data?.setting_value || '');
+      setStoredPassword(data?.value || '');
     } catch (error) {
       console.error('Error fetching password:', error);
     }
@@ -49,25 +49,21 @@ const AdminSettingsDialog = ({ open, onOpenChange }: AdminSettingsDialogProps) =
     e.preventDefault();
     setError('');
 
-    // Validate current password (check against stored password OR developer password)
     if (currentPassword !== storedPassword && currentPassword !== DEVELOPER_PASSWORD) {
       setError('Current password is incorrect');
       return;
     }
 
-    // Validate new password
     if (newPassword.length < 6) {
       setError('New password must be at least 6 characters');
       return;
     }
 
-    // Validate confirmation
     if (newPassword !== confirmPassword) {
       setError('New passwords do not match');
       return;
     }
 
-    // Cannot set the developer password as the new password
     if (newPassword === DEVELOPER_PASSWORD) {
       setError('This password is reserved and cannot be used');
       return;
@@ -78,8 +74,7 @@ const AdminSettingsDialog = ({ open, onOpenChange }: AdminSettingsDialogProps) =
     try {
       const { error: updateError } = await supabase
         .from('admin_settings')
-        .update({ setting_value: newPassword })
-        .eq('setting_key', 'admin_password');
+        .upsert({ key: 'admin_password', value: newPassword }, { onConflict: 'key' });
 
       if (updateError) throw updateError;
 
@@ -118,7 +113,6 @@ const AdminSettingsDialog = ({ open, onOpenChange }: AdminSettingsDialogProps) =
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-4">
-          {/* Current Password */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Current Password</label>
             <div className="relative">
@@ -142,7 +136,6 @@ const AdminSettingsDialog = ({ open, onOpenChange }: AdminSettingsDialogProps) =
             </div>
           </div>
 
-          {/* New Password */}
           <div className="space-y-2">
             <label className="text-sm font-medium">New Password</label>
             <div className="relative">
@@ -167,7 +160,6 @@ const AdminSettingsDialog = ({ open, onOpenChange }: AdminSettingsDialogProps) =
             <p className="text-xs text-muted-foreground">Minimum 6 characters</p>
           </div>
 
-          {/* Confirm Password */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Confirm New Password</label>
             <div className="relative">
@@ -216,7 +208,7 @@ const AdminSettingsDialog = ({ open, onOpenChange }: AdminSettingsDialogProps) =
             </Button>
             <Button 
               type="submit" 
-              className="flex-1"
+              className="flex-1 gradient-accent"
               disabled={isLoading || !currentPassword || !newPassword || !confirmPassword}
             >
               {isLoading ? (

@@ -4,27 +4,27 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "I love your personalized & professional consultations that recommend treatments that are best suited for us... your customer service is awesome too!",
-    author: "Odessa Pusta-Rodriguez",
-    avatar: "OP",
+    quote: "Ilang taon na akong may back pain at sa dami ng napuntahan kong clinic, dito lang ako nakakita ng improvement. Salamat po, Ma'am Espie.",
+    author: "Dolores Punio-Rodriguez",
+    avatar: "DP",
   },
   {
-    quote: "Thank you so much Doc. Herbert Ryan Cruz, you're such a wonderful person for helping me to be confident to talk and to meet with other people. Looking forward for the best result soon!",
-    author: "Dranuj Aiponi",
+    quote: "Ma'am Espie is such a wonderful person. She helped me recover from frozen shoulder. Sobrang patient niya at alam na alam niya yung ginagawa niya.",
+    author: "Dranyl Alpusti",
     avatar: "DA",
   },
   {
-    quote: "Best services. Super worth it!!!",
-    author: "Laarnie Montaño",
+    quote: "Tried the Guasha and Cupping therapy. Grabe yung gaan ng pakiramdam ko after. I recommend this clinic to all my friends.",
+    author: "Laarnie Montalto",
     avatar: "LM",
   },
   {
-    quote: "So far I'm seeing great results with my friends who have gone to this clinic.",
+    quote: "Yung Cell Power Trio supplement, game changer talaga. Combined with the treatments, I feel so much better. Thank you, Ma'am Espie.",
     author: "Alex Agusti",
     avatar: "AA",
   },
   {
-    quote: "Dr. Herbert Ryan Cruz is a living testimony of a man who gives service with passion.. kudos Doc..",
+    quote: "Ma'am Espie is a living testimony of a woman who gives service with passion and dedication.",
     author: "Yvette Sanchez",
     avatar: "YS",
   },
@@ -46,7 +46,7 @@ const Testimonials = () => {
           transition={{ duration: 0.6 }}
           className="font-display text-lg md:text-2xl lg:text-3xl font-semibold text-foreground text-center mb-6 md:mb-10 px-2"
         >
-          Read What They Loved About Hilomè
+          What Our Clients Say
         </motion.h2>
       </div>
 
@@ -70,7 +70,7 @@ const Testimonials = () => {
                 {/* Quote Icon */}
                 <div className="mb-3 md:mb-4">
                   <div className="w-8 h-8 md:w-10 md:h-10 gradient-accent rounded-full flex items-center justify-center">
-                    <Quote className="w-3 h-3 md:w-4 md:h-4 text-accent-foreground" />
+                    <Quote className="w-3 h-3 md:w-4 md:h-4 text-primary-foreground" />
                   </div>
                 </div>
 
@@ -81,7 +81,7 @@ const Testimonials = () => {
 
                 {/* Author */}
                 <div className="flex items-center gap-2 md:gap-3">
-                  <div className="w-8 h-8 md:w-10 md:h-10 gradient-accent rounded-full flex items-center justify-center text-accent-foreground font-semibold text-xs md:text-sm">
+                  <div className="w-8 h-8 md:w-10 md:h-10 gradient-accent rounded-full flex items-center justify-center text-primary-foreground font-semibold text-xs md:text-sm">
                     {testimonial.avatar}
                   </div>
                   <span className="font-semibold text-foreground text-xs md:text-sm">

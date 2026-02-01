@@ -1,23 +1,82 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const allServices = [
-  { title: "Cafe by The Beach", description: "Enjoy healthy refreshments and snacks with ocean views.", longDescription: "Enjoy healthy refreshments and snacks with stunning ocean views. Our café offers organic juices, wellness teas, and nutritious bites to complement your spa experience.", image: "https://i.imgur.com/vjcLpp8.jpeg" },
-  { title: "Detox & Slimming", description: "Body contouring and detoxifying treatments for a healthier you.", longDescription: "Transform your body with our comprehensive detox and slimming programs. Featuring advanced body contouring, lymphatic drainage, and detoxifying wraps for lasting results.", image: "https://i.imgur.com/UKZXsAI.png" },
-  { title: "Head Spa", description: "Scalp therapy and hair treatments for ultimate relaxation.", longDescription: "Experience deep scalp therapy and revitalizing hair treatments. Our head spa combines aromatherapy, massage, and nourishing treatments for ultimate relaxation and hair health.", image: "https://i.imgur.com/laPHsD7.png" },
-  { title: "Body Scrub", description: "Exfoliating treatments to reveal smooth, glowing skin.", longDescription: "Reveal your skin's natural radiance with our luxurious body scrubs. Using natural exfoliants and nourishing oils to leave your skin silky smooth and deeply moisturized.", image: "https://i.imgur.com/naDyJ5P.png" },
-  { title: "Yoga", description: "Mindful movement sessions to restore balance and flexibility.", longDescription: "Join our expert-led yoga sessions designed to restore balance, improve flexibility, and calm the mind. Classes suitable for all levels in our serene beachfront studio.", image: "https://i.imgur.com/Up1lvBw.png" },
-  { title: "Massage", description: "Therapeutic massages to relieve tension and promote wellness.", longDescription: "Indulge in therapeutic massages tailored to your needs. From deep tissue to aromatherapy, our skilled therapists relieve tension and restore your body's natural harmony.", image: "https://i.imgur.com/LXAK7wa.png" },
-  { title: "Wellness Drips", description: "IV vitamin therapy for energy, immunity and rejuvenation.", longDescription: "Boost your wellness with our IV vitamin therapy. Customized drips for energy, immunity, hydration, and rejuvenation—delivered directly to your system for maximum absorption.", image: "https://i.imgur.com/FzFbPt9.png" },
-  { title: "Facials", description: "Advanced skincare treatments for a radiant complexion.", longDescription: "Achieve a radiant complexion with our advanced facial treatments. Using premium products and cutting-edge techniques to address your unique skin concerns.", image: "https://i.imgur.com/bXaHFzI.png" },
+const holisticServices = [
+  { title: "Stroke Management", description: "Rehabilitation and recovery support through holistic methods", image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=500&fit=crop" },
+  { title: "Sciatica Remedies", description: "Natural pain relief for sciatic nerve conditions", image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&h=500&fit=crop" },
+  { title: "Frozen Shoulder", description: "Restore mobility and reduce shoulder pain", image: "https://images.unsplash.com/photo-1519824145371-296894a0daa9?w=400&h=500&fit=crop" },
+  { title: "Body/Back Pain", description: "Targeted relief for chronic body and back pain", image: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=400&h=500&fit=crop" },
+  { title: "Sprain Recovery", description: "Traditional healing methods for sprains and joint injuries", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=500&fit=crop" },
+  { title: "Scoliosis Management", description: "Holistic approach to spinal alignment and pain relief", image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=500&fit=crop" },
+  { title: "Bone Manipulation", description: "Manual adjustment techniques for skeletal alignment", image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=500&fit=crop" },
+  { title: "Nerve Therapy", description: "Specialized treatment for nerve-related conditions", image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=500&fit=crop" },
+  { title: "Filipino Hilot", description: "Traditional Filipino healing massage passed down through generations", image: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=400&h=500&fit=crop" },
 ];
+
+const tcmServices = [
+  { title: "Auriculo Therapy", description: "Ear acupuncture therapy for various health conditions", image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=400&h=500&fit=crop" },
+  { title: "Guasha Therapy", description: "Scraping technique to improve circulation and relieve pain", image: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=400&h=500&fit=crop" },
+  { title: "Moxibustion", description: "Heat therapy using dried herbs to stimulate healing", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=500&fit=crop" },
+  { title: "Cupping / Ventoza", description: "Suction therapy to promote blood flow and reduce tension", image: "https://images.unsplash.com/photo-1611073615830-17bea3db7ae8?w=400&h=500&fit=crop" },
+  { title: "Electro Acupuncture", description: "Enhanced acupuncture with mild electrical stimulation", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=500&fit=crop" },
+  { title: "Laser Acupuncture", description: "Non-invasive laser-based acupuncture treatment", image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=500&fit=crop" },
+  { title: "Bioresonator", description: "Frequency-based therapy for cellular health restoration", image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=500&fit=crop" },
+];
+
+const ServiceCard = ({ service, index, isInView }: { service: typeof holisticServices[0]; index: number; isInView: boolean }) => (
+  <motion.div
+    initial={{ opacity: 0, y: -60 }}
+    animate={isInView ? { opacity: 1, y: 0 } : {}}
+    transition={{ 
+      duration: 2.5, 
+      delay: index * 0.15,
+      ease: [0.25, 0.1, 0.25, 1]
+    }}
+    className="group relative overflow-hidden rounded-lg md:rounded-xl aspect-[4/5] cursor-pointer"
+    whileHover={{ y: -8 }}
+  >
+    <img
+      src={service.image}
+      alt={service.title}
+      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+    />
+    
+    {/* Default gradient */}
+    <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/50 via-25% to-transparent to-50% group-hover:opacity-0 transition-opacity duration-300" />
+    
+    {/* Hover gradient */}
+    <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/60 to-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    
+    {/* Default text */}
+    <div className="absolute bottom-0 left-0 right-0 p-2 md:p-3 text-center group-hover:opacity-0 transition-opacity duration-300">
+      <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-primary-foreground mb-0.5">
+        {service.title}
+      </h3>
+      <p className="text-[8px] sm:text-[9px] md:text-xs text-primary-foreground/80 leading-tight line-clamp-2">
+        {service.description}
+      </p>
+    </div>
+    
+    {/* Hover text */}
+    <div className="absolute inset-0 flex flex-col items-center justify-center p-2 md:p-3 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-primary-foreground mb-1">
+        {service.title}
+      </h3>
+      <p className="text-[8px] sm:text-[9px] md:text-xs text-primary-foreground/90 leading-tight px-1">
+        {service.description}
+      </p>
+    </div>
+  </motion.div>
+);
 
 const ServicesGrid = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.2 });
+  const [activeTab, setActiveTab] = useState("holistic");
 
   return (
-    <section id="services" className="py-10 md:py-14 bg-cream scroll-mt-24" ref={ref}>
+    <section id="services" className="py-10 md:py-14 bg-muted scroll-mt-24" ref={ref}>
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -30,67 +89,33 @@ const ServicesGrid = () => {
             Our Services
           </h2>
           <p className="text-muted-foreground text-xs md:text-sm lg:text-base leading-relaxed px-2">
-            Science-backed treatments performed by trained experts. Discover your path to radiant skin.
+            Traditional healing methods and advanced wellness treatments. Discover your path to natural health.
           </p>
         </motion.div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 lg:gap-4 max-w-4xl mx-auto">
-          {allServices.map((service, index) => {
-            return (
-              <motion.div
-                key={service.title}
-                initial={{ 
-                  opacity: 0, 
-                  y: -60
-                }}
-                animate={isInView ? { 
-                  opacity: 1, 
-                  y: 0
-                } : {}}
-                transition={{ 
-                  duration: 2.5, 
-                  delay: index * 0.25,
-                  ease: [0.25, 0.1, 0.25, 1]
-                }}
-                className="group relative overflow-hidden rounded-lg md:rounded-xl aspect-[4/5] cursor-pointer"
-                whileHover={{ y: -8 }}
-              >
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                
-                {/* Default gradient - bottom half */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/50 via-25% to-transparent to-50% group-hover:opacity-0 transition-opacity duration-300" />
-                
-                {/* Hover gradient - full cover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/60 to-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                {/* Default text position - bottom */}
-                <div className="absolute bottom-0 left-0 right-0 p-2 md:p-3 text-center group-hover:opacity-0 transition-opacity duration-300">
-                  <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-accent-foreground mb-0.5">
-                    {service.title}
-                  </h3>
-                  <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/80 leading-tight line-clamp-2">
-                    {service.description}
-                  </p>
-                </div>
-                
-                {/* Hover text position - centered */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-2 md:p-3 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h3 className="font-display text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-accent-foreground mb-1">
-                    {service.title}
-                  </h3>
-                  <p className="text-[8px] sm:text-[9px] md:text-xs text-accent-foreground/90 leading-tight px-1">
-                    {service.longDescription}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+        {/* Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-6 md:mb-8">
+            <TabsTrigger value="holistic" className="text-xs md:text-sm">Holistic Wellness</TabsTrigger>
+            <TabsTrigger value="tcm" className="text-xs md:text-sm">Traditional Chinese Medicine</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="holistic">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 lg:gap-4 max-w-5xl mx-auto">
+              {holisticServices.map((service, index) => (
+                <ServiceCard key={service.title} service={service} index={index} isInView={isInView} />
+              ))}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="tcm">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 lg:gap-4 max-w-5xl mx-auto">
+              {tcmServices.map((service, index) => (
+                <ServiceCard key={service.title} service={service} index={index} isInView={isInView} />
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </section>
   );

@@ -14,7 +14,243 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_settings: {
+        Row: {
+          id: string
+          key: string
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          id?: string
+          key: string
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
+      appointments: {
+        Row: {
+          admin_notes: string | null
+          condition_description: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string
+          preferred_date: string | null
+          preferred_time: string | null
+          reference_number: string | null
+          service_category: string | null
+          specific_service: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          condition_description?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          phone: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reference_number?: string | null
+          service_category?: string | null
+          specific_service?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          condition_description?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reference_number?: string | null
+          service_category?: string | null
+          specific_service?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      membership_inquiries: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          email: string
+          full_name: string
+          how_did_you_hear: string | null
+          id: string
+          location: string | null
+          phone: string
+          reason_for_joining: string | null
+          reference_number: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          how_did_you_hear?: string | null
+          id?: string
+          location?: string | null
+          phone: string
+          reason_for_joining?: string | null
+          reference_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          how_did_you_hear?: string | null
+          id?: string
+          location?: string | null
+          phone?: string
+          reason_for_joining?: string | null
+          reference_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          benefits: string[] | null
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          image_url: string | null
+          is_featured: boolean
+          name: string
+          tagline: string | null
+          updated_at: string
+        }
+        Insert: {
+          benefits?: string[] | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          name: string
+          tagline?: string | null
+          updated_at?: string
+        }
+        Update: {
+          benefits?: string[] | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          name?: string
+          tagline?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          id: string
+          key: string
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          id?: string
+          key: string
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          author: string
+          created_at: string
+          display_order: number | null
+          id: string
+          is_active: boolean
+          quote: string
+        }
+        Insert: {
+          author: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_active?: boolean
+          quote: string
+        }
+        Update: {
+          author?: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_active?: boolean
+          quote?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

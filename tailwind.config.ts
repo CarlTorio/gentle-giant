@@ -52,11 +52,17 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Brand colors
+        brand: {
+          red: "hsl(var(--brand-red))",
+          green: "hsl(var(--brand-green))",
+          gold: "hsl(var(--brand-gold))",
+        },
         green: {
-          light: "hsl(var(--brown-light))",
-          DEFAULT: "hsl(var(--brown-dark))",
-          dark: "hsl(var(--brown-dark))",
-          deep: "hsl(var(--brown-deep))",
+          light: "hsl(var(--brand-green))",
+          DEFAULT: "hsl(var(--brand-green))",
+          dark: "hsl(120 65% 28%)",
+          deep: "hsl(var(--brand-red-dark))",
         },
         sage: {
           DEFAULT: "hsl(var(--cream))",
