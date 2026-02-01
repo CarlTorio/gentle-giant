@@ -21,6 +21,7 @@ const Header = () => {
   const navItems = [
     { label: "Services", path: "/#services" },
     { label: "About Us", path: "/our-story" },
+    { label: "Products", path: "/#products" },
     { label: "Membership", path: "/membership" },
     { label: "Bookings", path: "/book-consultation" },
   ];
@@ -32,13 +33,11 @@ const Header = () => {
       const sectionId = path.substring(2);
       
       if (location.pathname === "/") {
-        // Already on home page, just scroll to section
         const element = document.getElementById(sectionId);
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
         }
       } else {
-        // Navigate to home page first, then scroll
         navigate("/");
         setTimeout(() => {
           const element = document.getElementById(sectionId);
@@ -62,7 +61,6 @@ const Header = () => {
 
   return (
     <>
-      {/* Main Navigation */}
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -77,13 +75,11 @@ const Header = () => {
             <button
               onClick={handleLogoClick}
               onDoubleClick={() => navigate('/admin')}
-              className="flex items-center ml-2 md:ml-24 touch-manipulation cursor-pointer active:scale-95 transition-transform"
+              className="flex items-center ml-2 md:ml-12 touch-manipulation cursor-pointer active:scale-95 transition-transform"
             >
-              <img
-                src="https://i.imgur.com/9beP2dq.png"
-                alt="Hilomè Logo"
-                className="h-8 w-auto pointer-events-none"
-              />
+              <span className="font-display font-bold text-lg md:text-xl text-primary">
+                Esperanza's Holistic Wellness
+              </span>
             </button>
 
             {/* Desktop Navigation */}
@@ -96,15 +92,22 @@ const Header = () => {
                     whileHover={{ y: -2 }}
                   >
                     {item.label}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300" />
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                   </motion.button>
                 </li>
               ))}
             </ul>
 
-            <div className="hidden md:flex items-center gap-4 mr-12 md:mr-24">
+            <div className="hidden md:flex items-center gap-4 mr-6 md:mr-12">
               <Button 
-                className="gradient-accent text-accent-foreground hover:opacity-90 transition-opacity"
+                className="gradient-accent text-primary-foreground hover:opacity-90 transition-opacity rounded-full"
+                onClick={() => navigate("/book-consultation")}
+              >
+                Book Consultation
+              </Button>
+              <Button 
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary/5 rounded-full"
                 onClick={() => navigate("/membership")}
               >
                 Join Now
@@ -150,15 +153,27 @@ const Header = () => {
                     </motion.li>
                   ))}
                 </ul>
-                <Button 
-                  className="w-full mt-6 gradient-accent text-accent-foreground"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    navigate("/membership");
-                  }}
-                >
-                  Join Now
-                </Button>
+                <div className="flex flex-col gap-3 mt-6">
+                  <Button 
+                    className="w-full gradient-accent text-primary-foreground rounded-full"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      navigate("/book-consultation");
+                    }}
+                  >
+                    Book Consultation
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="w-full border-primary text-primary rounded-full"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      navigate("/membership");
+                    }}
+                  >
+                    Join Now
+                  </Button>
+                </div>
               </div>
             </motion.div>
           )}

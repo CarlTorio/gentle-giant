@@ -1,156 +1,153 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, CheckCircle, Phone, Mail, MapPin, Clock, Facebook, Instagram, Calendar } from "lucide-react";
+import { ArrowLeft, Phone, Mail, MapPin, Clock, Facebook, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import DateTimePicker from "@/components/DateTimePicker";
-import { format } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
+const holisticServices = [
+  "Stroke Management",
+  "Sciatica Remedies",
+  "Frozen Shoulder",
+  "Body/Back Pain",
+  "Sprain Recovery",
+  "Scoliosis Management",
+  "Bone Manipulation",
+  "Nerve Therapy",
+  "Filipino Hilot",
+];
+
+const tcmServices = [
+  "Auriculo Therapy",
+  "Guasha Therapy",
+  "Moxibustion",
+  "Cupping / Ventoza",
+  "Electro Acupuncture",
+  "Laser Acupuncture",
+  "Bioresonator",
+];
+
+const timeSlots = [
+  "8:00 AM",
+  "9:00 AM",
+  "10:00 AM",
+  "11:00 AM",
+  "1:00 PM",
+  "2:00 PM",
+  "3:00 PM",
+  "4:00 PM",
+];
+
 const BookConsultation = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    contactNumber: "",
-    date: "",
-    time: "",
-    message: ""
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [isDateTimePickerOpen, setIsDateTimePickerOpen] = useState(false);
-  const handleDateTimeConfirm = (date: string, time: string) => {
-    setFormData(prev => ({
-      ...prev,
-      date,
-      time
-    }));
-  };
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const {
-      name,
-      value
-    } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    serviceCategory: "",
+    specificService: "",
+    preferredDate: "",
+    preferredTime: "",
+    conditionDescription: "",
+  });
 
-  const handleSubmit = async () => {
-    if (formData.name && formData.email && formData.contactNumber && formData.date && formData.time) {
-      setIsSubmitting(true);
-      try {
-        // Check if the booker is a member (by email)
-        const { data: existingMember } = await supabase
-          .from('members')
-          .select('id, membership_type, status')
-          .eq('email', formData.email.toLowerCase().trim())
-          .eq('status', 'active')
-          .maybeSingle();
-
-        // Determine membership info from member lookup
-        let membershipTier = existingMember ? existingMember.membership_type : null;
-        let memberId = existingMember ? existingMember.id : null;
-
-        // Save booking to database with member link if found
-        const { error } = await supabase.from('bookings').insert({
-          name: formData.name,
-          email: formData.email.toLowerCase().trim(),
-          contact_number: formData.contactNumber,
-          membership: membershipTier,
-          preferred_date: formData.date,
-          preferred_time: formData.time,
-          message: formData.message || null,
-          status: 'pending',
-          member_id: memberId,
-        });
-
-        if (error) throw error;
-
-        // Send confirmation email via edge function
-        try {
-          const { error: emailError } = await supabase.functions.invoke('send-booking-confirmation', {
-            body: {
-              name: formData.name,
-              email: formData.email,
-              contactNumber: formData.contactNumber,
-              membership: membershipTier,
-              date: formData.date,
-              time: formData.time,
-              message: formData.message || undefined
-            }
-          });
-          
-          if (emailError) {
-            console.error('Email sending failed:', emailError);
-            // Don't block the booking if email fails
-          }
-        } catch (emailErr) {
-          console.error('Email service error:', emailErr);
-          // Don't block the booking if email fails
-        }
-
-        // Navigate to thank you page with booking details
-        navigate("/thank-you", {
-          state: {
-            name: formData.name,
-            email: formData.email,
-            contactNumber: formData.contactNumber,
-            membership: membershipTier,
-            date: formData.date,
-            time: formData.time,
-            message: formData.message || undefined
-          }
-        });
-        toast.success("Consultation booked successfully!");
-      } catch (error) {
-        console.error('Error booking consultation:', error);
-        toast.error("Failed to book consultation. Please try again.");
-        setIsSubmitting(false);
-      }
-    } else {
-      toast.error("Please fill in all required fields");
+  const getAvailableServices = () => {
+    switch (formData.serviceCategory) {
+      case "holistic":
+        return holisticServices;
+      case "tcm":
+        return tcmServices;
+      case "both":
+        return [...holisticServices, ...tcmServices];
+      default:
+        return [];
     }
   };
-  return <div className="min-h-screen bg-background">
+
+  // Disable Sundays in date picker
+  const getMinDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.fullName || !formData.phone || !formData.email) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase.from('appointments').insert({
+        full_name: formData.fullName,
+        phone: formData.phone,
+        email: formData.email.toLowerCase().trim(),
+        service_category: formData.serviceCategory || null,
+        specific_service: formData.specificService || null,
+        preferred_date: formData.preferredDate || null,
+        preferred_time: formData.preferredTime || null,
+        condition_description: formData.conditionDescription || null,
+        status: 'pending',
+      });
+
+      if (error) throw error;
+
+      toast.success("Salamat! Your appointment request has been received. We will confirm your schedule within 24 hours.");
+      navigate("/thank-you", {
+        state: {
+          name: formData.fullName,
+          email: formData.email,
+          date: formData.preferredDate,
+          time: formData.preferredTime,
+        }
+      });
+    } catch (error) {
+      console.error('Error booking appointment:', error);
+      toast.error("Failed to book appointment. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-20 pb-8">
         <div className="container mx-auto px-4">
           {/* Back Button */}
-          <motion.button initial={{
-          opacity: 0,
-          x: -20
-        }} animate={{
-          opacity: 1,
-          x: 0
-        }} onClick={() => navigate("/")} className="flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors mb-6">
+          <motion.button
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors mb-6"
+          >
             <ArrowLeft className="w-5 h-5" />
             <span>Back</span>
           </motion.button>
 
           {/* Two Column Layout */}
-          <motion.div initial={{
-          opacity: 0,
-          y: 30
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          delay: 0.1
-        }} className="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-elevated">
-            {/* Left Column - Get in Touch */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-elevated"
+          >
+            {/* Left Column - Contact Info */}
             <div className="bg-muted p-4 md:p-12 flex flex-col justify-center">
               <h2 className="font-display text-xl md:text-4xl text-foreground mb-2 md:mb-4">
                 Get in Touch
               </h2>
               <p className="text-foreground/70 text-xs md:text-base mb-4 md:mb-8">
-                Send us your questions or messages by filling out the form. We'll get back to you as soon as possible.
+                Book your appointment with Esperanza's Holistic Wellness Clinic. By appointment only.
               </p>
 
               {/* Contact Information */}
@@ -161,142 +158,173 @@ const BookConsultation = () => {
                     <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-primary flex items-center justify-center">
                       <Phone className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                     </div>
-                    <span className="text-xs md:text-base">0977 334 4200</span>
+                    <span className="text-xs md:text-base">0995 905 5286</span>
                   </div>
                   <div className="flex items-center gap-2 md:gap-3 text-foreground/80">
                     <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-primary flex items-center justify-center">
                       <Mail className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                     </div>
-                    <span className="text-xs md:text-base truncate">cruzskin@gmail.com</span>
+                    <span className="text-xs md:text-base truncate">esperanzateodosiolopez@gmail.com</span>
                   </div>
                   <div className="flex items-center gap-2 md:gap-3 text-foreground/80">
                     <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-primary flex items-center justify-center">
                       <MapPin className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                     </div>
-                    <span className="text-xs md:text-base">Mandaue City</span>
+                    <span className="text-xs md:text-base">Novaliches, QC</span>
                   </div>
                   <div className="flex items-center gap-2 md:gap-3 text-foreground/80">
                     <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-primary flex items-center justify-center flex-shrink-0">
                       <Clock className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                     </div>
-                    <span className="text-xs md:hidden">9AM - 7PM</span>
+                    <span className="text-xs md:hidden">8AM - 5PM</span>
                     <div className="hidden md:flex flex-col">
-                      <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
-                      <span>Sunday: 10:00 AM - 5:00 PM</span>
+                      <span>Mon - Sat: 8:00 AM - 5:00 PM</span>
+                      <span className="text-primary font-medium">By Appointment Only</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Follow Us */}
+              {/* Social */}
               <div className="flex md:block items-center gap-3">
                 <h3 className="text-foreground font-semibold text-sm md:text-base md:mb-4">Follow Us</h3>
-                <div className="flex items-center gap-2 md:gap-3 md:mb-3">
-                  <a href="https://www.facebook.com/profile.php?id=61580172268741" target="_blank" rel="noopener noreferrer" className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
+                <div className="flex items-center gap-2 md:gap-3">
+                  <a href="#" target="_blank" rel="noopener noreferrer" className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
                     <Facebook className="w-4 h-4 md:w-5 md:h-5 text-primary hover:text-primary-foreground" />
                   </a>
-                  <a href="https://instagram.com/Hilome" target="_blank" rel="noopener noreferrer" className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
-                    <Instagram className="w-4 h-4 md:w-5 md:h-5 text-primary hover:text-primary-foreground" />
-                  </a>
                 </div>
-                <p className="hidden md:block text-foreground/60 text-sm">
-                  @Hilomè on Facebook  •  @Hilomè on Instagram
-                </p>
               </div>
             </div>
 
             {/* Right Column - Booking Form */}
             <div className="bg-primary p-4 md:p-12">
-              {/* Form Header */}
               <div className="mb-3 md:mb-6">
                 <h2 className="font-display text-lg md:text-3xl text-primary-foreground mb-1 md:mb-2">
-                  Book Your Consultation
+                  Book a Consultation
                 </h2>
                 <p className="text-primary-foreground/70 text-xs md:text-sm">
-                  Schedule a consultation with our skincare specialists.
+                  By appointment only. Monday to Saturday, 8 AM to 5 PM.
                 </p>
               </div>
-              
-              <div className="space-y-3 md:space-y-5">
-                {/* Name Field */}
+
+              <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+                {/* Full Name */}
                 <div>
-                  <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
-                    Name <span className="text-red-300">*</span>
-                  </label>
-                  <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground placeholder-primary-foreground/50 py-1.5 md:py-2 px-0 focus:outline-none focus:border-accent transition-colors text-xs md:text-sm" />
+                  <Input
+                    placeholder="Full Name *"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground placeholder:text-primary-foreground/50"
+                  />
                 </div>
 
-                {/* Email and Contact Number Row */}
-                <div className="grid grid-cols-2 gap-3 md:gap-5">
+                {/* Phone & Email */}
+                <div className="grid grid-cols-2 gap-3">
+                  <Input
+                    placeholder="Phone Number *"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground placeholder:text-primary-foreground/50"
+                  />
+                  <Input
+                    type="email"
+                    placeholder="Email Address *"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground placeholder:text-primary-foreground/50"
+                  />
+                </div>
+
+                {/* Service Category */}
+                <Select
+                  value={formData.serviceCategory}
+                  onValueChange={(value) => setFormData({ ...formData, serviceCategory: value, specificService: "" })}
+                >
+                  <SelectTrigger className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground">
+                    <SelectValue placeholder="Select Service Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="holistic">Holistic Wellness Treatment</SelectItem>
+                    <SelectItem value="tcm">Traditional Chinese Medicine</SelectItem>
+                    <SelectItem value="both">Both / Not Sure</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Specific Service */}
+                {formData.serviceCategory && (
+                  <Select
+                    value={formData.specificService}
+                    onValueChange={(value) => setFormData({ ...formData, specificService: value })}
+                  >
+                    <SelectTrigger className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground">
+                      <SelectValue placeholder="Select Specific Service" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getAvailableServices().map((service) => (
+                        <SelectItem key={service} value={service}>{service}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+
+                {/* Date & Time */}
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
-                      Email <span className="text-red-300">*</span>
-                    </label>
-                    <input type="email" name="email" placeholder="E-mail" value={formData.email} onChange={handleChange} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground placeholder-primary-foreground/50 py-1.5 md:py-2 px-0 focus:outline-none focus:border-accent transition-colors text-xs md:text-sm" />
+                    <Input
+                      type="date"
+                      min={getMinDate()}
+                      value={formData.preferredDate}
+                      onChange={(e) => {
+                        const date = new Date(e.target.value);
+                        if (date.getDay() === 0) {
+                          toast.error("Sundays are not available. Please select another day.");
+                          return;
+                        }
+                        setFormData({ ...formData, preferredDate: e.target.value });
+                      }}
+                      className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground"
+                    />
                   </div>
-                  <div>
-                    <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
-                      Contact <span className="text-red-300">*</span>
-                    </label>
-                    <div className="flex items-center border-b-2 border-primary-foreground/50 focus-within:border-accent transition-colors">
-                      <span className="mr-1 text-sm md:text-xl">🇵🇭</span>
-                      <input type="tel" name="contactNumber" placeholder="Number" value={formData.contactNumber} onChange={handleChange} className="flex-1 bg-transparent text-primary-foreground placeholder-primary-foreground/50 py-1.5 md:py-2 px-0 focus:outline-none text-xs md:text-sm" />
-                    </div>
-                  </div>
+                  <Select
+                    value={formData.preferredTime}
+                    onValueChange={(value) => setFormData({ ...formData, preferredTime: value })}
+                  >
+                    <SelectTrigger className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground">
+                      <SelectValue placeholder="Preferred Time" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {timeSlots.map((time) => (
+                        <SelectItem key={time} value={time}>{time}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                {/* Preferred Schedule */}
-                <div>
-                  <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
-                    Preferred Schedule <span className="text-red-300">*</span>
-                  </label>
-                  <button type="button" onClick={() => setIsDateTimePickerOpen(true)} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground py-1.5 md:py-2 px-0 focus:outline-none focus:border-accent transition-colors text-xs md:text-sm cursor-pointer text-left flex items-center justify-between">
-                    <span className={formData.date && formData.time ? "text-primary-foreground" : "text-primary-foreground/50"}>
-                      {formData.date && formData.time ? `${format(new Date(formData.date), "MMM d, yyyy")} at ${formData.time}` : "Select date and time"}
-                    </span>
-                    <Calendar className="w-3 h-3 md:w-4 md:h-4 text-primary-foreground/70" />
-                  </button>
-                </div>
+                {/* Condition Description */}
+                <Textarea
+                  placeholder="Brief description of your health concern"
+                  value={formData.conditionDescription}
+                  onChange={(e) => setFormData({ ...formData, conditionDescription: e.target.value })}
+                  rows={3}
+                  className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground placeholder:text-primary-foreground/50"
+                />
 
-                {/* Message */}
-                <div>
-                  <label className="block text-primary-foreground font-semibold text-xs md:text-sm mb-1">
-                    Message
-                  </label>
-                  <textarea name="message" placeholder="Type your message here..." value={formData.message} onChange={handleChange} rows={1} className="w-full bg-transparent border-b-2 border-primary-foreground/50 text-primary-foreground placeholder-primary-foreground/50 py-1.5 md:py-2 px-0 focus:outline-none focus:border-accent transition-colors resize-none text-xs md:text-sm md:rows-2" />
-                </div>
-
-                {/* Submit Button */}
-                <motion.div whileHover={{
-                scale: 1.02
-              }} whileTap={{
-                scale: 0.98
-              }} className="pt-1 md:pt-2">
-                  <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full bg-accent text-accent-foreground font-bold py-3 md:py-4 rounded-full hover:bg-accent/90 transition-colors disabled:opacity-50 text-xs md:text-sm" size="lg">
-                    {submitted ? <span className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 md:w-5 md:h-5" />
-                        Booked!
-                      </span> : isSubmitting ? "Booking..." : "Book your consultation now!"}
-                  </Button>
-                </motion.div>
-              </div>
-
-              {submitted && <motion.div initial={{
-              opacity: 0,
-              y: 10
-            }} animate={{
-              opacity: 1,
-              y: 0
-            }} className="mt-4 text-center text-primary-foreground">
-                  <p className="text-base">Thank you! We'll contact you soon.</p>
-                </motion.div>}
+                {/* Submit */}
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-accent text-accent-foreground hover:bg-accent/90 rounded-full font-semibold"
+                >
+                  {isSubmitting ? "Booking..." : "Book Appointment"}
+                </Button>
+              </form>
             </div>
           </motion.div>
         </div>
       </main>
       <Footer />
-      
-      <DateTimePicker isOpen={isDateTimePickerOpen} onClose={() => setIsDateTimePickerOpen(false)} onConfirm={handleDateTimeConfirm} selectedDate={formData.date} selectedTime={formData.time} />
-    </div>;
+    </div>
+  );
 };
+
 export default BookConsultation;
