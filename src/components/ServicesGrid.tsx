@@ -97,7 +97,7 @@ const ServicesGrid = () => {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-6 md:mb-8">
             <TabsTrigger value="holistic" className="text-xs md:text-sm">Holistic Wellness</TabsTrigger>
-            <TabsTrigger value="tcm" className="text-xs md:text-sm">Traditional Chinese Medicine</TabsTrigger>
+            <TabsTrigger value="tcm" className="text-xs md:text-sm">Traditional Chinese Med</TabsTrigger>
           </TabsList>
           
           <TabsContent value="holistic">

@@ -1,7 +1,7 @@
 -- ===========================================================================
--- HILOMÈ WELLNESS RESORT DATABASE SCHEMA
+-- HILOMÈ WELLNESS CENTER DATABASE SCHEMA
 -- Consolidated from supabase/migrations/
--- Last Updated: 2026-01-29
+-- Last Updated: 2026-02-03
 -- ===========================================================================
 -- Migration History (43 files):
 -- 1. 20260114155747 - Initial bookings, membership_applications, members tables
@@ -46,6 +46,7 @@
 -- 40. 20260128171543 - Final schema with all tables and functions
 -- 41. 20260128173041 - Add UPDATE and DELETE policies for anon on members
 -- 42. 20260129020055 - Add UPDATE and DELETE policies for anon on bookings
+-- 43. 20260129022247 - Final consolidated schema rebuild
 -- ===========================================================================
 
 

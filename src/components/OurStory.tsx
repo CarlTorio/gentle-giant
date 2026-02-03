@@ -31,7 +31,7 @@ const OurStory = () => {
           className="max-w-xl bg-background/70 p-6 md:p-8 rounded-2xl shadow-elevated"
         >
           <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground mb-4">
-            About Esperanza
+            Meet Esperanza
           </h2>
           <div className="space-y-3 text-muted-foreground text-sm md:text-base leading-relaxed">
             <motion.p
@@ -39,14 +39,14 @@ const OurStory = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
-              Esperanza Lopez is a certified holistic wellness practitioner specializing in Traditional Chinese Medicine and Filipino traditional healing.
+              Esperanza's journey into holistic healing began with a deep passion for helping others find natural paths to wellness and recovery.
             </motion.p>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
             >
-              With years of experience in natural health remedies, she helps patients recover from chronic pain, mobility issues, and various body conditions through non-invasive holistic treatments. She is also a trusted HCIBiz stockist and distributor, offering premium health food supplements.
+              Today, she combines Traditional Chinese Medicine with Filipino Hilot traditions, guiding patients through their healing journey with compassion and expertise.
             </motion.p>
           </div>
           <div className="mt-8">
@@ -55,7 +55,7 @@ const OurStory = () => {
                 size="lg"
                 className="gradient-accent text-primary-foreground hover:opacity-90 rounded-full px-8 text-base transition-all hover:scale-105 hover:shadow-lg"
               >
-                Read More
+                Esperanza's Story
               </Button>
             </Link>
           </div>
