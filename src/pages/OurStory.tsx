@@ -64,10 +64,10 @@ const OurStory = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="font-display text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-foreground mb-6">
-              Hilomè Wellness Resort
+              Esperanza's Holistic Wellness
             </h1>
             <p className="text-lg md:text-xl text-accent font-display italic">
-              Our Story
+              The Story of Esperanza Lopez
             </p>
           </motion.div>
         </div>
@@ -86,14 +86,14 @@ const OurStory = () => {
               className="mb-16"
             >
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-6">
-                Nestled in the serene coastal town of Maslog, Danao City, Cebu, Hilomè Wellness Resort was born from a vision to create more than just a destination—a sanctuary where healing begins in silence.
+                In the heart of Novaliches, Quezon City, Esperanza Lopez discovered her calling—a passion for natural healing that would transform countless lives. What began as a personal journey toward wellness became a mission to share the gift of holistic health with her community.
               </p>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                Founded by Dr. Herbert Ryan Cruz of Cruzskin Medical and Aesthetic Center, Hilomè embodies a philosophy deeply rooted in Filipino heritage. The name itself draws inspiration from the Filipino word "Hilom," meaning healing, paired with "È" for Elegance—representing our commitment to the art of wellness delivered with grace and sophistication.
+                Esperanza, whose name means "hope" in Spanish, has always believed that true healing comes from within. Her approach combines time-honored Filipino traditional medicine with modern holistic practices, creating a unique path to wellness that honors both heritage and innovation.
               </p>
             </motion.div>
 
-            {/* Section: Where Science Meets Serenity */}
+            {/* Section: A Healer's Beginning */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -104,15 +104,15 @@ const OurStory = () => {
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-[2px] gradient-accent" />
                 <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground">
-                  Where Science Meets Serenity
+                  A Healer's Beginning
                 </h2>
               </div>
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed pl-16">
-                At Hilomè, we believe that true wellness emerges from the harmony of mind, body, and spirit. Our resort is thoughtfully designed as a space where science meets nature, aesthetics meet wellness, and luxury meets tranquility. Every detail—from the calming scent of essential oils to the gentle sound of waves at sunset—is intentionally curated to restore balance and renew your spirit.
+                Growing up, Esperanza watched her grandmother prepare herbal remedies and perform traditional healing rituals. These early memories planted the seeds of her lifelong dedication to natural wellness. After years of studying various holistic modalities—from traditional hilot massage to herbal medicine and energy healing—she opened her doors to those seeking an alternative path to health.
               </p>
             </motion.div>
 
-            {/* Section: The Art of Healing in Silence */}
+            {/* Section: The Gift of Healing Hands */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -123,15 +123,15 @@ const OurStory = () => {
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-[2px] gradient-accent" />
                 <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground">
-                  The Art of Healing in Silence
+                  The Gift of Healing Hands
                 </h2>
               </div>
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed pl-16">
-                In today's fast-paced world, silence is not emptiness but a powerful space for restoration. Surrounded by nature's beauty and inspired by the tranquil shores of Danao, Hilomè invites you to pause, breathe, and reconnect with yourself. Here, healing is an art form—a journey of restoration that honors both tradition and innovation.
+                Esperanza is known for her intuitive touch and compassionate care. Her clients often describe sessions with her as transformative experiences that address not just physical ailments, but emotional and spiritual imbalances as well. She believes that every person carries the power to heal themselves—she simply helps guide them on that journey.
               </p>
             </motion.div>
 
-            {/* Section: A Holistic Sanctuary */}
+            {/* Section: Philosophy of Wellness */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -142,15 +142,15 @@ const OurStory = () => {
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-[2px] gradient-accent" />
                 <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground">
-                  A Holistic Sanctuary
+                  Philosophy of Wellness
                 </h2>
               </div>
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed pl-16">
-                Our offerings reflect a complete approach to wellness: from relaxation spa services and medical wellness treatments to nourishing café cuisine and transformative lifestyle experiences like yoga and wellness drips. With future expansions planned to include saunas, ice baths, and jacuzzis, Hilomè continues to evolve as Cebu's premier wellness destination.
+                "Healing is not just about treating symptoms," Esperanza often says. "It's about restoring harmony between body, mind, and spirit." Her practice integrates massage therapy, herbal treatments, dietary guidance, and lifestyle counseling to create personalized wellness plans for each client. She treats every individual as a whole person, not just a collection of symptoms.
               </p>
             </motion.div>
 
-            {/* Section: Join the Hilomè Circle */}
+            {/* Section: Serving the Community */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -161,11 +161,11 @@ const OurStory = () => {
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-[2px] gradient-accent" />
                 <h2 className="font-display text-2xl md:text-3xl font-semibold text-foreground">
-                  Join the Hilomè Circle
+                  Serving the Community
                 </h2>
               </div>
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed pl-16">
-                We welcome you to become part of our founding community—a circle of individuals who value wellness, elegance, and the transformative power of silence. As a member, you'll enjoy exclusive access to our sanctuary, priority services, and the opportunity to turn dreams into reality alongside us.
+                For over two decades, Esperanza has been a trusted healer in Novaliches and beyond. Word of her gift has spread through generations of families who have experienced the benefits of her treatments. From chronic pain relief to stress management, from post-surgery recovery to general wellness maintenance, her clients return again and again, often bringing their loved ones along.
               </p>
             </motion.div>
 
@@ -178,16 +178,16 @@ const OurStory = () => {
               className="text-center py-12 border-t border-b border-border"
             >
               <p className="text-lg md:text-xl text-foreground font-display italic mb-6">
-                Hilomè Wellness Resort – Where nature, wellness, and tranquility come together.
+                Esperanza's Holistic Wellness – Where traditional healing meets modern care.
                 <br />
-                Where every moment is an invitation to heal.
+                Your journey to natural health and recovery begins here.
               </p>
               <div className="flex items-center justify-center gap-4 md:gap-8">
+                <span className="text-sm md:text-base font-semibold text-accent tracking-widest">HEALING</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                <span className="text-sm md:text-base font-semibold text-accent tracking-widest">TRADITION</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                 <span className="text-sm md:text-base font-semibold text-accent tracking-widest">WELLNESS</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                <span className="text-sm md:text-base font-semibold text-accent tracking-widest">AESTHETIC</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                <span className="text-sm md:text-base font-semibold text-accent tracking-widest">LIFESTYLE</span>
               </div>
             </motion.div>
           </div>
