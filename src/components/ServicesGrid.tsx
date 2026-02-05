@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import auriculoImg from "@/assets/service-auriculo.png";
 import bioresonatorImg from "@/assets/service-bioresonator.png";
 import laserAcupunctureImg from "@/assets/service-laser-acupuncture.png";
-import cuppingImg from "@/assets/service-cupping.jpeg";
+import cuppingImg from "@/assets/service-cupping.png";
 import moxibustionImg from "@/assets/service-moxibustion.png";
 import guashaImg from "@/assets/service-guasha.png";
 import electroAcupunctureImg from "@/assets/service-electro-acupuncture.png";
