@@ -1,6 +1,13 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import auriculoImg from "@/assets/service-auriculo.png";
+import bioresonatorImg from "@/assets/service-bioresonator.png";
+import laserAcupunctureImg from "@/assets/service-laser-acupuncture.png";
+import cuppingImg from "@/assets/service-cupping.jpeg";
+import moxibustionImg from "@/assets/service-moxibustion.png";
+import guashaImg from "@/assets/service-guasha.png";
+import electroAcupunctureImg from "@/assets/service-electro-acupuncture.png";
 
 const holisticServices = [
   { title: "Stroke Management", description: "Rehabilitation and recovery support through holistic methods", image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=500&fit=crop" },
@@ -15,13 +22,13 @@ const holisticServices = [
 ];
 
 const tcmServices = [
-  { title: "Auriculo Therapy", description: "Ear acupuncture therapy for various health conditions", image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=400&h=500&fit=crop" },
-  { title: "Guasha Therapy", description: "Scraping technique to improve circulation and relieve pain", image: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=400&h=500&fit=crop" },
-  { title: "Moxibustion", description: "Heat therapy using dried herbs to stimulate healing", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=500&fit=crop" },
-  { title: "Cupping / Ventoza", description: "Suction therapy to promote blood flow and reduce tension", image: "https://images.unsplash.com/photo-1611073615830-17bea3db7ae8?w=400&h=500&fit=crop" },
-  { title: "Electro Acupuncture", description: "Enhanced acupuncture with mild electrical stimulation", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=500&fit=crop" },
-  { title: "Laser Acupuncture", description: "Non-invasive laser-based acupuncture treatment", image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=500&fit=crop" },
-  { title: "Bioresonator", description: "Frequency-based therapy for cellular health restoration", image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=500&fit=crop" },
+  { title: "Auriculo Therapy", description: "Ear acupuncture therapy for various health conditions", image: auriculoImg },
+  { title: "Guasha Therapy", description: "Scraping technique to improve circulation and relieve pain", image: guashaImg },
+  { title: "Moxibustion", description: "Heat therapy using dried herbs to stimulate healing", image: moxibustionImg },
+  { title: "Cupping / Ventoza", description: "Suction therapy to promote blood flow and reduce tension", image: cuppingImg },
+  { title: "Electro Acupuncture", description: "Enhanced acupuncture with mild electrical stimulation", image: electroAcupunctureImg },
+  { title: "Laser Acupuncture", description: "Non-invasive laser-based acupuncture treatment", image: laserAcupunctureImg },
+  { title: "Bioresonator", description: "Frequency-based therapy for cellular health restoration", image: bioresonatorImg },
 ];
 
 const ServiceCard = ({ service, index, isInView }: { service: typeof holisticServices[0]; index: number; isInView: boolean }) => (
