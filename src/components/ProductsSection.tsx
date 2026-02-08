@@ -1,36 +1,43 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
+import productCellPowerTrio from "@/assets/product-cell-power-trio.png";
+import productCrj from "@/assets/product-crj.png";
+import productNabPeptides from "@/assets/product-nab-peptides.png";
+import productHciCmd from "@/assets/product-hci-cmd.png";
+import productCbf from "@/assets/product-cbf.png";
+import productCbj from "@/assets/product-cbj.png";
+
 const products = [
   {
     name: "Cell Power Trio Plus+",
     tagline: "Detoxify. Nourish. Activate.",
-    image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop",
+    image: productCellPowerTrio,
   },
   {
     name: "CRJ (Cell Rejuvenate Juice)",
     tagline: "Healthy Life Starts from the Guts",
-    image: "https://images.unsplash.com/photo-1622597467836-f3285f2131b8?w=400&h=400&fit=crop",
+    image: productCrj,
   },
   {
     name: "NAB Peptides",
     tagline: "Absorption. Regeneration. Renewal.",
-    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=400&fit=crop",
+    image: productNabPeptides,
   },
   {
     name: "HCI CMD (Cell Mineral Drops)",
     tagline: "Essential Minerals for Cellular Health",
-    image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400&h=400&fit=crop",
+    image: productHciCmd,
   },
   {
     name: "CBF (Cell Bio Food)",
     tagline: "Nourish Your Body Naturally",
-    image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=400&h=400&fit=crop",
+    image: productCbf,
   },
   {
     name: "CBJ (Cell Bio Juice)",
     tagline: "Natural Wellness in Every Sip",
-    image: "https://images.unsplash.com/photo-1610478920392-2f1fb2f87c8c?w=400&h=400&fit=crop",
+    image: productCbj,
   },
 ];
 
@@ -66,11 +73,11 @@ const ProductsSection = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group bg-card rounded-xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-300 hover:-translate-y-2"
             >
-              <div className="aspect-square overflow-hidden">
+              <div className="aspect-square overflow-hidden bg-muted/30">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
               <div className="p-3 md:p-4">
