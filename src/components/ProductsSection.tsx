@@ -90,17 +90,9 @@ const ProductsSection = () => {
                 <h3 className="font-display text-sm md:text-base font-semibold text-foreground mb-1">
                   {product.name}
                 </h3>
-                <p className="text-muted-foreground text-xs md:text-sm mb-2">
+                <p className="text-muted-foreground text-xs md:text-sm">
                   {product.tagline}
                 </p>
-                <a 
-                  href={product.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary text-xs md:text-sm font-medium hover:underline transition-colors"
-                >
-                  Learn More
-                </a>
               </div>
             </motion.div>
           ))}
