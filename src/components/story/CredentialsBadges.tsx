@@ -15,7 +15,7 @@ const credentials = [
   },
   {
     icon: BadgeCheck,
-    title: "Naturopath Practitioner (NAND)",
+    title: "Naturopath Practitioner (CNP)",
     source: "Professional Certification",
   },
   {
