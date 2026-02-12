@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Phone, Mail, MapPin, Clock, Facebook, Calendar } from "lucide-react";
+import { ArrowLeft, Phone, Mail, MapPin, Clock, Facebook, CheckCircle, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,6 +10,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 const holisticServices = [
   "Stroke Management",
@@ -44,9 +45,16 @@ const timeSlots = [
   "4:00 PM",
 ];
 
+const generateBookingNumber = () => {
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return `HLM-${timestamp.slice(-4)}${random}`;
+};
+
 const BookConsultation = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isBooked, setIsBooked] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -57,6 +65,8 @@ const BookConsultation = () => {
     preferredTime: "",
     conditionDescription: "",
   });
+
+  const bookingNumber = useMemo(() => generateBookingNumber(), []);
 
   const getAvailableServices = () => {
     switch (formData.serviceCategory) {
@@ -71,7 +81,6 @@ const BookConsultation = () => {
     }
   };
 
-  // Disable Sundays in date picker
   const getMinDate = () => {
     const today = new Date();
     return today.toISOString().split('T')[0];
@@ -101,15 +110,8 @@ const BookConsultation = () => {
 
       if (error) throw error;
 
-      toast.success("Salamat! Your appointment request has been received. We will confirm your schedule within 24 hours.");
-      navigate("/thank-you", {
-        state: {
-          name: formData.fullName,
-          email: formData.email,
-          date: formData.preferredDate,
-          time: formData.preferredTime,
-        }
-      });
+      toast.success("Salamat! Your appointment request has been received.");
+      setIsBooked(true);
     } catch (error) {
       console.error('Error booking appointment:', error);
       toast.error("Failed to book appointment. Please try again.");
@@ -117,6 +119,105 @@ const BookConsultation = () => {
       setIsSubmitting(false);
     }
   };
+
+  const formattedDate = formData.preferredDate ? format(new Date(formData.preferredDate), "MMMM d, yyyy") : "";
+  const dayOfWeek = formData.preferredDate ? format(new Date(formData.preferredDate), "EEEE") : "";
+
+  if (isBooked) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center pt-20 pb-32">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-md mx-auto text-center"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+                className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-8"
+              >
+                <CheckCircle className="w-10 h-10 text-primary" />
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="font-display text-3xl md:text-4xl text-foreground mb-4"
+              >
+                Booking Received!
+              </motion.h1>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="bg-muted rounded-xl p-6 mb-6 text-left"
+              >
+                <p className="text-primary font-bold text-lg mb-3 text-center">Booking #{bookingNumber}</p>
+                <div className="border-t border-dashed border-foreground/20 my-3"></div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Name:</span>
+                    <span className="font-medium text-foreground">{formData.fullName}</span>
+                  </div>
+                  {formData.preferredDate && (
+                    <>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Date:</span>
+                        <span className="font-medium text-foreground">{formattedDate}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Day:</span>
+                        <span className="font-medium text-foreground">{dayOfWeek}</span>
+                      </div>
+                    </>
+                  )}
+                  {formData.preferredTime && (
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Time:</span>
+                      <span className="font-medium text-foreground">{formData.preferredTime}</span>
+                    </div>
+                  )}
+                  {formData.specificService && (
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Service:</span>
+                      <span className="font-medium text-foreground">{formData.specificService}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="border-t border-dashed border-foreground/20 my-3"></div>
+                <p className="text-muted-foreground text-xs text-center">
+                  We will confirm your schedule within 24 hours.<br />
+                  Please arrive 10 minutes early.
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Button
+                  onClick={() => navigate("/")}
+                  variant="outline"
+                  className="flex items-center gap-2 px-8 mx-auto"
+                >
+                  <Home className="w-4 h-4" />
+                  Back to Home
+                </Button>
+              </motion.div>
+            </motion.div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">

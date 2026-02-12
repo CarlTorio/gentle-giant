@@ -144,7 +144,7 @@ const HCIAdminDashboard = () => {
   // Dashboard stats
   const totalAppointments = appointments.length;
   const pendingAppointments = appointments.filter(a => a.status === 'pending').length;
-  const confirmedAppointments = appointments.filter(a => a.status === 'confirmed').length;
+  const completedAppointments = appointments.filter(a => a.status === 'completed').length;
   const totalInquiries = inquiries.length;
 
   // Filter appointments
@@ -287,12 +287,12 @@ const HCIAdminDashboard = () => {
                 <Card>
                   <CardContent className="pt-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                        <CheckCircle className="h-5 w-5 text-green-600" />
+                      <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                        <CheckCircle className="h-5 w-5 text-blue-600" />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold">{confirmedAppointments}</p>
-                        <p className="text-sm text-muted-foreground">Confirmed</p>
+                        <p className="text-2xl font-bold">{completedAppointments}</p>
+                        <p className="text-sm text-muted-foreground">Completed</p>
                       </div>
                     </div>
                   </CardContent>
@@ -363,7 +363,6 @@ const HCIAdminDashboard = () => {
                   <SelectContent>
                     <SelectItem value="all">All Status</SelectItem>
                     <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="confirmed">Confirmed</SelectItem>
                     <SelectItem value="completed">Completed</SelectItem>
                     <SelectItem value="cancelled">Cancelled</SelectItem>
                   </SelectContent>
@@ -537,7 +536,7 @@ const HCIAdminDashboard = () => {
                 <div>
                   <p className="text-sm text-muted-foreground mb-2">Update Status</p>
                   <div className="flex flex-wrap gap-2">
-                    {['pending', 'confirmed', 'completed', 'cancelled', 'no-show'].map((status) => (
+                    {['pending', 'completed', 'cancelled', 'no-show'].map((status) => (
                       <Button
                         key={status}
                         size="sm"
