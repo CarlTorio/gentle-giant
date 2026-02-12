@@ -112,11 +112,14 @@ const HCIAdminDashboard = () => {
     try {
       const { error } = await supabase
         .from('appointments')
-        .update({ status })
+        .update({ status, updated_at: new Date().toISOString() })
         .eq('id', id);
 
-      if (error) throw error;
-      toast.success('Appointment status updated');
+      if (error) {
+        console.error('Supabase appointment update error:', JSON.stringify(error));
+        throw error;
+      }
+      toast.success(`Appointment marked as ${status}`);
       fetchAppointments();
       setSelectedAppointment(null);
     } catch (error) {
@@ -130,16 +133,49 @@ const HCIAdminDashboard = () => {
     try {
       const { error } = await supabase
         .from('membership_inquiries')
-        .update({ status })
+        .update({ status, updated_at: new Date().toISOString() })
         .eq('id', id);
 
-      if (error) throw error;
-      toast.success('Inquiry status updated');
+      if (error) {
+        console.error('Supabase inquiry update error:', JSON.stringify(error));
+        throw error;
+      }
+      toast.success(`Inquiry marked as ${status}`);
       fetchInquiries();
       setSelectedInquiry(null);
     } catch (error) {
       console.error('Error updating inquiry:', error);
       toast.error('Failed to update inquiry');
+    }
+  };
+
+  // Delete appointment
+  const deleteAppointment = async (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this appointment?')) return;
+    try {
+      const { error } = await supabase.from('appointments').delete().eq('id', id);
+      if (error) throw error;
+      toast.success('Appointment deleted');
+      fetchAppointments();
+      setSelectedAppointment(null);
+    } catch (error) {
+      console.error('Error deleting appointment:', error);
+      toast.error('Failed to delete appointment');
+    }
+  };
+
+  // Delete inquiry
+  const deleteInquiry = async (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this inquiry?')) return;
+    try {
+      const { error } = await supabase.from('membership_inquiries').delete().eq('id', id);
+      if (error) throw error;
+      toast.success('Inquiry deleted');
+      fetchInquiries();
+      setSelectedInquiry(null);
+    } catch (error) {
+      console.error('Error deleting inquiry:', error);
+      toast.error('Failed to delete inquiry');
     }
   };
 
@@ -436,9 +472,14 @@ const HCIAdminDashboard = () => {
                             <td className="px-4 py-3 text-sm">{apt.preferred_date} {apt.preferred_time}</td>
                             <td className="px-4 py-3">{getStatusBadge(apt.status)}</td>
                             <td className="px-4 py-3">
-                              <Button variant="ghost" size="sm" onClick={() => setSelectedAppointment(apt)}>
-                                <Eye className="h-4 w-4" />
-                              </Button>
+                              <div className="flex gap-1">
+                                <Button variant="ghost" size="sm" onClick={() => setSelectedAppointment(apt)}>
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                                <Button variant="ghost" size="sm" onClick={() => deleteAppointment(apt.id)} className="text-destructive hover:text-destructive">
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -533,9 +574,14 @@ const HCIAdminDashboard = () => {
                             <td className="px-4 py-3 text-sm">{inq.location || '-'}</td>
                             <td className="px-4 py-3">{getStatusBadge(inq.status)}</td>
                             <td className="px-4 py-3">
-                              <Button variant="ghost" size="sm" onClick={() => setSelectedInquiry(inq)}>
-                                <Eye className="h-4 w-4" />
-                              </Button>
+                              <div className="flex gap-1">
+                                <Button variant="ghost" size="sm" onClick={() => setSelectedInquiry(inq)}>
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                                <Button variant="ghost" size="sm" onClick={() => deleteInquiry(inq.id)} className="text-destructive hover:text-destructive">
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -616,6 +662,12 @@ const HCIAdminDashboard = () => {
                     ))}
                   </div>
                 </div>
+                <div className="flex justify-end pt-2 border-t border-border">
+                  <Button variant="destructive" size="sm" onClick={() => deleteAppointment(selectedAppointment.id)} className="gap-1">
+                    <Trash2 className="h-4 w-4" />
+                    Delete Appointment
+                  </Button>
+                </div>
               </div>
             )}
           </DialogContent>
@@ -682,6 +734,12 @@ const HCIAdminDashboard = () => {
                       </Button>
                     ))}
                   </div>
+                </div>
+                <div className="flex justify-end pt-2 border-t border-border">
+                  <Button variant="destructive" size="sm" onClick={() => deleteInquiry(selectedInquiry.id)} className="gap-1">
+                    <Trash2 className="h-4 w-4" />
+                    Delete Inquiry
+                  </Button>
                 </div>
               </div>
             )}
