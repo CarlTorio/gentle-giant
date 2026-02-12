@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Users, Clock, CheckCircle, Search, Eye, ArrowLeft, LogOut, Settings, RefreshCw, Trash2 } from 'lucide-react';
+import { Calendar, Users, Clock, CheckCircle, Search, Eye, ArrowLeft, LogOut, Settings, RefreshCw, Trash2, Archive } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -48,6 +48,8 @@ interface MembershipInquiry {
 const HCIAdminDashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [appointmentView, setAppointmentView] = useState<'active' | 'archived'>('active');
+  const [inquiryView, setInquiryView] = useState<'active' | 'archived'>('active');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [showAdminSettings, setShowAdminSettings] = useState(false);
@@ -147,13 +149,18 @@ const HCIAdminDashboard = () => {
   const completedAppointments = appointments.filter(a => a.status === 'completed').length;
   const totalInquiries = inquiries.length;
 
+  const archivedAppointmentStatuses = ['completed', 'cancelled', 'no-show'];
+  const archivedInquiryStatuses = ['converted', 'declined'];
+
   // Filter appointments
   const filteredAppointments = appointments.filter(apt => {
     const matchesSearch = apt.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       apt.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       apt.reference_number?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || apt.status === filterStatus;
-    return matchesSearch && matchesStatus;
+    const isArchived = archivedAppointmentStatuses.includes(apt.status);
+    const matchesView = appointmentView === 'archived' ? isArchived : !isArchived;
+    return matchesSearch && matchesStatus && matchesView;
   });
 
   // Filter inquiries
@@ -161,7 +168,9 @@ const HCIAdminDashboard = () => {
     const matchesSearch = inq.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       inq.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || inq.status === filterStatus;
-    return matchesSearch && matchesStatus;
+    const isArchived = archivedInquiryStatuses.includes(inq.status);
+    const matchesView = inquiryView === 'archived' ? isArchived : !isArchived;
+    return matchesSearch && matchesStatus && matchesView;
   });
 
   const getStatusBadge = (status: string) => {
@@ -232,7 +241,7 @@ const HCIAdminDashboard = () => {
               {['dashboard', 'appointments', 'inquiries'].map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => { setActiveTab(tab); setSearchTerm(''); setFilterStatus('all'); }}
+                  onClick={() => { setActiveTab(tab); setSearchTerm(''); setFilterStatus('all'); setAppointmentView('active'); setInquiryView('active'); }}
                   className={`px-4 py-3 text-sm font-medium capitalize border-b-2 transition-colors whitespace-nowrap ${
                     activeTab === tab 
                       ? 'border-primary text-primary' 
@@ -346,6 +355,26 @@ const HCIAdminDashboard = () => {
           {/* Appointments Tab */}
           {activeTab === 'appointments' && (
             <div className="space-y-4">
+              {/* Active / Archived toggle */}
+              <div className="flex gap-2">
+                <Button
+                  variant={appointmentView === 'active' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => { setAppointmentView('active'); setFilterStatus('all'); }}
+                >
+                  Active
+                </Button>
+                <Button
+                  variant={appointmentView === 'archived' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => { setAppointmentView('archived'); setFilterStatus('all'); }}
+                  className="gap-1"
+                >
+                  <Archive className="h-4 w-4" />
+                  Archived
+                </Button>
+              </div>
+
               <div className="flex flex-col md:flex-row gap-3">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -361,10 +390,20 @@ const HCIAdminDashboard = () => {
                     <SelectValue placeholder="Filter status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                    {appointmentView === 'active' ? (
+                      <>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="confirmed">Confirmed</SelectItem>
+                      </>
+                    ) : (
+                      <>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
+                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                        <SelectItem value="no-show">No-show</SelectItem>
+                      </>
+                    )}
                   </SelectContent>
                 </Select>
                 <Button variant="outline" size="icon" onClick={fetchAppointments}>
@@ -414,6 +453,26 @@ const HCIAdminDashboard = () => {
           {/* Inquiries Tab */}
           {activeTab === 'inquiries' && (
             <div className="space-y-4">
+              {/* Active / Archived toggle */}
+              <div className="flex gap-2">
+                <Button
+                  variant={inquiryView === 'active' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => { setInquiryView('active'); setFilterStatus('all'); }}
+                >
+                  Active
+                </Button>
+                <Button
+                  variant={inquiryView === 'archived' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => { setInquiryView('archived'); setFilterStatus('all'); }}
+                  className="gap-1"
+                >
+                  <Archive className="h-4 w-4" />
+                  Archived
+                </Button>
+              </div>
+
               <div className="flex flex-col md:flex-row gap-3">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -429,11 +488,19 @@ const HCIAdminDashboard = () => {
                     <SelectValue placeholder="Filter status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="new">New</SelectItem>
-                    <SelectItem value="contacted">Contacted</SelectItem>
-                    <SelectItem value="converted">Converted</SelectItem>
-                    <SelectItem value="declined">Declined</SelectItem>
+                    {inquiryView === 'active' ? (
+                      <>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="new">New</SelectItem>
+                        <SelectItem value="contacted">Contacted</SelectItem>
+                      </>
+                    ) : (
+                      <>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="converted">Converted</SelectItem>
+                        <SelectItem value="declined">Declined</SelectItem>
+                      </>
+                    )}
                   </SelectContent>
                 </Select>
                 <Button variant="outline" size="icon" onClick={fetchInquiries}>
