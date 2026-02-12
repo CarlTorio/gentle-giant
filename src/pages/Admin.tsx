@@ -225,12 +225,15 @@ const HCIAdminDashboard = () => {
   };
 
   const handleClearAllData = async () => {
-    if (!window.confirm('Are you sure you want to delete ALL appointments and membership inquiries? This cannot be undone.')) return;
+    if (!window.confirm('⚠️ Are you sure you want to delete ALL appointments and membership inquiries?\n\nThis action cannot be undone.')) return;
+    if (!window.confirm('This is your final confirmation. All appointment and inquiry data will be permanently erased. Continue?')) return;
     try {
-      const { data, error } = await supabase.functions.invoke('admin-mutations', {
-        body: { action: 'clear_all_data' },
-      });
-      if (error) throw error;
+      const { error: aptError } = await supabase.from('appointments').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if (aptError) throw aptError;
+
+      const { error: inqError } = await supabase.from('membership_inquiries').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if (inqError) throw inqError;
+
       toast.success('All data has been cleared');
       fetchAppointments();
       fetchInquiries();
