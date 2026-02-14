@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Users, Clock, CheckCircle, Search, Eye, ArrowLeft, LogOut, Settings, RefreshCw, Trash2, Archive } from 'lucide-react';
+import { Calendar, Users, Clock, CheckCircle, Search, Eye, ArrowLeft, LogOut, Settings, RefreshCw, Trash2, Archive, Pencil, Save, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -58,7 +58,9 @@ const HCIAdminDashboard = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoadingAppointments, setIsLoadingAppointments] = useState(true);
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
-  
+  const [isRescheduling, setIsRescheduling] = useState(false);
+  const [rescheduleDate, setRescheduleDate] = useState('');
+  const [rescheduleTime, setRescheduleTime] = useState('');
   // Membership inquiries state
   const [inquiries, setInquiries] = useState<MembershipInquiry[]>([]);
   const [isLoadingInquiries, setIsLoadingInquiries] = useState(true);
@@ -128,7 +130,34 @@ const HCIAdminDashboard = () => {
     }
   };
 
-  // Update inquiry status
+  // Reschedule appointment
+  const rescheduleAppointment = async (id: string) => {
+    if (!rescheduleDate || !rescheduleTime) {
+      toast.error('Please select both date and time');
+      return;
+    }
+    try {
+      const { error } = await supabase
+        .from('appointments')
+        .update({ 
+          preferred_date: rescheduleDate, 
+          preferred_time: rescheduleTime, 
+          updated_at: new Date().toISOString() 
+        })
+        .eq('id', id);
+
+      if (error) throw error;
+      toast.success('Appointment rescheduled successfully');
+      setIsRescheduling(false);
+      fetchAppointments();
+      setSelectedAppointment(null);
+    } catch (error) {
+      console.error('Error rescheduling appointment:', error);
+      toast.error('Failed to reschedule appointment');
+    }
+  };
+
+
   const updateInquiryStatus = async (id: string, status: string) => {
     try {
       const { error } = await supabase
@@ -598,7 +627,7 @@ const HCIAdminDashboard = () => {
         </main>
 
         {/* Appointment Details Dialog */}
-        <Dialog open={!!selectedAppointment} onOpenChange={() => setSelectedAppointment(null)}>
+        <Dialog open={!!selectedAppointment} onOpenChange={() => { setSelectedAppointment(null); setIsRescheduling(false); }}>
           <DialogContent className="max-w-lg">
             <DialogHeader>
               <DialogTitle>Appointment Details</DialogTitle>
@@ -649,6 +678,68 @@ const HCIAdminDashboard = () => {
                     </div>
                   )}
                 </div>
+
+                {/* Reschedule Section */}
+                <div className="border-t border-border pt-3">
+                  {!isRescheduling ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-1 w-full"
+                      onClick={() => {
+                        setIsRescheduling(true);
+                        setRescheduleDate(selectedAppointment.preferred_date || '');
+                        setRescheduleTime(selectedAppointment.preferred_time || '');
+                      }}
+                    >
+                      <Pencil className="h-4 w-4" />
+                      Reschedule Appointment
+                    </Button>
+                  ) : (
+                    <div className="space-y-3">
+                      <p className="text-sm font-medium text-foreground">Reschedule Appointment</p>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="text-xs text-muted-foreground mb-1 block">New Date</label>
+                          <Input
+                            type="date"
+                            value={rescheduleDate}
+                            onChange={(e) => setRescheduleDate(e.target.value)}
+                            min={new Date().toISOString().split('T')[0]}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-xs text-muted-foreground mb-1 block">New Time</label>
+                          <Input
+                            type="time"
+                            value={rescheduleTime}
+                            onChange={(e) => setRescheduleTime(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          className="gap-1 flex-1"
+                          onClick={() => rescheduleAppointment(selectedAppointment.id)}
+                        >
+                          <Save className="h-4 w-4" />
+                          Save Schedule
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="gap-1"
+                          onClick={() => setIsRescheduling(false)}
+                        >
+                          <X className="h-4 w-4" />
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <div>
                   <p className="text-sm text-muted-foreground mb-2">Update Status</p>
                   <div className="flex flex-wrap gap-2">
