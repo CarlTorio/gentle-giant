@@ -7,6 +7,10 @@ import productNabPeptides from "@/assets/product-nab-peptides.png";
 import productHciCmd from "@/assets/product-hci-cmd.png";
 import productCbf from "@/assets/product-cbf.png";
 import productCbj from "@/assets/product-cbj.png";
+import productMineralCoffee from "@/assets/product-hci-mineral-coffee.png";
+import productAlloriaSoap from "@/assets/product-alloria-soap.png";
+import productAlloriaShampoo from "@/assets/product-alloria-shampoo.png";
+import productVipEyeglass from "@/assets/product-vip-eyeglass.png";
 
 const products = [
   {
@@ -44,6 +48,30 @@ const products = [
     tagline: "Natural Wellness in Every Sip",
     image: productCbj,
     link: "https://1hcibizonline.com/cell-bio-juice/",
+  },
+  {
+    name: "HCI Mineral Coffee",
+    tagline: "Wellness in Every Cup",
+    image: productMineralCoffee,
+    link: "https://1hcibizonline.com/",
+  },
+  {
+    name: "Alloria Soap",
+    tagline: "Nourishing Care for Your Skin",
+    image: productAlloriaSoap,
+    link: "https://1hcibizonline.com/",
+  },
+  {
+    name: "Alloria Shampoo",
+    tagline: "Healthy Hair, Naturally",
+    image: productAlloriaShampoo,
+    link: "https://1hcibizonline.com/",
+  },
+  {
+    name: "VIP NanoTech Anti-radiation Eye Glass",
+    tagline: "Protect Your Eyes with Advanced Tech",
+    image: productVipEyeglass,
+    link: "https://1hcibizonline.com/",
   },
 ];
 

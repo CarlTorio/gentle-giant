@@ -290,7 +290,7 @@ const BookConsultation = () => {
               <div className="flex md:block items-center gap-3">
                 <h3 className="text-foreground font-semibold text-sm md:text-base md:mb-4">Follow Us</h3>
                 <div className="flex items-center gap-2 md:gap-3">
-                  <a href="#" target="_blank" rel="noopener noreferrer" className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <a href="https://www.facebook.com/profile.php?id=61576852667513" target="_blank" rel="noopener noreferrer" className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
                     <Facebook className="w-4 h-4 md:w-5 md:h-5 text-primary hover:text-primary-foreground" />
                   </a>
                 </div>
