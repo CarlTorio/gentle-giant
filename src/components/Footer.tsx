@@ -35,7 +35,7 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Facebook, href: "#" },
+    { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61576852667513" },
   ];
 
   const handleNavClick = (path: string) => {

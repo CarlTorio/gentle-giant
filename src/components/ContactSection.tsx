@@ -80,7 +80,7 @@ const ContactSection = () => {
               </h3>
               <div className="flex gap-3">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/profile.php?id=61576852667513"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-9 h-9 gradient-accent rounded-full flex items-center justify-center hover:scale-110 transition-transform"
@@ -98,17 +98,24 @@ const ContactSection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="h-[200px] md:h-full min-h-[250px] rounded-lg md:rounded-xl overflow-hidden shadow-soft relative group"
           >
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.8!2d121.0!3d14.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sForest%20Hill%20Subdivision%2C%20Novaliches%2C%20Quezon%20City!5e0!3m2!1sen!2sph!4v1234567890"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Esperanza's Holistic Wellness Clinic Location"
-              className="w-full h-full"
-            />
+            <a
+              href="https://maps.app.goo.gl/uQ6QAQzmtEc9EdWp8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full h-full"
+            >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.8!2d121.0!3d14.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sForest%20Hill%20Subdivision%2C%20Novaliches%2C%20Quezon%20City!5e0!3m2!1sen!2sph!4v1234567890"
+                width="100%"
+                height="100%"
+                style={{ border: 0, pointerEvents: 'none' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Esperanza's Holistic Wellness Clinic Location"
+                className="w-full h-full"
+              />
+            </a>
           </motion.div>
         </div>
       </div>

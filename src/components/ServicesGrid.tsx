@@ -27,6 +27,7 @@ const holisticServices = [
   { title: "Bone Manipulation", description: "Manual adjustment techniques for skeletal alignment", image: boneImg },
   { title: "Nerve Therapy", description: "Specialized treatment for nerve-related conditions", image: nerveImg },
   { title: "Filipino Hilot", description: "Traditional Filipino healing massage passed down through generations", image: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=400&h=500&fit=crop" },
+  { title: "Bioresonator", description: "Frequency-based therapy for cellular health restoration", image: bioresonatorImg },
 ];
 
 const tcmServices = [
@@ -36,7 +37,6 @@ const tcmServices = [
   { title: "Cupping / Ventoza", description: "Suction therapy to promote blood flow and reduce tension", image: cuppingImg },
   { title: "Electro Acupuncture", description: "Enhanced acupuncture with mild electrical stimulation", image: electroAcupunctureImg },
   { title: "Laser Acupuncture", description: "Non-invasive laser-based acupuncture treatment", image: laserAcupunctureImg },
-  { title: "Bioresonator", description: "Frequency-based therapy for cellular health restoration", image: bioresonatorImg },
 ];
 
 const ServiceCard = ({ service, index, isInView }: { service: typeof holisticServices[0]; index: number; isInView: boolean }) => (
