@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const lastTapRef = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,6 +53,13 @@ const Header = () => {
   };
 
   const handleLogoClick = () => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 400) {
+      navigate('/admin');
+      return;
+    }
+    lastTapRef.current = now;
+
     if (location.pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
