@@ -13,6 +13,7 @@ const certificateImages = [
   { src: "https://i.imgur.com/0VXuglQ.png", alt: "Certificate 9" },
   { src: "https://i.imgur.com/lTOOWIh.png", alt: "Certificate 10" },
   { src: "https://i.imgur.com/3v3yU7n.png", alt: "Certificate 11" },
+  { src: "https://i.imgur.com/iZHwEkw.png", alt: "Certificate 12" },
 ];
 
 const StoryCertificates = () => {
