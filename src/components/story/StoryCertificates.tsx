@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const certificateImages = [
-  { src: "https://i.imgur.com/PR6GHF6.png", alt: "Certificate 1" },
-  { src: "https://i.imgur.com/GIxXNyR.png", alt: "Certificate 2" },
+  { src: "https://i.imgur.com/GIxXNyR.png", alt: "Certificate 1" },
   { src: "https://i.imgur.com/MoGP6tR.png", alt: "Certificate 3" },
   { src: "https://i.imgur.com/BaKYeQA.png", alt: "Certificate 4" },
   { src: "https://i.imgur.com/OsC9CyC.png", alt: "Certificate 5" },
