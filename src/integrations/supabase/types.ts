@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       appointments: {
         Row: {
+          admin_notes: string | null
           condition_description: string | null
           created_at: string
           email: string
@@ -24,11 +25,14 @@ export type Database = {
           phone: string
           preferred_date: string | null
           preferred_time: string | null
+          reference_number: string | null
           service_category: string | null
           specific_service: string | null
           status: string
+          updated_at: string | null
         }
         Insert: {
+          admin_notes?: string | null
           condition_description?: string | null
           created_at?: string
           email: string
@@ -37,11 +41,14 @@ export type Database = {
           phone: string
           preferred_date?: string | null
           preferred_time?: string | null
+          reference_number?: string | null
           service_category?: string | null
           specific_service?: string | null
           status?: string
+          updated_at?: string | null
         }
         Update: {
+          admin_notes?: string | null
           condition_description?: string | null
           created_at?: string
           email?: string
@@ -50,9 +57,11 @@ export type Database = {
           phone?: string
           preferred_date?: string | null
           preferred_time?: string | null
+          reference_number?: string | null
           service_category?: string | null
           specific_service?: string | null
           status?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
