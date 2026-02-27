@@ -65,6 +65,42 @@ export type Database = {
         }
         Relationships: []
       }
+      membership_inquiries: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          how_did_you_hear: string | null
+          id: string
+          location: string | null
+          phone: string
+          reason_for_joining: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          how_did_you_hear?: string | null
+          id?: string
+          location?: string | null
+          phone: string
+          reason_for_joining?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          how_did_you_hear?: string | null
+          id?: string
+          location?: string | null
+          phone?: string
+          reason_for_joining?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
